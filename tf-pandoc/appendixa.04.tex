@@ -1,0 +1,38 @@
+\section{Control Structures}
+\Forth{} provides all the control structures%
+\index{C!Control structures:!defined}
+needed for structured, GOTO-less programming.
+
+The syntax of the \forthb{IF THEN} construct is as follows:
+\begin{Code}
+... ( flag ) IF  KNOCK  THEN  OPEN ...
+\end{Code}
+The ``flag''\index{F!Flags} is a value on the stack, consumed by IF. A
+non-zero value indicates true, zero indicates false.  A true flag causes
+the code after \forthb{IF} (in this case, the word \forth{KNOCK}) to be
+executed.  The word \forthb{THEN} marks the end of the conditional phrase;
+execution resumes with the word \forth{OPEN}.  A false flag causes the
+code between \forthb{IF} and \forthb{THEN} to {\em not} be executed.  In
+either case, \forth{OPEN} will be performed.
+
+The word \forthb{ELSE}\index{E!ELSE} allows an alternate phrase to be
+executed in the false case. In the phrase:
+\begin{Code}
+( flag ) IF KNOCK  ELSE  RING  THEN  OPEN ...
+\end{Code}
+the word \forth{KNOCK} will be performed if the flag is true, otherwise
+the word \forth{RING} will be performed.  Either way, execution will
+continue starting with \forth{OPEN}.
+
+\Forth{} also provides for indexed loops\index{L!Loops} in the form
+\begin{Code}
+( limit) ( index) DO ... LOOP
+\end{Code}
+and indefinite loops in the forms:
+\begin{Code}
+... BEGIN  ...  ( flag) UNTIL
+\end{Code}
+and
+\begin{Code}
+... BEGIN  ...  ( flag) WHILE ... REPEAT ;
+\end{Code}

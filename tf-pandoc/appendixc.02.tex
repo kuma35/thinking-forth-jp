@@ -1,0 +1,61 @@
+\section{From \Chap{5}}
+
+The word \forthb{\bs}\index{S!Skip commands} can be defined as:
+\begin{Code}
+: \  ( skip rest of line)
+     >IN @  64 / 1+  64 *  >IN ! ; IMMEDIATE
+\end{Code}
+If you decide not to use \forthb{EXIT} to terminate a screen, you can
+define \forthb{\bs S} as:
+\begin{Code}
+: \S   1024 >IN ! ;
+\end{Code}
+\index{F!FH|(}%
+The word \forthb{FH} can be defined simply as:
+\begin{Code}
+: FH   \   ( offset -- offset-block)   "from here"
+    BLK @ + ;
+\end{Code}
+This factoring allows you to use \forth{FH} in many ways, e.g.:
+\begin{Code}
+: TEST   [ 1 FH ] LITERAL LOAD ;
+\end{Code}
+or
+\begin{Code}
+: SEE   [ 2 FH ] LITERAL LIST ;
+\end{Code}
+A slightly more complicated version of \forth{FH} also lets you edit or
+load a screen with a phrase such as ``\forth{14 FH LIST},'' relative to
+the screen that you just listed (\forth{SCR}):
+\begin{Code}
+: FH   \   ( offset -- offset-block)   "from here"
+     BLK @  ?DUP 0= IF  SCR @  THEN  + ;
+\end{Code}
+\index{F!FH|)}
+\forthb{BL}\index{B!Blank space (BL)} is a simple constant:
+\begin{Code}
+32 CONSTANT BL
+\end{Code}
+\forthb{TRUE}\index{T!TRUE} and \forthb{FALSE}\index{F!FALSE}
+can be defined as:
+\begin{Code}
+0 CONSTANT FALSE
+-1 CONSTANT TRUE
+\end{Code}
+(\Forth{}'s control words such as \forth{IF} and \forth{UNTIL} interpret
+zero as ``false'' and any non-zero value as ``true.''  Before \Forth{}
+'83, the convention was to indicate ``true'' with the value $1$.  Starting
+with \Forth{} '83, however, ``true'' is indicated with hex \code{FFFF},
+which is the signed number $-1$ (all bits set).
+
+\forthb{WITHIN}\index{W!WITHIN} can be defined in high level like this:
+\begin{Code}
+: WITHIN  ( n lo hi+1 -- ?)
+     >R  1- OVER <  SWAP R>  < AND ;
+\end{Code}
+or
+\begin{Code}
+: WITHIN ( n lo hi+1 -- ?)
+   OVER -  >R - R> U< ;
+\end{Code}
+

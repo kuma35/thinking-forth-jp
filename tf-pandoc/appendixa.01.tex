@@ -1,0 +1,36 @@
+\section{The Dictionary}%
+\index{D!Dictionary:!defined|(}%
+\index{F!forth@\Forth{}!overview of|(}%
+
+\expandafter\initialb\Forth{} is expressed in words (and numbers) and is separated by spaces:
+\begin{Code}
+HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE 
+\end{Code}
+Such commands may be typed directly from the keyboard, or edited onto 
+mass storage then ``\forthb{LOAD}''ed.
+
+\index{D!Defining words:!procedure|(}
+All words, whether included with the system or user-defined, exist in the
+``dictionary,'' a linked list.  A ``defining word'' is used to add new
+names to the dictionary.  One defining word is \forthb{:} (pronounced
+``colon''), which is used to define a new word in terms of previously
+defined words.  Here is how one might define a new word called \forth{LIFT}:
+\begin{Code}
+: LIFT   HAND OPEN  ARM LOWER  HAND CLOSE  ARM RAISE ;
+\end{Code}
+The \forthb{;} terminates the definition.  The new word \forth{LIFT} may
+now be used instead of the long sequence of words that comprise its
+definition.
+
+\Forth{} words can be nested like this indefinitely.  Writing a 
+\Forth{} application consists of building increasingly powerful definitions,
+such as this one, in terms of previously defined ones.
+
+Another defining word is \forthb{CODE},\index{C!CODE}
+which is used in place of colon to define a command in terms of machine
+instructions for the native processor.  Words defined with \forthb{CODE}
+are indistinguishable to the user from words defined with colon.
+\forthb{CODE} definitions are needed only for the most time-critical
+portions of an applications, if at all.
+\index{D!Defining words:!procedure|)}
+

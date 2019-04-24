@@ -1,0 +1,440 @@
+\section{\Forth{} Syntax}%
+\index{D!Detailed design!forth@\Forth{} syntax|(}%
+\index{F!forth@\Forth{}!syntax|(}%
+\index{S!Syntax \Forth{}|(}
+
+At this point in the development cycle you must decide how the words in
+your new lexicon will be used in context. In doing so, keep in mind how
+the lexicon will be used by subsequent components.
+
+\begin{tip}
+In designing a component, the goal is to create a lexicon that will make your
+later code readable and easy to maintain.
+\end{tip}
+Each component should be designed with components that use it in mind.
+You must design the syntax of the lexicon so that the words make sense
+when they appear in context. Hiding interrelated information within the
+component will ensure maintainability, as we've seen.
+
+At the same time, observe \Forth{}'s own syntax. Rather than insisting
+on a certain syntax because it seems familiar, you may save
+yourself from writing a lot of unnecessary code by choosing a syntax that
+\Forth{} can support without any special effort on your part.
+
+Here are some elementary rules of \Forth{}'s natural syntax:
+
+\begin{tip}
+Let numbers precede names.
+\index{N!Numbers-precede-names syntax rule}
+\end{tip}
+%!! include cartoon of page 110 here
+Words that require a numeric argument will naturally expect to find that
+number on the stack. Syntactically speaking, then, the number should
+precede the name. For instance, the syntax of the word \forth{SPACES}, which
+emits ``$n$'' number of spaces, is
+
+\begin{Code}
+20 SPACES
+\end{Code}
+Sometimes this rule violates the order that our ear is accustomed to
+hearing. For instance, the \Forth{} word \forth{+} expects to be preceded
+by both arguments, as in
+
+\begin{Code}
+3 4 +
+\end{Code}
+\index{P!Postfix notation|(}
+This ordering, in which values precede operators, is called ``postfix.''
+
+\Forth{}, in its magnanimity, won't \emph{insist} upon postfix notation.
+You could redefine \forth{+} to expect one number in the input stream,
+like this:
+
+\begin{Code}
+3 + 4
+\end{Code}
+by defining it so:
+\begin{Code}
+: +   BL WORD  NUMBER DROP  + ;
+\end{Code}
+(where \forthb{WORD} is 79/83 Standard, returning an address, and
+\forthb{NUMBER} returns a double-length value as in the 83 Standard
+Uncontrolled Reference Words).
+
+Fine. But you wouldn't be able to use this definition inside other colon
+definitions or pass it arguments, thereby defeating one of \Forth{}'s
+major advantages.
+
+Frequently, ``noun'' type words pass their addresses (or any type of
+pointer) as a stack argument to ``verb'' type words. The \Forth{}-like
+syntax of
+\begin{quote}
+%!! sans-serif
+{\sf ``noun'' ``verb''}
+\end{quote}
+\wepsfigxx{img4-110}
+will generally prove easiest to implement because of the stack.\medbreak
+
+In some cases this word order\index{W!Words:!ordering} sounds
+unnatural.  For instance, suppose we have a file named
+\forth{INVENTORY}. One thing we can do with that file is \forth{SHOW}
+it; that is, format the information in pretty columns. If
+\forth{INVENTORY} passes a pointer to \forth{SHOW}, which acts upon
+it, the syntax becomes
+\begin{Code}
+INVENTORY SHOW
+\end{Code}
+If your spec demands the English word-order,\index{W!Words:!ordering}
+\Forth{} offers ways to
+achieve it. But most involve new levels of complexity. Sometimes the
+best thing to do is to choose a better name. How about
+\begin{Code}
+INVENTORY REPORT
+\end{Code}
+(We've made the ``pointer'' an adjective, and the ``actor'' a noun.)
+
+If the requirements insist on the syntax
+\begin{Code}
+SHOW INVENTORY
+\end{Code}
+we have several options. \forth{SHOW} might set a flag and
+\forth{INVENTORY} would act according to the flag. Such an approach has
+certain disadvantages, especially that \forth{INVENTORY} must be ``smart''
+enough to know all the possible actions that might be taken on it. (We'll
+treat these problems in Chapters \ref{chapter-7} and \ref{chapter-8}.)%
+\index{P!Postfix notation|)}
+
+Or, \forth{SHOW} might look ahead at the next word in the input stream.
+We'll discuss this approach in a tip, ``Avoid expectations,'' later in this
+chapter.
+
+Or, the recommended approach, \forth{SHOW} might set an ``execution
+variable'' that \forth{INVENTORY} will then execute. (We'll discuss vectored
+execution in \Chap{7}.)
+
+\begin{tip}
+Let text follow names.
+\index{T!Text-follows-names syntax rule}
+\end{tip}
+If the \Forth{} interpreter finds a string of text that is neither a number
+nor a predefined word, it will abort with an error message. For this
+reason, an undefined string must be preceded by a defined word.
+
+An example is \forth{."} (dot-quote), which precedes the text it will
+later print. Another example is \forthb{CREATE} (as well as all defining
+words), which precedes the name that is, at the moment, still undefined.
+
+The rule also applies to defined words that you want to refer to, but
+not execute in the usual way. An example is \forthb{FORGET}, as in
+
+\begin{Code}
+FORGET TASK
+\end{Code}
+Syntactically, \forthb{FORGET} must precede \forth{TASK} so that
+\forth{TASK} doesn't execute.
+
+\begin{tip}
+Let definitions consume their arguments.
+\end{tip}
+This syntax rule is more a convention of good \Forth{} programming
+than a preference of \Forth{}.
+\index{D!Definitions-consume-arguments syntax rule}
+
+Suppose you're writing the word \forth{LAUNCH}, which requires the
+number of a launch pad and fires the appropriate rocket. You want the
+definition to look roughly like this:
+\begin{Code}
+: LAUNCH  ( pad#)  LOAD  AIM  FIRE ;
+\end{Code}
+Each of the three internal definitions will require the same argument, the
+launch pad number. You'll need two \forthb{DUP}s somewhere. The question
+is where? If you put them inside \forth{LOAD} and \forth{AIM}, then you
+can keep them out of \forth{LAUNCH}, as in the definition above. If you
+leave them out of \forth{LOAD} and \forth{AIM}, you'll have to define:
+\begin{Code}
+: LAUNCH  ( pad#)  DUP LOAD  DUP AIM  FIRE ;
+\end{Code}
+By convention, the latter version is preferable, because \forth{LOAD} and
+\forth{AIM} are cleaner. They do what you expect them to do. Should you
+have to define \forth{READY}, you can do it so:
+\begin{Code}
+: READY  ( pad#)  DUP LOAD  AIM ;
+\end{Code}
+and not
+\begin{Code}
+: READY  ( pad#)  LOAD  AIM  DROP ;
+\end{Code}
+
+\begin{tip}
+Use zero-relative numbering.
+\end{tip}
+By habit we humans number things starting with one: ``first, second,
+third,'' etc. Mathematical models, on the other hand, work more naturally
+\index{Z!Zero-relative numbering|(}
+when starting with zero. Since computers are numeric processors, software
+becomes easier to write when we use zero-relative numbering.
+
+To illustrate, suppose we have a table of eight-byte records. The first
+record occupies the first eight bytes of the table. To compute its
+starting address, we add ``0'' to \forth{TABLE}. To compute the starting
+address of the ``second'' record, we add ``8'' to \forth{TABLE}.
+
+\wepsfiga{fig4-6}{A table of 8-byte records.}
+
+%!! include Figure 4-6 here
+\medbreak
+It's easy to derive a formula to achieve these results:
+%!! should be two columns, right-hand side sans-serif
+
+\bigskip
+\begin{tabular}{@{}l@{ }l@{}r}
+\sf first record starts at:  &  $\mathsf{0 \times 8} = {}$ & \sf 0  \\
+\sf second record starts at: &  $\mathsf{1 \times 8} = {}$ & \sf 8  \\
+\sf third record starts at:  &  $\mathsf{2 \times 8} = {}$ & \sf 16 \\
+\end{tabular}
+\bigskip
+
+\noindent
+We can easily write a word which converts a record\# into the address
+where that record begins:
+
+\begin{Code}
+: RECORD  ( record# -- adr )
+   8 *  TABLE + ;
+\end{Code}
+Thus in computer terms it makes sense to call the ``first record'' the 0th
+record.
+
+If your requirements demand that numbering start at one, that's
+fine. Use zero-relative numbering throughout your design and then, only
+in the ``user lexicons'' (the set of words that the end-user will use)
+include the conversion from zero-to one-relative numbering:
+\begin{Code}
+: ITEM  ( n -- adr)  1- RECORD ;
+\end{Code}
+\index{Z!Zero-relative numbering|)}
+
+\begin{tip}
+Let addresses precede counts.\index{A!Address-precedes-counts syntax rule}
+\end{tip}
+Again, this is a convention, not a requirement of \Forth{}, but such
+conventions are essential for readable code. You'll find examples of this
+rule in the words \forthb{TYPE}, \forthb{ERASE}, and \forthb{BLANK}.
+
+\begin{tip}
+Let sources precede destinations.
+\index{S!Source-precede-destination syntax rule}
+\end{tip}
+Another convention for readability. For instance, in some systems, the
+phrase
+\begin{Code}
+22 37 COPY
+\end{Code}
+copies Screen 22 to Screen 37. The syntax of \forth{CMOVE} incorporates both
+this convention and the previous convention:
+\begin{Code}[commandchars=\&\{\}]
+source destination count &poorbf{CMOVE}
+\end{Code}
+
+\index{E!Expectations-in-input-stream syntax rule|(}
+\begin{tip}
+Avoid expectations (in the input stream).
+\end{tip}
+Generally try to avoid creating words that presume there will be other
+words in the input stream.
+
+Suppose your color computer represents blue with the value 1, and
+light-blue with 9. You want to define two words: \forth{BLUE} will return
+1; \forth{LIGHT} may precede \forth{BLUE} to produce 9.
+
+In \Forth{}, it would be possible to define \forth{BLUE} as a constant, so
+that when executed it always returns 1.\program{color1}
+
+\begin{Code}
+1 CONSTANT BLUE
+\end{Code}
+And then define \forth{LIGHT} such that it looks for the next word in the
+input stream, executes it, and ``ors'' it with 8 (the logic of this will
+become apparent when we visit this example again, later in the book):
+\begin{Code}
+: LIGHT  ( precedes a color)  ( -- color value)
+     ' EXECUTE  8 OR ;
+\end{Code}
+(in fig-\Forth{}:
+\begin{Code}[commandchars=\&\{\}]
+: LIGHT [COMPILE] '  CFA EXECUTE  8 OR ;&textrm{)}
+\end{Code}
+%!! The closing paren at the end of this code is a bit misleading.
+%!! At least a leading space and a different font should be used.
+\noindent (For novices: The apostrophe in the definition of \forth{LIGHT}
+is a \Forth{} word called ``tick.'' Tick is a dictionary-search word; it
+takes a name and looks it up in the dictionary, returning the address
+where the definition resides. Used in this definition, it will find the
+address of the word following \forth{LIGHT}---for instance,
+\forth{BLUE}---and pass this address to the word \forthb{EXECUTE}, which
+will execute \forth{BLUE}, pushing a one onto the stack.  Having ``sucked
+up'' the operation of \forth{BLUE}, \forth{LIGHT} now ``or''s an 8 into
+the 1, producing a 9.)
+
+This definition will work when invoked in the input stream, but special
+handling is required if we want to let \forth{LIGHT} be invoked within a
+colon definition, as in:
+\begin{Code}
+: EDITING   LIGHT BLUE BORDER ;
+\end{Code}
+Even in the input stream, the use of \forth{EXECUTE} here will cause a
+crash if \forth{LIGHT} is accidentally followed by something other than a
+defined word.
+
+The preferred technique, if you're forced to use this particular
+syntax, is to have \forth{LIGHT} set a flag, and have \forth{BLUE}
+determine whether that flag was set, as we'll see later on.
+
+There will be times when looking ahead in the input stream is desirable,
+even necessary. (The proposed \forth{TO} solution is often implemented
+this way \cite{rosen82}.)
+
+But generally, avoid expectations. You're setting yourself up for
+disappointment.
+\index{E!Expectations-in-input-stream syntax rule|)}
+
+\begin{tip}
+Let commands perform themselves.
+\end{tip}%
+\index{C!Compilers|(}%
+This rule is a corollary to ``Avoid expectations.'' It's one of
+\Forth{}'s philosophical quirks to let words do their own work. Witness
+the \Forth{} compiler (the function that compiles colon definitions),
+caricatured in \Fig{fig4-7}. It has very few rules:
+
+\wepsfigt{fig4-7}{The traditional compiler vs. the \Forth{} compiler.}
+
+%!! include Figure 4-7 here
+
+%!! this paragraph should be an indented, unordered list
+\begin{itemize}
+\item Scan for the next word in the input stream and look it up in the
+dictionary.
+
+\item If it's an ordinary word, \emph{compile} its address.
+
+\item If it's an ``immediate'' word, \emph{execute} it.
+
+\item If it's not a defined word, try to convert it to a number and
+compile it as a literal.
+
+\item If it's not a number, abort with an error message.
+\end{itemize}
+Nothing is mentioned about compiling-words such as \forthb{IF},
+\forthb{ELSE}, \forthb{THEN}, etc. The colon compiler doesn't know about
+these words. It merely recognizes certain words as ``immediate'' and
+executes them, letting them do their own work. (See \emph{Starting
+\Forth{}}, Chapter Eleven, ``How to Control the Colon Compiler.'')
+
+The compiler doesn't even ``look for'' semicolon to know when to stop
+compiling. Instead it \emph{executes} semicolon, allowing it to do the
+work of ending the definition and shutting off the compiler.
+
+There are two tremendous advantages to this approach. First, the
+compiler is so simple it can be written in a few lines of code. Second,
+there's no limit on the number of compiling words you can add at any
+time, simply by making them immediate. Thus, even \Forth{}'s colon
+compiler is extensible!
+
+\index{I!Interpreters|(}
+\Forth{}'s text interpreter and \Forth{}'s address interpreter also
+adhere to this same rule.
+
+The following tip is perhaps the most important in this chapter:
+
+
+\begin{tip}
+Don't write your own interpreter/compiler when you can use \Forth{}'s.
+\end{tip}
+One class of applications answers a need for a special purpose
+language---a self-contained set of commands for doing one particular
+thing. An example is a machine-code assembler. Here you have a large
+group of commands, the mnemonics, with which you can describe the
+instructions you want assembled. Here again, \Forth{} takes a radical
+departure from mainstream philosophy.
+
+Traditional assemblers\index{A!Assemblers} are special-purpose
+interpreters---that is, they are complicated programs that scan the
+assembly-language listing looking for recognized mnemonics such as
+\code{ADD}, \code{SUB}, \code{JMP}, etc., and
+assemble machine instructions correspondingly. The \Forth{} assembler,
+however, is merely a lexicon of \Forth{} words that themselves assemble
+machine instructions.
+
+There are many more examples of the special purpose language,
+each specific to individual applications. For instance:
+
+%!! begin ordered list
+\begin{enumerate}
+\item If you're building an Adventure-type game, you'd want to write a
+language that lets you create and describe monsters and rooms, etc. You
+might create a defining word called \forth{ROOM} to be used like this:
+
+\begin{Code}
+ROOM DUNGEON
+\end{Code}
+Then create a set of words to describe the room's attributes by building
+unseen data structures associated with the room:
+
+\begin{Code}
+EAST-OF DRAGON-LAIR
+WEST-OF BRIDGE
+CONTAINING POT-O-GOLD
+etc.
+\end{Code}
+%!! 'etc.' should not be part of the code, should it?
+The commands of this game-building language can simply be \Forth{}
+words, with \Forth{} as the interpreter.
+% typo: originally, ``WORDS'' was upper case. Doesn't make sense here.
+
+\item If you're working with Programmable Array Logic (PAL) devices,
+\index{P!Programmable Array Logic (PAL)}
+you'd like a form of notation that lets you describe the behavior of
+the output pins in logical terms, based on the states of the input
+pins. A PAL programmer was written with wonderful simplicity in
+\Forth{} by \person{Michael Stolowitz} \cite{stolowitz82}.
+\index{S!Stolowitz, Michael}
+
+\item If you must create a series of user menus to drive your application,
+you might want to first develop a menu-compiling language. The words of
+this new language allow an application programmer to quickly program the
+needed menus---while hiding information about how to draw borders, move
+the cursor, etc.
+\end{enumerate}
+All of these examples can be coded in \Forth{} as lexicons, using the
+normal \Forth{} interpreter, without having to write a special-purpose
+interpreter or compiler.
+\index{C!Compilers|)}
+
+\index{M!Moore, Charles|(}
+\begin{interview}
+\person{Moore}:
+\begin{tfquot}
+A simple solution is one that does not obscure the problem with
+irrelevancies.  It's conceivable that something about the problem requires
+a unique interpreter. But every time you see a unique interpreter, it
+implies that there is something particularly awkward about the problem.
+And that is almost never the case.
+
+If you write your own interpreter, the interpreter is almost certainly the
+most complex, elaborate part of your entire application. You have switched
+from solving a problem to writing an interpreter.
+
+I think that programmers like to write interpreters. They like to do these
+elaborate difficult things. But there comes a time when the world is going
+to have to quit programming keypads and converting numbers to binary,
+and start solving problems.
+\end{tfquot}
+\end{interview}%
+\index{M!Moore, Charles|)}%
+\index{D!Detailed design!forth@\Forth{} syntax|)}%
+\index{F!forth@\Forth{}!syntax|)}%
+\index{S!Syntax \Forth{}|)}%
+\index{I!Interpreters|)}%
+\index{L!Lexicons|)}
+

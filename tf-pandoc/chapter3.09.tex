@@ -1,0 +1,137 @@
+\section{For Further Thinking}
+
+\emph{(Answers appear in \App{D}.)}
+
+%!! use enumeration?
+\begin{enumerate}
+\item Below are two approaches to defining an editor's keyboard
+interpreter.  Which would you prefer? Why?
+
+\begin{enumerate}
+\item \begin{Code}
+( Define editor keys )
+HEX
+72 CONSTANT UPCURSOR
+80 CONSTANT DOWNCURSOR
+77 CONSTANT RIGHTCURSOR
+75 CONSTANT LEFTCURSOR
+82 CONSTANT INSERTKEY
+83 CONSTANT DELETEKEY
+DECIMAL
+( Keystroke interpreter)
+: EDITOR
+   BEGIN  MORE WHILE  KEY   CASE
+      UPCURSOR     OF  CURSOR-UP     ENDOF
+      DOWNCURSOR   OF  CURSOR-DOWN   ENDOF
+      RIGHTCURSOR  OF  CURSOR>       ENDOF
+      LEFTCURSOR   OF  CURSOR<       ENDOF
+      INSERTKEY    OF  INSERTING     ENDOF
+      DELETEKEY    OF  DELETE        ENDOF
+   ENDCASE  REPEAT ;
+\end{Code}
+\medbreak\item \begin{Code}
+( Keystroke interpreter)
+: EDITOR
+   BEGIN  MORE WHILE  KEY   CASE
+      72 OF  CURSOR-UP     ENDOF
+      80 OF  CURSOR-DOWN   ENDOF
+      77 OF  CURSOR>       ENDOF
+      75 OF  CURSOR<       ENDOF
+      82 OF  INSERTING     ENDOF
+      83 OF  DELETE        ENDOF
+   ENDCASE  REPEAT ;
+\end{Code}
+\end{enumerate}
+
+\item This problem is an exercise in information hiding.
+%%!!! The original stops the enumerate here. The question however goes
+%%!!! to the end of the chapter.
+
+Let's suppose we have a region of memory outside of the \Forth{}
+dictionary which we want to allocate for data structures (for whatever
+reason). The region of memory begins at \forth{HEX} address \code{C000}.
+We want to define a series of arrays which will reside in that memory.
+
+ We might do something like this:
+
+\begin{Code}
+HEX
+C000 CONSTANT FIRST-ARRAY  ( 8 bytes)
+C008 CONSTANT SECOND-ARRAY  ( 6 bytes)
+C00C CONSTANT THIRD ARRAY  ( 100 bytes)
+\end{Code}
+Each array-name defined above will return the starting address of the
+appropriate array. But notice we had to compute the correct starting
+address for each array, based on how many bytes we had already
+allocated. Let's try to automate this, by keeping an ``allocation
+pointer,'' called \forth{>RAM}, showing where the next free byte is. We first
+set the pointer to the beginning of the RAM space:
+
+\begin{Code}
+VARIABLE >RAM
+C000 >RAM !
+\end{Code}
+Now we can define each array like this:
+x\begin{Code}
+>RAM @ CONSTANT FIRST-ARRAY    8 >RAM +!
+>RAM @ CONSTANT SECOND-ARRAY   6 >RAM +!
+>RAM @ CONSTANT THIRD-ARRAY  100 >RAM +!
+\end{Code}
+Notice that after defining each array, we increment the pointer by the
+size of the new array to show that we've allocated that much additional
+RAM.
+
+\goodbreak
+To make the above more readable, we might add these two
+definitions:
+
+\begin{Code}
+: THERE ( -- address of next free byte in RAM)
+     >RAM @ ;
+: RAM-ALLOT ( #bytes to allocate -- )  >RAM +! ;
+\end{Code}
+We can now rewrite the above equivalently as:
+
+\begin{Code}
+THERE CONSTANT FIRST-ARRAY    8 RAM-ALLOT
+THERE CONSTANT SECOND-ARRAY   6 RAM-ALLOT
+THERE CONSTANT THIRD-ARRAY  100 RAM-ALLOT
+\end{Code}
+(An advanced \Forth{} programmer would probably combine these operations
+into a single defining word, but that whole topic is not germane to
+what I'm leading up to.)
+
+Finally, suppose we have 20 such array definitions scattered
+throughout our application.
+
+Now, the problem: Somehow the architecture of our system changes and
+we decide that we must allocate this memory such that it \emph{ends}
+at \forth{HEX} address \forth{EFFF}. In other words, we must start at the
+end, allocating arrays backwards. We still want each array name to return
+its \emph{starting} address, however.
+
+To do this, we must now write:
+
+\begin{Code}
+F000 >RAM ! ( EFFF, last byte, plus one)
+: THERE ( -- address of next free byte in RAM)
+     >RAM @ ;
+: RAM-ALLOT  ( #bytes to allocate)  NEGATE >RAM +! ;
+  8 RAM-ALLOT  THERE CONSTANT FIRST-ARRAY
+  6 RAM-ALLOT  THERE CONSTANT SECOND-ARRAY
+100 RAM-ALLOT  THERE CONSTANT THIRD-ARRAY
+\end{Code}
+This time \forth{RAM-ALLOT} \emph{decrements} the pointer. That's okay,
+it's easy to add \forth{NEGATE} to the definition of \forth{RAM-ALLOT}.
+Our present concern is that each time we define an array we must
+\forth{RAM-ALLOT} \emph{before} defining it, not after. Twenty places in
+our code need finding and correcting.
+
+The words \forth{THERE} and \forth{RAM-ALLOT} are nice and friendly, but
+they didn't succeed at hiding \emph{how} the region is allocated. If they
+had, it wouldn't matter which order we invoked them in.
+
+At long last, our question: What could we have done to \forth{THERE} and
+\forth{RAM-ALLOT} to minimize the impact of this design change? (Again, the
+answer I'm looking for has nothing to do with defining words.)
+\end{enumerate}

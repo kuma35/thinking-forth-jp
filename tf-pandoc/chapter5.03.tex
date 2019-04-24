@@ -1,0 +1,573 @@
+\section{Comment Conventions}%
+\index{C!Comment conventions|(}%
+\index{I!Implementation!comment conventions|(}
+
+Appropriate commenting is essential.  There are five types of comments:
+stack-effect comments, data-structure comments, input-stream comments,
+purpose comments and narrative comments.
+%%!!!te Original didn't put this into a description
+\begin{description}
+\item[\emph{A} stack-effect comment]\index{S!Stack-effect comment}%
+shows the arguments that the definition consumes from the stack, and
+the arguments it returns to the stack, if any.
+%Page 150 in first edition.
+
+\item[\emph{A} data-structure comment]\index{D!Data-structure comment}%
+indicates the position and meaning of elements in a data structure.
+For instance, a text buffer might contain a count in the first byte,
+and 63 free bytes for text.
+
+\item[\emph{An} input-stream comment]\index{I!Input-stream comment}%
+indicates what strings the word expects to see in the input stream.
+For example, the \Forth{} word \forth{FORGET} scans for the name of a
+dictionary entry in the input stream.
+
+\item[\emph{A} purpose comment]\index{P!Purpose comment}%
+describes, in as few words possible, what the definition does.  How
+the definition works is not the concern of the purpose comment.
+
+\item[\emph{A} narrative comment]\index{N!Narrative comments}%
+appears amidst a definition to explain what is going on, usually
+line-by-line.  Narrative comments are used only in the ``vertical
+format,'' which we'll describe in a later section.
+\end{description}
+
+Comments are usually typed in lower-case letters to distinguish them
+from source code.  (Most \Forth{} words are spelled with upper-case
+letters, but lower-case spellings are sometimes used in special cases.)
+
+In the following sections we'll summarize the standardized formats
+for these types of comments and give examples for each type.
+
+\subsection{Stack Notation}%
+\index{S!Stack notation|(}
+\begin{tip}
+Every colon or code definition that consumes and/or returns any arguments
+on the stack must include a stack-effect comment.
+\end{tip}
+``Stack notation'' refers to conventions for representing what's on
+the stack.  Forms of stack notation include ``stack pictures,''
+``stack effects,'' and ``stack-effect comments.''%
+\index{S!Stack notation|)}%
+\index{P!Purpose comment}
+
+\subsection{Stack Picture}%
+\index{S!Stack picture|(}
+
+A stack picture depicts items understood to be on the stack at a given
+time.  Items are listed from left to right, with the leftmost item
+representing the bottom of the stack and the rightmost item
+representing the top.
+
+For instance, the stack picture
+\begin{Code}
+nl n2
+\end{Code}
+indicates two numbers on the stack, with n2 on the top (the most
+accessible position).
+
+This is the same order that you would use to type these values in;
+i.e., if n1 is 100 and n2 is 5000, then you would type
+\begin{Code}
+100 5000
+\end{Code}
+to place these values correctly on the stack.
+
+%Page 151 in first edition.
+A stack picture can include either abbreviations, such as ``n1,'' or
+fully spelled-out words.  Usually abbreviations are used.  Some
+standard abbreviations appear in Table \ref{tab-5-2}.  Whether
+abbreviations or fully spelled-out words are used, each stack item
+should be separated by a space.
+
+If a stack item is described with a phrase (such as
+``address-of-latest-link''), the words in the phrase should be joined
+by hyphens.  For example, the stack picture:
+\begin{Code}
+address current-count max-count
+\end{Code}
+shows three elements on the stack.%
+\index{S!Stack picture|)}
+
+\subsection{Stack Effect}%
+\index{S!Stack effect|(}
+
+A ``stack effect'' shows two stack pictures: one picture of any items
+that may be \emph{consumed} by a definition, and another picture of
+any items \emph{returned} by the definition.  The ``before'' picture
+comes first, followed by two hyphens, then the ``after'' picture.
+
+For instance, the stack effect for \Forth{}'s addition operator,
+\forth{+} is
+\begin{Code}
+n n -- sum
+\end{Code}
+where \forth{+} consumes two numbers and returns their sum.
+
+Remember that the stack effect describes only the \emph{net result} of
+the operation on the stack.  Other values that happen to reside on the
+stack beneath the arguments of interest don't need to be shown.  Nor
+do values that may appear or disappear while the operation is
+executing.
+
+If the word returns any input arguments unchanged, they
+should be repeated in the output picture; e.g.,
+\begin{Code}
+3rd 2nd top-input -- 3rd 2nd top-output
+\end{Code}
+Conversely, if the word changes any arguments, the stack comment must
+use a different descriptor:
+\begin{Code}
+nl -- n2
+n -- n'
+\end{Code}
+A stack effect might appear in a formatted glossary.%
+\index{S!Stack effect|)}
+
+\subsection{Stack Effect Comment}%
+\index{S!Stack-effect comment|(}
+
+A ``stack-effect comment'' is a stack effect that appears in source
+code surrounded by parentheses.  Here's the stack-effect comment for
+the word \forth{COUNT}:
+\begin{Code}
+( address-of-counted-string -- address-of-text count)
+\end{Code}
+%Page 152 in first edition.
+or:
+\begin{Code}
+( 'counted-string -- 'text count)
+\end{Code}
+(The ``count'' is on top of the stack after the word has executed.)
+
+If a definition has no effect on the stack (that is, no effect the
+user is aware of, despite what gyrations occur within the definition),
+it needs no stack-effect comment:
+\begin{Code}
+: BAKE   COOKIES OVEN ! ;
+\end{Code}
+On the other hand, you may want to use an empty stack comment---i.e.,
+\begin{Code}
+: BAKE   ( -- )  COOKIES OVEN ! ;
+\end{Code}
+to emphasize that the word has no effect on the stack.
+
+If a definition consumes arguments but returns none, the double-hyphen
+is optional.  For instance,
+\begin{Code}
+( address count -- )
+\end{Code}
+can be shortened to
+\begin{Code}
+( address count)
+\end{Code}
+The assumption behind this convention is this: There are many more
+colon definitions that consume arguments and return nothing than
+definitions that consume nothing and return arguments.%
+\index{S!Stack-effect comment|)}
+
+\subsection{Stack Abbreviation Standards}%
+\index{S!Stack abbreviation standards|(}
+
+Abbreviations used in stack notation should be consistent. Table
+\ref{tab-5-2} lists most of the commonly used abbreviations.  (This
+table reappears in \App{E}.) The terms ``single-length,''
+``double-length,'' etc. refer to the size of a ``cell'' in the
+particular \Forth{} system.  (If the system uses a 16-bit cell, ``n''
+represents a 16-bit number; if the system uses a 32-bit cell, ``n''
+represents a 32-bit number.)%
+\index{S!Stack abbreviation standards|)}
+
+\subsection{Notation of Flags}
+
+Table \ref{tab-5-2} shows three ways to represent a boolean flag.  To
+illustrate, here are three versions of the same stack comment for the
+word \forth{-TEXT}:
+\begin{Code}
+( at u a2 -- ?)
+( at u a2 -- t=no-match)
+( at u a2 -- f=match)
+\end{Code}
+%Page 153 in first edition.
+\begin{table}[hhhh]
+\caption{Stack-comment abbreviations.}
+\label{tab-5-2}
+\vspace{1ex}
+\blackline{1ex}
+\begin{tabular}{@{\hspace{2.5em}}ll}
+n             &  single-length signed number \\
+d             &  double-length signed number \\
+u             &  single-length unsigned number \\
+ud            &  double-length unsigned number \\
+t             &  triple-length \\
+q             &  quadruple-length \\
+c             &  7-bit character value \\
+b             &  8-bit byte \\
+?             &  boolean flag; or; \\
+\quad t=         &  true \\
+\quad f=         &  false \\
+a or adr      &  address \\
+acf           &  address of code field \\
+apf           &  address of parameter field \\
+'             &  (as prefix) address of \\
+s d           &  (as a pair) source destination \\
+lo hi         &  lower-limit upper-limit (inclusive) \\
+\#            &   count \\
+o             &  offset \\
+i             &  index \\
+m             &  mask \\
+x             &  don't care (data structure notation) \\
+\end{tabular}
+\smallskip
+
+An ``offset'' is a difference expressed in absolute units, such as bytes.\\
+An ``index'' is a difference expressed in logical units, such as
+elements or records.
+\vspace{0ex}
+\blackline{0ex}
+\end{table}
+The equal sign after the symbols ``t'' and ``f'' equates the flag
+outcome with its meaning.  The result-side of the second version would
+be read ``true means no match.''
+
+\subsection{Notation of Variable Possibilities}%
+\index{V!Variable possibilities, notation of|(}
+Some definitions yield a different stack effect under different
+circumstances.
+
+If the number of items on the stack remains the same under all
+conditions, but the items themselves change, you can use the vertical
+bar ( \forth{|} ) to mean ``or.'' The following stack-effect comment
+describes a word that returns either the address of a file or, if the
+requested file is not found, zero:
+\begin{Code}
+( -- address|O=undefined-file)
+\end{Code}
+If the number of items in a stack picture can vary---in either the
+``before'' or ``after'' picture---you must write out both versions of
+the entire stack
+%Page 154 in first edition.
+picture, along with the double-hyphen, separated by the ``or'' symbol.
+For instance:
+\begin{Code}
+-FIND   ( -- apf len t=found | -- f=not-found )
+\end{Code}
+This comment indicates that if the word is found, three arguments are
+returned (with the flag on top); otherwise only a false flag is
+returned.
+
+Note the importance of the second ``-\,-''.  Its omission would indicate
+that the definition always returned three arguments, the top one being
+a flag.
+
+\index{S!Stack-effect comment|(}%
+If you prefer, you can write the entire stack effect twice, either on
+the same line, separated by three spaces:
+\begin{Code}
+?DUP   \ if zero: ( n -- n)    if non-zero:( n -- n n)
+\end{Code}
+or listed vertically:
+\begin{Code}
+-FIND  \     found:( -- apf len t )
+       \ not-found:( -- f )
+\end{Code}
+\index{S!Stack-effect comment|)}%
+\index{V!Variable possibilities, notation of|)}
+
+\subsection{Data-Structure Comments}%
+\index{D!Data-structure comment|(}
+
+A ``data-structure comment'' depicts the elements in a data structure.
+For example, here's the definition of an insert buffer called
+\forth{|INSERT} :
+
+\begin{Code}
+CREATE |INSERT  64 ALLOT  \  { 1# | 63text }
+\end{Code}
+The ``faces'' (curly-brackets) begin and end the structure comment;
+the bars separate the various elements in the structure; the numbers
+represent bytes per element.  In the comment above, the first byte
+contains the count, and the remaining 63 bytes contain the text.
+
+A ``bit comment'' uses the same format as a data-structure comment to
+depict the meaning of bits in a byte or cell.  For instance, the bit
+comment
+\begin{Code}
+{ 1busy? | 1acknowledge? | 2x | 6input-device |
+   6output-device }
+\end{Code}
+describes the format of a 16-bit status register of a communications
+channel.  The first two bits are flags,\index{F!Flags}
+the second two bits are unused, and the final pair of six-bit fields
+indicate the input and output devices which this channel is connected
+to.
+
+If more than one data structure employs the same pattern of elements,
+write out the comment only once (possibly in the preamble), and
+%Page 155 in first edition.
+give a name to the pattern for reference in subsequent screens.  For
+instance, if the preamble gives the above bit-pattern the name
+``status,'' then ``status'' can be used in stack comments to indicate
+values with that pattern:
+\begin{Code}
+: STATUS?  ( -- status) ... ;
+\end{Code}
+If a \forthb{2VARIABLE} contains one double-length value, the comment
+should be a stack picture that indicates the contents:
+\begin{Code}
+2VARIABLE PRICE  \ price in cents
+\end{Code}
+If a \forthb{2VARIABLE} contains two single-length data elements, it's
+given a stack picture showing what would be on the stack after a
+\forth{2@}. Thus:
+\begin{Code}
+2VARIABLE MEASUREMENTS  ( height weight )
+\end{Code}
+This is different from the comment that would be used if
+\forth{MEASUREMENTS} were defined by \forthb{CREATE}.
+\begin{Code}
+CREATE MEASUREMENTS  4 ALLOT    \ { 2weight | 2height }
+\end{Code}
+(While both statements produce the same result in the dictionary, the
+use of \forthb{2VARIABLE} implies that the values will normally be
+``2-fetched'' and ``2-stored'' together-thus we use a \emph{stack}
+comment.  The high-order part, appearing on top of the stack, is
+listed to the right.  The use of \forthb{CREATE} implies that the
+values will normally be fetched and stored separately--thus we use a
+data structure comment.  The item in the 0th position is listed to the
+left.)%
+\index{D!Data-structure comment|)}
+
+\subsection{Input-stream Comments}%
+\index{I!Input-stream comment|(}
+
+The input-stream comment indicates what words and/or strings are
+presumed to be in the input stream. Table \ref{tab-5-3} lists the
+designations used for input stream arguments.
+
+\begin{table*}[hhhh]
+\caption{Input-stream comment designations.}
+\label{tab-5-3}
+\vspace{1ex}\blackline{1ex}
+\centerline{\begin{tabular}{ll}
+c     &  single character, blank-delimited \\
+name  &  sequence of characters, blank delimited \\
+text  &  sequence of characters, delimited by non-blank \\
+\end{tabular}}
+
+\medskip
+Follow ``text'' with the actual delimiter required; e.g.:
+\forth{text"} or \forth{text)}
+\vspace{1ex}\blackline{0ex}
+\end{table*}
+%% Note: AH : typewriter style footnote with *
+%% Note: AH : text" and text) are literal examples,
+%%    and should be slanted or such.
+The input-stream comment appears \emph{before} the stack comment, and
+is \emph{not} encapsulated between its own pair of parentheses, but
+simply surrounded
+%Page 156 in first edition.
+by three spaces on each side.  For instance, here's one way to comment
+the definition of \forth{'} (tick) showing first the input-stream comment,
+then the stack comment:
+\begin{Code}
+: '   \ name   ( -- a)
+\end{Code}
+If you prefer to use \forth{(} , the comment would look like this:
+\begin{Code}
+: '   ( name   ( -- a)
+\end{Code}
+\index{S!String input, receiving|(}%
+Incidentally, there are three distinct ways to receive string input.
+To avoid confusion, here are the terms:
+
+%%!!!te Original had bullet points here + description
+\begin{description}
+\item[Scanning-for]\index{S!Scanning-for}%
+means looking ahead in the input stream, either for a word or number
+as in the case of tick, or for a delimiter as in the case of
+\forth{."} and \forth{(} .
+\item[Expecting]\index{E!Expecting}%
+means waiting for. \forth{EXPECT} and \forth{KEY}, and definitions
+that invoke them, are ones that ``expect'' input.
+\item[Presuming]\index{P!Presuming}%
+indicates that in normal usage something will follow.  The word:
+``scans-for'' the name to be defined, and ``presumes'' that a
+definition will follow.
+\end{description}
+The input-stream comment is only appropriate for input being scanned-for.%
+\index{S!String input, receiving|)}%
+\index{I!Input-stream comment|)}
+
+\subsection{Purpose Comments}%
+\index{P!Purpose comment|(}
+
+\begin{tip}
+Every definition should bear a purpose comment unless:
+\medskip
+%%!!!te Original had a. b. enumeration
+\begin{enumerate}
+\item its purpose is clear from its name or its stack-effect comment, or
+\item if it consists of three or fewer words.
+\end{enumerate}
+\end{tip}
+The purpose comment should be kept to a minimum-never more than a full
+line.  For example:
+\begin{Code}
+: COLD   \ restore system to start condition
+    ... ;
+\end{Code}
+Use the imperative mood: ``set Foreground color,'' not ``sets
+Foreground color.''
+
+On the other hand, a word's purpose can often be described in terms of
+its stack-effect comment.  You rarely need both a stack comment and a
+purpose comment.  For instance:
+\begin{Code}
+: SPACES  ( #)   ... ;
+\end{Code}
+%Page 157 in first edition.
+or
+\begin{Code}
+: SPACES  ( #spaces-to-type -- )   ... ;
+\end{Code}
+This definition takes as its incoming argument a number that
+represents the number of spaces to type.
+\begin{Code}
+: ELEMENT  ( element# -- 'element)  2*  TABLE + ;
+\end{Code}
+This definition converts an index, which it consumes, into an address
+within a table of 2-byte elements corresponding to the indexed element.
+\begin{Code}
+: PAD  ( -- 'scratch-pad)  HERE  80 + ;
+\end{Code}
+This definition returns an address of a scratch region of memory.
+
+Occasionally, readability is best served by including both types of
+comment. In this case, the purpose comment should appear last.  For
+instance:
+\begin{Code}
+: BLOCK  ( n -- a)  \   ensure block n in buffer at a
+\end{Code}
+
+\begin{tip}
+Indicate the type of comment by ordering: input-stream comments first,
+stack-effect comments second, purpose comments last.
+\end{tip}
+For example:
+\begin{Code}
+: GET   \   name   ( -- a)   get first match
+\end{Code}
+If you prefer to use \forth{(}, then write:
+\begin{Code}
+: GET   (   name  ( -- a)    ( get first match)
+\end{Code}
+If necessary, you can put the purpose comment on a second line:
+\begin{Code}
+: WORD   \   name   ( c -- a)
+   \ scan for string delimt'd by "c"; leave at a
+   ...  ;
+\end{Code}
+\index{P!Purpose comment|)}%
+
+\subsection{Comments for Defining Words}%
+\index{D!Defining words:!comments for|(}
+The definition of a defining word involves two behaviors:
+
+\begin{itemize}
+\item that of the defining word as it defines its ``child''
+(compile-time behavior), and
+\item that of the child itself (run-time behavior).
+\end{itemize}
+%Page 158 in first edition.
+These two behaviors must be commented separately.
+
+\index{C!Compiling words, comments for|(}%
+\begin{tip}
+Comment a defining word's compile-time behavior in the usual way;
+comment its run-time behavior separately, following the word
+\forthb{DOES>} (or \forthb{;CODE}).
+\end{tip}
+For instance,
+\begin{Code}
+: CONSTANT  ( n ) CREATE ,
+   DOES>  ( -- n)  @ ;
+\end{Code}
+The stack-effect comment for the run-time (child's) behavior
+represents the net stack effect for the child word.  Therefore it does
+not include the address returned by \forthb{DOES>,} even though this
+address is on the stack when the run-time code begins.
+
+\bigskip\noindent
+\emph{Bad} (run-time comment includes apf):
+\begin{Code}
+: ARRAY   \  name  ( #cells)
+   CREATE 2* ALLOT
+   DOES>   ( i apf -- 'cell)  SWAP  2* + ;
+\end{Code}
+\goodbreak\noindent
+\emph{Good:}
+\begin{Code}
+: ARRAY   \  name  ( #cells)
+   CREATE 2* ALLOT
+    DOES>  ( i -- 'cell)  SWAP  2* + ;
+\end{Code}
+%% Note: AH: CELLS instead of 2* is indicated
+Words defined by this word \forth{ARRAY} will exhibit the stack effect:
+\begin{Code}
+( i -- 'cell)
+\end{Code}
+If the defining word does not specify the run-time behavior, there still
+exists a run-time behavior, and it may be commented:
+\begin{Code}
+: VARIABLE   (  name  ( -- )  CREATE  2 ALLOT ;
+   \ does>   ( -- adr )
+\end{Code}
+\index{D!Defining words:!comments for|)}%
+
+\subsection{Comments for Compiling Words}
+As with defining words, most compiling words involve two behaviors:
+\begin{enumerate}
+\item That of the compiling word as the definition in which it appears
+is compiled
+\item That of the run-time routine which will execute when we invoke
+the word being defined.  Again we must comment each behavior
+separately.
+\end{enumerate}
+%Page 159 in first edition.
+
+\begin{tip}
+Comment a compiling word's run-time behavior in the usual way; comment
+its compile-time behavior separately, beginning with the label
+``Compile:''.
+\end{tip}
+For instance:
+\begin{Code}
+: IF   ( ? -- ) ...
+\ Compile:   ( -- address-of-unresolved-branch)
+   ... ; IMMEDIATE
+\end{Code}
+In the case of compiling words, the first comment describes the
+run-time behavior, which is usually the \emph{syntax for using} the
+word.  The second comment describes what the word \emph{actually does}
+in compiling (which is of less importance to the user).
+
+Other examples:
+\begin{Code}
+: ABORT"  ( ? -- )
+\ Compile:   text"   ( -- )
+\end{Code}
+Occasionally a compiling word may exhibit a different behavior when it
+is invoked \emph{outside} a colon definition.  Such words (to be
+fastidious about it) require three comments.  For instance:
+\begin{Code}
+: ASCII  ( -- c)
+\ Compile:   c   ( -- )
+\ Interpret:   c   ( -- c )
+     ... ; IMMEDIATE
+\end{Code}
+\App{E} includes two screens showing good commenting style.%
+\index{C!Comment conventions|)}%
+\index{C!Compiling words, comments for|)}%
+\index{I!Implementation!comment conventions|)}
+

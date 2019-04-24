@@ -1,0 +1,145 @@
+\section{Sharing Components}%
+\index{C!Components:!sharing|(}%
+\index{S!Sharing components|(}
+\begin{tip}
+It's legal to use a component for an additional purpose besides its
+intended one, provided:
+\medskip
+\begin{enumerate}
+\item All uses of the component are mutually exclusive
+\item Each interrupting use of the component restores the component to
+   its previous state when finished.
+\end{enumerate}
+\medskip\noindent
+Otherwise you need an additional component or level of complexity.
+\end{tip}%
+\index{D!Data stacks!return|(}
+We've seen a simple example of this principle with the return stack. The
+return stack is a component of the \Forth{} system designed to hold return
+addresses, and thereby serve as an indication of where you've been and
+where you're going. To use the return stack as a holder for temporary
+values is possible, and in many cases desirable. Problems occur when one
+of the above restrictions is ignored.%
+\index{D!Data stacks!return|)}
+
+In my text formatter the output can go invisible. This feature has
+two purposes: 
+\begin{enumerate}
+\item for looking ahead to see whether something will fit, and
+\item for formatting the table of contents (the entire document is
+formatted and page numbers are calculated without anything actually being
+displayed).
+\end{enumerate}
+
+It was tempting to think that once having added the ability to make
+the output invisible, I could use this feature to serve both purposes.
+Unfortunately, the two purposes are not mutually exclusive.
+
+Let's see what would happen if I tried to violate this rule. Imagine
+that the word \forth{DISPLAY} does the output, and it's smart enough
+to know whether to be visible or invisible. The words \forth{VISIBLE}
+and \forth{INVISIBLE} set the state respectively.
+
+My code for looking ahead will first execute \forth{INVISIBLE,} then
+test-format the upcoming text to determine its length, and finally
+execute \forth{VISIBLE} to restore things to the normal state.
+
+This works fine.
+
+Later I add the table-of-contents feature. First the code executes
+\forth{IN\-VI\-SI\-BLE}, then runs through the document determining page
+numbers etc.; then finally executes \forth{VISIBLE} to restore things
+to normal.
+
+The catch? Suppose I'm running a table of contents and I hit one of
+those places where I look ahead. When I finish looking ahead, I
+execute \forth{VISIBLE}. Suddenly I start printing the document when I
+was supposed to be running the table of contents.
+
+The solution? There are several.
+
+One solution views the problem as being that the lookahead code is
+clobbering the visible/invisible flag, which may have been preset by
+table-of-contents. Therefore, the lookahead code should be responsible for
+saving, and later restoring, the flag.
+
+Another solution involves keeping two separate variables---one to
+indicate we're looking ahead, the other to indicate we're printing the
+table of contents. The word \forth{DISPLAY} requires that both flags
+be false in order to actually display anything.
+
+There are two ways to accomplish the latter approach, depending on
+how you want to decompose the problem. First, we could nest one condition
+within the other:
+
+\begin{Code}
+: [DISPLAY]  ...
+     ( the original definition, always does the output) ... ;
+VARIABLE 'LOOKAHEAD?  ( t=looking-ahead)
+: <DISPLAY>   'LOOKAHEAD? @ NOT IF  [DISPLAY]  THEN ;
+VARIABLE 'TOC?  ( t=setting-table-of-contents)
+: DISPLAY   'TOC? @ NOT IF  <DISPLAY>  THEN ;
+\end{Code}
+{\sloppy
+\forth{DISPLAY} checks that we're not setting the table of contents
+and invokes \forth{<DISPLAY>}, which in turn checks that we're not
+looking ahead and invokes \forth{[DISPLAY]}.
+
+}
+
+In the development cycle, the word \forth{[DISPLAY]} that always does
+the output was originally called \forth{DISPLAY}. Then a new
+\forth{DISPLAY} was defined to include the lookahead check, and the
+original definition was renamed \forth{[DISPLAY]}, thus adding a level
+of complexity backward without changing any of the code that used
+\forth{DISPLAY}.
+
+Finally, when the table-of-contents feature was added, a new
+\forth{DISPLAY} was defined to include the table-of-contents check,
+and the previous \forth{DISPLAY} was renamed \forth{<DISPLAY>}.
+
+That's one approach to the use of two variables. Another is to include
+both tests within a single word:
+
+\begin{Code}
+: DISPLAY   'LOOKAHEAD? @  'TOC @ OR  NOT IF [DISPLAY] THEN ;
+\end{Code}
+But in this particular case, yet another approach can simplify the whole
+mess. We can use a single variable not as a flag, but as a counter.
+
+We define:
+
+\begin{Code}
+VARIABLE 'INVISIBLE?  ( t=invisible)
+: DISPLAY   'INVISIBLE? @  O= IF [DISPLAY] THEN ;
+: INVISIBLE   1 'INVISIBLE? +! ;
+: VISIBLE    -1 'INVISIBLE? +! ;
+\end{Code}
+The lookahead code begins by invoking \forth{INVISIBLE} which bumps
+the counter up one. Non-zero is ``true,'' so \forth{DISPLAY} will not
+do the output.  After the lookahead, the code invokes \forth{VISIBLE}
+which decrements the counter back to zero (``false'').
+
+The table-of-contents code also begins with \forth{VISIBLE} and ends
+with \forth{IN\-VI\-SI\-BLE}. If we're running the table of contents while
+we come upon a lookahead, the second invocation of \forth{VISIBLE}
+raises the counter to two.
+
+The subsequent invocation of \forth{INVISIBLE} decrements the counter
+to one, so we're still invisible, and will remain invisible until the
+table of contents has been run.
+
+(Note that we must substitute \forthb{0=} for \forthb{NOT}. The '83
+Standard has changed \forthb{NOT} to mean one's complement, so that
+\forthb{1 NOT} yields true. By the way, I think this was a mistake.)
+
+This use of a counter may be dangerous, however. It requires parity of
+command usage: two \forth{VISIBLE}s yields invisible. That is, unless
+\forth{VISIBLE} clips the counter:
+
+\begin{Code}
+: VISIBLE   'INVISIBLE? @  1-  O MAX  'INVISIBLE? ! ;
+\end{Code}
+\index{C!Components:!sharing|)}%
+\index{S!Sharing components|)}
+

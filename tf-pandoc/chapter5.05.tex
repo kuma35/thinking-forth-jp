@@ -1,0 +1,315 @@
+\section{Choosing Names: The Art}%
+\index{I!Implementation!choosing names|(}%
+\index{N!Names:!choosing|(}
+
+\begin{tfquot}
+Besides a mathematical inclination, an exceptionally good mastery of
+one's native tongue is the most vital asset of a competent programmer
+\emph{(Prof.  \person{Edsger W. Dijkstra} \cite{dijkstra82}).}
+\end{tfquot}%
+\index{W!Words:!choosing names|(}
+We've talked about the significance of using names to symbolize ideas
+and objects in the application.  The choosing of names turns out to be
+an important part of the design process.
+
+Newcomers tend to overlook the important of names.  ``After all,''
+they think, ``the computer doesn't care what names I choose.''
+
+But good names are essential for readability.  Moreover, the mental
+exercise of summoning a one-word description bears a synergistic effect
+on your perceptions of what the entity should or should not do.
+
+\smallbreak
+Here are some rules for choosing good names:
+\begin{tip}
+Choose names according to ``what,'' not ``how.''
+\end{tip}
+A definition should hide the complexities of implementation from other
+definitions which invoke it.  The name, too, should hide the details
+of the procedure, and instead should describe the outward appearance
+or net effect.
+
+For instance, the \Forth{} word \forthb{ALLOT} simply increments the
+dictionary pointer (called \forthb{DP} or \forthb{H} in most systems).
+But the name \forthb{ALLOT} is better than \forth{DP+!} because the
+user is thinking of reserving space, not incrementing a pointer.
+
+The '83 Standard adopted the name \forthb{CMOVE>} instead of the
+previous name for the same function, \forthb{<CMOVE}.  The operation
+makes it possible to copy a region of memory \emph{forward} into
+overlapping memory.  It accomplishes this by starting with the last
+byte and working \emph{backward}.  In the new name, the forwardness of
+the ``what'' supersedes the backwardness of the ``how.''
+
+\begin{tip}
+Find the most expressive word.\index{E!Expressive words}
+\end{tip}
+%Page 164 in first edition.
+
+\begin{tfquot}
+A powerful agent is the right word.  Whenever we come upon one of
+those intensely right words in a book or a newspaper the resulting
+effect is physical as well as spiritual, and electrically prompt
+\emph{(\person{Mark Twain}).}
+
+The difference between the right word and the almost-right word is
+like the difference between lightning and the lightning bug
+\emph{(\person{Mark Twain}).}
+
+Suit the action to the word, the word to the action
+\emph{(\person{Shakespeare}, Hamlet, Act~III).}
+\end{tfquot}
+\person{Henry Laxen},\index{L!Laxen, Henry}
+a \Forth{} consultant and author, suggests that the most important
+\Forth{} development tool is a good thesaurus \cite{laxen}.%
+\index{T!Thesaurus}
+
+Sometimes you'll think of an adequate word for a definition, but it
+doesn't feel quite right.  It may be months later before you realize
+that you fell short of the mark.  In the Roman numeral example in
+\Chap{4}, there's a word that handles the exception case: numbers that
+are one-less-than the next symbol's value.  My first choice was
+\forth{4-0R-9}.  That's awkward, but it was much later that I thought
+of \forth{ALMOST}.
+
+Most fig-\Forth{} systems include the word \forth{VLIST}, which lists
+the names of all the words in the current vocabulary.  After many
+years someone realized that a nicer name is \forth{WORDS}.  Not only
+does \forth{WORDS} sound more pleasant by itself, it also works nicely
+with vocabulary names.  For instance:
+\begin{Code}
+EDITOR WORDS
+\end{Code}
+or
+\begin{Code}
+ASSEMBLER WORDS
+\end{Code}
+On the other hand, \person{Moore}\index{M!Moore, Charles} points out
+that inappropriate names can become a simple technique for encryption.%
+\index{E!Encryption}
+If you need to provide security when you're forced to distribute
+source, you can make your code very unreadable by deliberately
+choosing misleading names.  Of course, maintenance becomes impossible.
+
+\index{P!Phrases|(}%
+\begin{tip}
+Choose names that work in phrases.
+\end{tip}
+Faced with a definition you don't know what to call, think about how the
+word will be used in context.  For instance:
+%%!!!te this is how it looks like in the original
+%%!!!te This really seems to be a description environment
+\ifeightyfour
+\begin{Code}[fontfamily=cmss,commandchars=\&\{\}]
+SHUTTER OPEN
+  OPEN is the appropriate name for a word that sets a
+  bit in an I/O address identified with the name
+  SHUTTER.&medskip
+3 BUTTON DOES IGNITION
+  DOES is a good choice for a word that vectors the
+  address of the function IGNITION into a table of
+  functions, so that IGNITION will be executed when
+  Button 3 is pushed.&medskip
+SAY HELLO
+  SAY is the perfect choice for vectoring HELLO into an
+  execution variable.  (When I first wrote this example
+  for Starting &Forth{}, I called it VERSION. &person{Moore}
+  reviewed the manuscript and suggested SAY, which is
+  clearly much better.)&medskip
+I'M HARRY
+  The word I'M seems more natural than LOGON HARRY,
+  LOGIN HARRY or SESSION HARRY, as often seen.
+\end{Code}
+\else
+\begin{description}
+\item[\forth{SHUTTER OPEN}]~
+
+  \forth{OPEN} is the appropriate name for a word that sets a
+  bit in an I/O address identified with the name
+  \forth{SHUTTER}.
+\item[\forth{3 BUTTON DOES IGNITION}]~
+
+  \forth{DOES} is a good choice for a word that vectors the
+  address of the function \forth{IGNITION} into a table of
+  functions, so that \forth{IGNITION} will be executed when
+  Button 3 is pushed.
+\item[\forth{SAY HELLO}]~
+
+  \forth{SAY} is the perfect choice for vectoring \forth{HELLO} into an
+  execution variable.  (When I first wrote this example
+  for Starting \Forth{}, I called it \forth{VERSION}. \person{Moore}
+  reviewed the manuscript and suggested \forth{SAY}, which is
+  clearly much better.)
+\item[\forth{I'M HARRY}]~
+
+  The word \forth{I'M} seems more natural than \forth{LOGON HARRY},
+  \forth{LOGIN HARRY} or \forth{SESSION HARRY}, as often seen.
+\end{description}
+\fi
+
+\index{M!Moore, Charles|(}%
+\begin{interview}
+The choice of \forth{I'M} is another invention of \person{Moore}, who
+says:
+
+\begin{tfquot}
+I detest the word \forth{LOGON}. There is no such word in English.  I
+was looking for a word that said, ``I'm \dots{}'' It was a natural.
+I just stumbled across it.  Even though it's clumsy with that
+apostrophe, it has that sense of rightness.
+
+All these little words are the nicest way of getting the ``Aha!''
+reaction.  If you think of the right word, it is \emph{obviously} the
+right word.
+
+If you have a wide recall vocabulary, you're in a better position to
+come up with the right word.
+\end{tfquot}
+\end{interview}\index{M!Moore, Charles|)}%
+Another of \person{Moore}'s favorite words is \forth{TH}, which he
+uses as an array indexing word.  For instance, the phrase
+\begin{Code}
+5 TH
+\end{Code}
+returns the address of the ``fifth'' element of the array.%
+\index{P!Phrases|)}
+
+\index{S!Spelled-out names|(}%
+\begin{tip}
+Spell names in full.
+\end{tip}
+I once saw some \Forth{} code published in a magazine in which the
+author seemed hell-bent on purging all vowels from his names,
+inventing such eyesores as \forth{DSPL-BFR} for ``display buffer.''
+Other writers seem to think that three characters magically says it
+all, coining \forth{LEN} for ``length.'' Such practices reflect
+thinking from a bygone age.
+
+\index{A!Abbreviations|(}%
+\Forth{} words should be fully spelled out.  Feel proud to type every
+letter of \forth{INITIALIZE} or \forth{TERMINAL} or \forth{BUFFER}.
+These are the words you mean.
+%Page 166 in first edition.
+
+The worst problem with abbreviating a word is that you forget just
+how you abbreviated it.  Was that \forth{DSPL} or \forth{DSPLY?}
+
+Another problem is that abbreviations hinder readability.
+Any programming language is hard enough to read without compounding
+the difficulty.
+
+Still, there are exceptions.  Here are a few:
+
+\begin{enumerate}
+\item Words that you use extremely frequently in code. \Forth{}
+employs a handful of commands that get used over and over, but have
+little or no intrinsic meaning:
+\begin{Code}
+:   ;   @   !   .   ,
+\end{Code}
+But there are so few of them, and they're used so often, they become
+old friends.  I would never want to type, on a regular basis,
+\begin{Code}
+DEFINE   END-DEFINITION   FETCH   STORE
+     PRINT   COMPILE#
+\end{Code}
+(Interestingly, most of these symbols don't have English counterparts.
+We use the phrase ``\emph{colon} definition'' because there's no other
+term; we say ``\emph{comma} a number into the dictionary'' because
+it's not exactly compiling, and there's no other term.)
+\item Words that a terminal operator might use frequently to control
+an operation.  These words should be spelled as single letters, as are
+line editor commands.
+\item Words in which familiar usage implies that they be abbreviated.
+\Forth{} assembler mnemonics are typically patterned after the
+manufacturer's suggested mnemonics, which are abbreviations (such as
+\forth{JMP} and \forth{MOV}).
+\end{enumerate}%
+\index{S!Spelled-out names|)}
+Your names should be pronounceable; otherwise you may regret it when
+you try to discuss the program with other people.  If the name is
+symbolic, invent a pronunciation (e.g., \forth{>R} is called ``to-r'';
+\forth{R>} is called ``r-from'').
+
+\begin{tip}
+Favor short words.
+\end{tip}
+Given the choice between a three-syllable word and a one-syllable word
+that means the same thing, choose the shorter.  \forth{BRIGHT} is a
+better name than \forth{INTENSE}.  \forth{ENABLE} is a better name
+than \forth{ACTIVATE}; \forth{GO}, \forth{RUN}, or \forth{ON} may be
+better still.
+
+Shorter names are easier to type.  They save space in the source
+screen.  Most important, they make your code crisp and clean.
+
+\index{H!Hyphenated names|(}%
+\begin{tip}
+Hyphenated names may be a sign of bad factoring.
+\end{tip}%
+\index{A!Abbreviations|)}
+%Page 168 in first edition.
+
+\begin{interview}
+\person{Moore}:\index{M!Moore, Charles|(}
+
+\begin{tfquot}
+There are diverging programming styles in the \Forth{} community.  One
+uses hyphenated words that express in English what the word is doing.
+You string these big long words together and you get something that is
+quite readable.
+
+But I immediately suspect that the programmer didn't think out the words
+carefully enough, that the hyphen should be broken and the words defined
+separately.  That isn't always possible, and it isn't always advantageous.
+But I suspect a hyphenated word of mixing two concepts.%
+\end{tfquot}\index{M!Moore, Charles|)}
+\end{interview}
+Compare the following two strategies for saying the same thing:
+\begin{Code}
+ENABLE-LEFT-MOTOR        LEFT MOTOR ON
+ENABLE-RIGHT-MOTOR       RIGHT MOTOR ON
+DISABLE-LEFT-MOTOR       LEFT MOTOR OFF
+DISABLE-RIGHT-MOTOR      RIGHT MOTOR OFF
+ENABLE-LEFT-SOLENOID     LEFT SOLENOID ON
+ENABLE-RIGHT-SOLENOID    RIGHT SOLENOID ON
+DISABLE-LEFT-SOLENOID    LEFT SOLENOID OFF
+DISABLE-RIGHT-SOLENOID   RIGHT SOLENOID OFF
+\end{Code}
+The syntax on the left requires eight dictionary entries; the syntax
+on the right requires only six-and some of the words are likely to be
+reused in other parts of the application.  If you had a \forth{MIDDLE}
+motor and solenoid as well, you'd need only seven words to describe
+sixteen combinations.%
+\index{H!Hyphenated names|)}
+
+\begin{tip}
+Don't bundle numbers into names.
+\end{tip}
+Watch out for a series of names beginning or ending with numbers, such
+as \forth{1CHANNEL}, \forth{2CHANNEL}, \forth{3CHANNEL}, etc.
+
+\index{B!Bundling of names and numbers|(}%
+This bundling of names and numbers may be an indication of bad
+factoring.  The crime is similar to hyphenation, except that what
+should be factored out is a number, not a word.  A better factoring of
+the above would be
+\begin{Code}
+1 CHANNEL
+2 CHANNEL
+3 CHANNEL
+\end{Code}
+In this case, the three words were reduced to one.
+
+Often the bundling of names and numbers indicates fuzzy naming.
+%Page 168 in first edition.
+In the above case, more descriptive names might indicate the purpose
+of the channels, as in
+\begin{Code}
+VOICE , TELEMETRY , GUITAR
+\end{Code}
+%% Note: AH: the commas be better left out here.
+\index{B!Bundling of names and numbers|)}%
+We'll amplify on these ideas in the next chapter on ``Factoring.''%
+\index{N!Names:!choosing|)}
+

@@ -1,0 +1,344 @@
+\section{Factoring Techniques}
+\index{F!Factoring!techniques|(}
+
+\begin{tfquot}
+If a module seems almost, but not quite, useful from a second place in
+the system, try to identify and isolate the useful subfunction. The
+remainder of the module might be incorporated in its original caller
+(from ``\emph{Structured Design}'' \cite{stevens74-6}).
+\end{tfquot}
+The ``useful subfunction'' of course becomes the newly factored
+definition.What about the part that ``isn't quite useful''? That
+depends on what it is.
+
+\subsection{Factoring Out Data}
+\index{D!Data, factoring out|(}
+The simplest thing to factor out is data, thanks to \Forth{}'s data
+stack. For instance, to compute two-thirds of 1,000, we write
+
+\begin{Code}
+1000 2 3 */
+\end{Code}
+To define a word that computes two-thirds of \emph{any} number,
+we factor out the argument from the definition:
+
+\begin{Code}
+: TWO-THIRDS  ( n1 -- n2)  2 3 */ ;
+\end{Code}
+When the datum comes in the \emph{middle} of the useful phrase, we
+have to use stack manipulation. For instance, to center a piece of
+text ten characters long on an 80-column screen, we would write:
+
+\begin{Code}
+80  10 -   2/ SPACES
+\end{Code}
+But text isn't always 10 characters long. To make the phrase useful
+for any string, you'd factor out the length by writing:
+
+\begin{Code}
+: CENTER ( length -- ) 80  SWAP -  2/ SPACES ;
+\end{Code}
+The data stack can also be used to pass addresses. Therefore what's
+factored out may be a \emph{pointer} to data rather than the data
+themselves. The data can be numbers or even strings, and still be
+factored out through use of the stack.
+
+Sometimes the difference appears to be a function, but you can factor
+it out simply as a number on the stack. For instance:
+
+\begin{description}
+\item[Segment 1:] \forth{WILLY NILLY\ \ PUDDIN' PIE AND}
+\item[Segment 2:] \forth{WILLY NILLY\ \ 8 *\ \ PUDDIN' PIE AND}
+\end{description}
+
+\noindent How can you factor out the ``\forth{8 *}'' operation?
+By including ``\forth{*}'' in the factoring and passing it a one or eight:
+
+\begin{Code}
+: NEW  ( n )  WILLY NILLY  *  PUDDIN' PIE AND ;
+\end{Code}
+
+\begin{description}
+\item[Segment 1:] \forth{1 NEW}
+\item[Segment 2:] \forth{8 NEW}
+\end{description}
+
+\noindent 
+(Of course if \forth{WILLY NILLY} changes the stack, you'll need to
+add appropriate stack-manipulation operators.)
+
+If the operation involves addition, you can nullify it by passing a
+zero.
+
+\begin{tip}
+For simplicity, try to express the difference between similar
+fragments as a numeric difference (values or addresses), rather than
+as a procedural difference.
+\end{tip}
+\index{D!Data, factoring out|)}
+
+\subsection{Factoring Out Functions}
+\index{F!Functions:!factoring out|(}
+On the other hand, the difference sometimes \emph{is} a function. Witness:
+
+%ARN - this gets messed up Code doesn't indent properly
+\begin{description}
+\item[Segment 1:]~~
+\begin{minipage}[t]{.6\hsize}
+\begin{Code}[commandchars=\&\{\}]
+BLETCH-A  BLETCH-B   &poorbf{BLETCH-C}
+         BLETCH-D  BLETCH-E  BLETCH-F
+\end{Code}
+\end{minipage}
+\item[Segment 2:]~~
+\begin{minipage}[t]{.6\hsize}
+\begin{Code}[commandchars=\&\{\}]
+BLETCH-A  BLETCH-B  &poorbf{PERVERSITY}
+         BLETCH-D  BLETCH-E  BLETCH-F
+\end{Code}
+\end{minipage}
+\end{description}
+
+\noindent Wrong approach:
+
+\begin{Code}[commandchars=\&\{\}]
+: BLETCHES  ( t=do-BLETCH-C | f=do-PERVERSITY -- ) 
+   BLETCH-A  BLETCH-B  IF  &poorbf{BLETCH-C}  ELSE  &poorbf{PERVERSITY}
+      THEN  BLETCH-D BLETCH-E BLETCH-F ;
+\end{Code}
+
+\begin{description}
+\item[Segment 1:]~~ \forth{TRUE BLETCHES}
+\item[Segment 2:]~~ \forth{FALSE BLETCHES}
+\end{description}
+
+\noindent A better approach:
+
+\begin{Code}
+: BLETCH-AB   BLETCH-A BLETCH-B ;
+: BLETCH-DEF   BLETCH-D BLETCH-E BLETCH-F ;
+\end{Code}
+
+\begin{description}
+\item[Segment 1:]~~ \forth{BLETCH-AB ~}\forthb{BLETCH-C}\forth{~ BLETCH-DEF}
+\item[Segment 2:]~~ \forth{BLETCH-AB ~}\forthb{PERVERSITY}\forth{~ BLETCH-DEF}
+\end{description}
+
+\index{C!Control flags|(}
+\index{F!Flags|(}
+\begin{tip}
+Don't pass control flags downward.
+\end{tip}
+Why not? First, you are asking your running application to make a
+pointless decision---one you knew the answer to while
+programming---thereby reducing efficiency. Second, the terminology
+doesn't match the conceptual model. What are \forth{TRUE BLETCHES}
+as opposed to \forth{FALSE BLETCHES}?
+\index{C!Control flags|)}
+\index{F!Flags|)}
+\index{F!Functions:!factoring out|)}
+
+\subsection{Factoring Out Code from Within Control Structures}
+\index{C!Code:!factoring out from within control structures|(}
+\index{C!Control structures:!factoring out|(}
+\index{C!Control structures:!factoring out code from within|(}
+
+Be alert to repetitions on either side of an
+\forthb{IF }\forthb{ELSE }\forthb{THEN} statement. For instance:
+
+\index{E!EMIT|(}
+\begin{Code}
+... ( c)  DUP  BL 127 WITHIN
+       IF  EMIT  ELSE
+       DROP  ASCII . EMIT   THEN ...
+\end{Code}
+This fragment normally emits an ASCII character, but if the character
+is a control code, it emits a dot. Either way, an \forthb{EMIT} is
+performed. Factor \forthb{EMIT} out of the conditional structure, like
+this:
+
+\begin{Code}
+... ( c)  DUP  BL 127 WITHIN NOT
+       IF  DROP  ASCII .  THEN  EMIT  ...
+\end{Code}
+\index{E!EMIT|)}
+The messiest situation occurs when the difference between two
+definitions is a function within a structure that makes it impossible
+to factor out the half-fragments. In this case, use stack arguments,
+variables, or even vectoring. We'll see how vectoring can be used in a
+section of \Chap{7} called ``Using DOER/MAKE.''
+
+Here's a reminder about factoring code from out of a \forthb{DO }\forthb{LOOP}:
+
+\begin{tip}
+In factoring out the contents of a \forthb{DO }\forthb{LOOP} into a new
+definition, rework the code so that \forth{I} (the index) is not
+referenced within the new definition, but rather passed as a stack
+argument to it.
+\end{tip}
+\index{C!Code:!factoring out from within control structures|)}
+\index{C!Control structures:!factoring out|)}
+
+\subsection{Factoring Out Control Structures Themselves}
+
+Here are two definitions whose differences lies within a \forthb{IF}
+\forthb{THEN} construct:
+
+\begin{Code}
+: ACTIVE    A B OR  C AND  IF  TUMBLE JUGGLE JUMP THEN ;
+: LAZY      A B OR  C AND  IF   SIT  EAT  SLEEP   THEN ;
+\end{Code}
+The condition and control structure remain the same; only the event
+changes. Since you can't factor the \forthb{IF} into one word and the
+\forthb{THEN} into another, the simplest thing is to factor the
+condition:
+
+\begin{Code}
+: CONDITIONS? ( -- ?) A B OR C AND ;
+: ACTIVE    CONDITIONS? IF TUMBLE JUGGLE JUMP THEN ;
+: LAZY      CONDITIONS? IF    SIT  EAT  SLEEP THEN ;
+\end{Code}
+
+\noindent 
+Depending on the number of repetitions of the same condition and
+control structure, you may even want to factor out both. Watch this:
+
+\begin{Code}
+: CONDITIONALLY   A B OR  C AND NOT IF  R> DROP   THEN ;
+: ACTIVE   CONDITIONALLY   TUMBLE JUGGLE JUMP ;
+: LAZY   CONDITIONALLY  SIT  EAT  SLEEP ;
+\end{Code}
+The word \forthb{CONDITIONALLY} may---depending on the condition---alter
+the control flow so that the remaining words in each definition will be
+skipped. This approach has certain disadvantages as well. We'll
+discuss this technique---pros and cons---in \Chap{8}.
+
+More benign examples of factoring-out control structures include case
+statements,\index{C!Case statements} which eliminate nested
+\forthb{IF }\forthb{ELSE }\forthb{THEN}s, and multiple exit loops
+\index{M!Multiple exit loops}
+(the \forthb{BEGIN }\forthb{WHILE }\forthb{WHILE }\forthb{WHILE}
+\forthb{\dots{} }\forthb{REPEAT} construct). We'll also discuss these
+topics in \Chap{8}.
+\index{C!Control structures:!factoring out code from within|)}
+
+\subsection{Factoring Out Names}
+\index{N!Names:!factoring out|(}%
+It's even good to factor out names, when the names seem almost, but
+not quite, the same. Examine the following terrible example of code,
+which is meant to initialize three variables associated with each of
+eight channels:
+
+\begin{Code}
+VARIABLE 0STS       VARIABLE 1STS       VARIABLE 2STS 
+VARIABLE 3STS       VARIABLE 4STS       VARIABLE 5STS
+VARIABLE 6STS       VARIABLE 7STS       VARIABLE 0TNR
+VARIABLE 1TNR       VARIABLE 2TNR       VARIABLE 3TNR
+VARIABLE 4TNR       VARIABLE 5TNR       VARIABLE 6TNR
+VARIABLE 7TNR       VARIABLE 0UPS       VARIABLE 1UPS
+VARIABLE 2UPS       VARIABLE 3UPS       VARIABLE 4UPS
+VARIABLE 5UPS       VARIABLE 6UPS       VARIABLE 7UPS
+\end{Code}
+
+\begin{Code} 
+: INIT-CHO   0 0STS !  1000 0TNR !  -1 0UPS ! ; 
+: INIT-CH1   0 1STS !  1000 1TNR !  -1 1UPS ! ; 
+: INIT-CH2   0 2STS !  1000 2TNR !  -1 2UPS ! ; 
+: INIT-CH3   0 3STS !  1000 3TNR !  -1 3UPS ! ; 
+: INIT-CH4   0 4STS !  1000 4TNR !  -1 4UPS ! ; 
+: INIT-CH5   0 5STS !  1000 5TNR !  -1 5UPS ! ; 
+: INIT-CH6   0 6STS !  1000 6TNR !  -1 6UPS ! ; 
+: INIT-CH7   0 7STS !  1000 7TNR !  -1 7UPS ! ; 
+\end{Code}
+
+\begin{Code} 
+: INIT-ALL-CHS    INIT-CHO  INIT-CH1  INIT-CH2  INIT-CH3
+   INIT-CH4  INIT-CH5  INIT-CH6  INIT-CH7 ;
+\end{Code}
+First there's a similarity among the names of the variables; then
+there's a similarity in the code used in all the \forth{INIT-CH}
+words.
+
+Here's an improved rendition. The similar variable names have been
+factored into three data structures, and the lengthy recital of
+\forth{INIT-CH} words has been factored into a \forthb{DO }\forthb{LOOP}:
+
+\begin{Code}
+: ARRAY  ( #cells -- )  CREATE  2* ALLOT
+   DOES> ( i -- 'cell)  SWAP  2* + ; 
+8 ARRAY STATUS  ( channel# -- adr)
+8 ARRAY TENOR   (        "       )
+8 ARRAY UPSHOT  (        "       )
+: STABLE   8 0 DO  0 I STATUS !  1000 I TENOR ! 
+   -1 I UPSHOT !  LOOP ;
+\end{Code}
+That's all the code we need.
+
+\index{C!Counted strings|(}
+Even in the most innocent cases, a little data structure can eliminate
+extra names. By convention \Forth{} handles text in ``counted
+strings'' (i.e., with the count in the first byte). Any word that
+returns the ``address of a string'' actually returns this beginning
+address, where the count is. Not only does use of this two-element
+data structure eliminate the need for separate names for string and
+count, it also makes it easier to move a string in memory, because you
+can copy the string \emph{and} the count with a single \forthb{CMOVE}.
+\index{C!Counted strings|)}
+
+When you start finding the same awkwardness here and there, you can
+combine things and make the awkwardness go away.
+\index{N!Names:!factoring out|)}%
+
+\subsection{Factoring Out Functions into Defining Words}
+\index{F!Functions:!factoring out|(}
+
+\begin{tip}
+If a series of definitions contains identical functions, with
+variation only in data, use a defining word.
+\end{tip}
+Examine the structure of this code (without worrying about its
+purpose---you'll see the same example later on):\program{color2}
+
+\begin{Code}
+: HUE  ( color -- color') 
+   'LIGHT? @  OR  0 'LIGHT? ! ;
+: BLACK   0 HUE ;
+: BLUE   1 HUE ;
+: GREEN   2 HUE ;
+: CYAN   3 HUE ;
+: RED   4 HUE ;
+: MAGENTA   5 HUE ;
+: BROWN   6 HUE ;
+: GRAY   7 HUE ;
+\end{Code}
+
+\noindent The above approach is technically correct, but less
+memory-efficient than the following approach using defining words:
+
+\begin{Code}
+: HUE   ( color -- )  CREATE ,
+   DOES>  ( -- color )  @ 'LIGHT? @  OR  0 'LIGHT? ! ;
+ 0 HUE BLACK         1 HUE BLUE          2 HUE GREEN
+ 3 HUE CYAN          4 HUE RED           5 HUE MAGENTA
+ 6 HUE BROWN         7 HUE GRAY
+\end{Code}
+(Defining words are explained in \emph{Starting \Forth{}}, Chapter Eleven).
+
+By using a defining word, we save memory because each compiled colon
+definition needs the address of \forthb{EXIT} to conclude the
+definition. (In defining eight words, the use of a defining word saves
+14 bytes on a 16-bit \Forth{}.) Also, in a colon definition each
+reference to a numeric literal requires the compilation of
+\forthb{LIT}\index{L!LIT} (or \forthb{literal}), another 2 bytes per
+definition. (If 1 and 2 are predefined constants, this costs another
+10 bytes---24 total.)
+
+In terms of readability, the defining word makes it absolutely clear
+that all the colors it defines belong to the same family of words.
+
+The greatest strength of defining words, however, arises when a series
+of definitions share the same \emph{compile-time} behavior. This topic
+is the subject of a later section, ``Compile-Time Factoring.''
+\index{F!Factoring!techniques|)}
+\index{F!Functions:!factoring out|)}
+

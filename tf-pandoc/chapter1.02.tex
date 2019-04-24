@@ -1,0 +1,63 @@
+\section{The Superficiality of Structure}%
+\index{S!Structured programming!new view of|(}%
+\index{S!Structure!superficiality of|(}
+
+\person{Parnas}\index{P!Parnas, David} proposes two criteria for
+decomposition:
+
+%% special case: uses second level without outer level
+\begin{tfquot}
+%%!!!this is to avoid an error
+%% \makeatletter\@newlistfalse\makeatother
+%%!!!
+\ifeightyfour\begin{list}{\alph{enumi}.}{\usecounter{enumi}}
+\else\begin{enumerate}\fi
+\item possible (though currently unplanned) reuse, and
+\item possible (though unplanned) change.
+\ifeightyfour\end{list}
+\else\end{enumerate}\fi
+\end{tfquot}
+This new view of a ``module'' is different than the traditional
+view. This ``module'' is a collection of routines, usually very
+small, which together hide information about some aspect of the problem. 
+
+Two other writers describe the same idea in a different way, using the
+term ``data abstraction'' \cite{liskov75}%
+\index{D!Data abstraction}.
+Their example is a push-down stack. The stack ``module'' consists of
+routines to initialize the stack, push a value onto the stack, pop a
+value from the stack, and determine whether the stack is empty. This
+``multiprocedure module''%
+\index{M!Multiprocedure module}
+hides the information of how the stack is constructed from the rest of
+the application. The procedures are considered to be a single module
+because they are interdependent. You can't change the method for
+pushing a value without also changing the method for popping a value.
+
+The word \emph{uses} plays an important role in this concept.
+\person{Parnas}%
+\index{P!Parnas, David|(}
+writes in a later paper \cite{parnas79}:
+
+\begin{tfquot}
+Systems that have achieved a certain ``elegance''\dots{} have done so
+by having parts of the system use other parts\dots{}
+
+If such a hierarchical ordering exists then each level offers a
+testable and usable subset of the system\dots{}
+
+The design of the ``uses'' hierarchy should be one of the major
+milestones in a design effort. The division of the system into
+independently callable subprograms has to go in parallel with the
+decisions about \emph{uses}, because they influence each other.
+\end{tfquot}\index{P!Parnas, David|)}
+A design in which modules are grouped according to control flow or
+sequence will not readily allow design changes. Structure, in the
+sense or control-flow hierarchy, is superficial.
+
+A design in which modules are grouped according to things that may
+change can readily accommodate change.%
+\index{S!Structured programming!new view of|)}%
+\index{S!Structure!superficiality of|)}
+
+

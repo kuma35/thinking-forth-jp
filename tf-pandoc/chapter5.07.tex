@@ -1,0 +1,77 @@
+\section{More Tips for Readability}
+
+Here are some final suggestions to make your code more readable.
+(Definitions appear in \App{C}.)
+
+One constant that pays for itself in most applications is
+\forth{BL}\index{B!Blank space (BL)}
+(the ASCII value for ``blank-space'').
+
+The word \forthb{ASCII} is used primarily within colon definitions to
+free you from having to know the literal value of an ASCII character.
+For instance, instead of writing:
+\begin{Code}
+: (    41 WORD  DROP ;  IMMEDIATE
+\end{Code}
+where 41 is the ASCII representation for right-parenthesis, you can
+write
+\begin{Code}
+: (    ASCII ) WORD  DROP ;  IMMEDIATE
+\end{Code}
+\index{T!TRUE|(}%
+\index{F!FALSE|(}%
+A pair of words that can make dealing with booleans more readable are
+\forthb{TRUE} and \forthb{FALSE}.  With these additions you can write
+phrases such as
+
+%Page 170 in first edition.
+\begin{Code}
+TRUE 'STAMP? !
+\end{Code}
+to set a flag or
+\begin{Code}
+FALSE 'STAMP? !
+\end{Code}
+to clear it.
+
+(I once used \forthb{T} and \forthb{F}, but the words are
+needed so rarely I now heed the injunction against abbreviations.)
+
+As part of your application (not necessarily part of your \Forth{}
+system), you can take this idea a step further and define:
+\begin{Code}
+: ON   ( a)  TRUE SWAP ! ;
+: OFF   ( a)  FALSE SWAP ! ;
+\end{Code}
+\index{T!TRUE|)}\index{F!FALSE|)}\index{O!ON}\index{O!OFF}%
+These words allow you to write:
+\begin{Code}
+'STAMP? ON
+\end{Code}
+or
+\begin{Code}
+'STAMP? OFF
+\end{Code}
+Other names for these definitions include \forth{SET} and
+\forth{RESET}, although \forth{SET} and \forth{RESET} most commonly
+use bit masks to manipulate individual bits.
+
+An often-used word is \forthb{WITHIN},\index{W!WITHIN} which determines
+whether a given value lies within two other values.  The syntax is:
+\begin{Code}
+n  lo hi WITHIN
+\end{Code}
+where ``n'' is the value to be tested and ``lo'' and ``hi'' represent
+the range. \forthb{WITHIN} returns true if ``n'' is
+\emph{greater-than or equal-to} ``lo'' and \emph{less-than}
+``hi.'' This use of the non-inclusive upper limit parallels the syntax
+of \forthb{DO }\forthb{LOOP}s.
+
+\person{Moore}\index{M!Moore, Charles} recommends the word \forthb{UNDER+}.
+It's useful for adding a value to the number just under the top stack
+item, instead of to the top stack item.  It could be implemented in
+high level as:
+\begin{Code}
+: UNDER+  ( a b c -- a+c b )  ROT +  SWAP ;
+\end{Code}
+

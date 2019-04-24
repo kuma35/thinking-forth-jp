@@ -1,0 +1,205 @@
+\section{Using DOER/MAKE}
+
+There are many occasions when the \forth{DOER}/\forth{MAKE} construct proves
+beneficial. They are:
+
+%!! This list has seven items and spans several pages;
+%!! I have marked its end using ---End-Of-List---
+
+\begin{enumerate}
+\item To change the state of a function (when external testing of the
+state is not necessary). The words \forth{LEFTWING} and \forth{RIGHTWING}
+change the state of the word \forth{PLATFORM}.
+
+\item To factor out internal phrases from similar definitions, but within
+control structures such as loops.
+
+Consider the definition of a word called \forth{DUMP}, designed to reveal the
+contents of a specified region of memory.
+
+\begin{Code}[commandchars=\&\{\}]
+: DUMP  ( a # )
+   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
+   DUP I +  &poorbf{@ 6 U.R  2 +LOOP}  DROP ;
+\end{Code}
+The problem arises when you write a definition called \forth{CDUMP},
+designed to format the output according to bytes, not cells:
+
+\begin{Code}[commandchars=\&\{\}]
+: CDUMP  ( a # )
+   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
+   DUP I +  &poorbf{C@  4 U.R  LOOP} DROP ;
+\end{Code}
+
+The code within these two definitions is identical except for the
+fragments in boldface. But factoring is difficult because the fragments
+occur inside the \forthb{DO }\forthb{LOOP}.
+
+Here's a solution to this problem, using \forthb{DOER}/\forthb{MAKE}. The
+code that changes has been replaced with the word \forth{.UNIT}, whose
+behavior is vectored by the code in \forth{DUMP} and \forth{CDUMP}.
+(Recognize that ``\forthb{1 }\forthb{+LOOP}'' has the same effect as
+``\forthb{LOOP}''.)
+
+\begin{Code}[commandchars=\&\{\}]
+DOER .UNIT ( a -- increment)  \ display byte or cell
+: <DUMP>  ( a # )
+   O DO  I 16 MOD O= IF  CR  DUP I +  5 U.R  2 SPACES  THEN
+   DUP I + &poorbf{.UNIT}  +LOOP  DROP ;
+: DUMP   ( a #)  MAKE .UNIT  @  6 U.R  2 ;AND <DUMP> ;
+: CDUMP ( a #)   MAKE .UNIT C@  4 U.R  1 ;AND <DUMP> ;
+\end{Code}
+Notice how \forth{DUMP} and \forth{CDUMP} \emph{set-up} the vector,
+then go on to \emph{execute} the shell (the word \forth{<DUMP>}).
+
+\item To change the state of related functions by invoking a single
+command. For instance:
+
+\begin{Code}
+DOER TYPE'
+DOER EMIT'
+DOER SPACES'
+DOER CR'
+: VISIBLE     MAKE TYPE'  TYPE ;AND
+              MAKE EMIT'  EMIT ;AND
+              MAKE SPACES'  SPACES ;AND
+              MAKE CR'  CR ;
+: INVISIBLE   MAKE TYPE'  2DROP ;AND
+              MAKE EMIT'  DROP ;AND
+              MAKE SPACES'  DROP ;AND
+              MAKE CR'  ;
+\end{Code}
+Here we've defined a vectorable set of output words, each name having
+a ``prime'' mark at the end. \forth{VISIBLE} sets them to their
+expected functions.  \forth{INVISIBLE} makes them no-ops, eating up
+the arguments that would normally be passed to them. Say
+\forth{INVISIBLE} and any words defined in terms of these four output
+operators will \emph{not} produce any output.
+
+\item To change the state for the next occurrence only, then change
+the state (or reset it) again.
+
+Suppose we're writing an adventure game. When the player first arrives
+at a particular room, the game will display a detailed description. If
+the player returns to the same room later, the game will show a
+shorter message.
+
+\goodbreak
+We write:
+\begin{Code}
+DOER ANNOUNCE
+: LONG MAKE ANNOUNCE
+   CR ." You're in a large hall with a huge throne"
+   CR ." covered with a red velvet canopy."
+         MAKE ANNOUNCE
+   CR ." You're in the throne room." ;
+\end{Code}
+The word \forth{ANNOUNCE} will display either message. First we say
+\forth{LONG}, to initialize \forth{ANNOUNCE} to the long message. Now we
+can test \forth{ANNOUNCE}, and find that it prints the long message.
+Having done that, however, it continues to ``make'' \forth{ANNOUNCE}
+display the short message.
+
+If we test \forth{ANNOUNCE} a second time, it prints the short message.
+And it will for ever more, until we say \forth{LONG} again.
+
+In effect we're queuing behaviors. We can queue any number of behaviors,
+letting each one set the next. The following example (though not terribly
+practical) illustrates the point.
+
+\begin{Code}
+DOER WHERE
+VARIABLE SHIRT
+VARIABLE PANTS
+VARIABLE DRESSER
+VARIABLE CAR
+
+: ORDER  \  specify search order
+   MAKE WHERE  SHIRT   MAKE WHERE  PANTS
+   MAKE WHERE  DRESSER   MAKE WHERE CAR
+   MAKE WHERE  O ;
+
+: HUNT  ( -- a|O )  \  find location containing 17
+   ORDER  5 O DO  WHERE  DUP O=  OVER @  17 =  OR  IF
+      LEAVE  ELSE  DROP  THEN  LOOP ;
+\end{Code}
+In this code we've created a list of variables, then defined an
+\forth{ORDER} in which they are to be searched. The word \forth{HUNT}
+looks through each of them, looking for the first one that contains a 17.
+\forth{HUNT} returns either the address of the correct variable, or a zero
+if none have the value.
+
+It does this by simply executing \forth{WHERE} five times. Each time,
+\forth{WHERE} returns a different address, as defined in \forth{ORDER},
+then finally zero.
+
+We can even define a \forthb{DOER} word that toggles its own behavior
+endlessly:
+
+\begin{Code}
+DOER SPEECH
+: ALTERNATE
+   BEGIN  MAKE SPEECH ." HELLO "
+   MAKE SPEECH ." GOODBYE "
+   O UNTIL ;
+\end{Code}
+\item To implement a forward reference. A forward reference is usually
+needed as a ``hook,'' that is, a word invoked in a low-level definition
+but reserved for use by a component defined later in the listing.
+
+To implement a forward reference, build the header of the word with
+\forthb{DOER}, before invoking its name.
+
+\begin{Code}
+DOER STILL-UNDEFINED
+\end{Code}
+Later in the listing, use \forth{MAKE};
+
+\begin{Code}
+MAKE STILL-UNDEFINED  ALL THAT JAZZ ;
+\end{Code}
+(Remember, \forth{MAKE} can be used outside a colon definition.)
+
+\item Recursion, direct or indirect.
+
+Direct recursion occurs when a word invokes itself. A good example is the
+recursive definition of greatest-common-denominator:
+
+\begin{Code}
+GCD of a, b =  a                     if b = O
+               GCD of b, a mod b     if b > O
+\end{Code}
+This translates nicely into:
+
+\begin{Code}
+DOER GCD ( a b -- gcd)
+MAKE GCD  ?DUP  IF  DUP ROT ROT  MOD  GCD  THEN ;
+\end{Code}
+Indirect recursion occurs when one word invokes a second word, while the
+second word invokes the first. This can be done using the form:
+
+\begin{Code}
+DOER B
+: A  ... B ... ;
+MAKE B  ... A ... ;
+\end{Code}
+\item Debugging. I often define:
+
+\begin{Code}
+DOER SNAP
+\end{Code}
+(short for \forth{SNAPSHOT}), then edit \forth{SNAP} into my
+application at a point where I want to see what's going on. For
+instance, with \forth{SNAP} invoked inside the main loop of a
+keystroke interpreter, I can set it up to let me watch what's
+happening to a data structure as I enter keys. And I can change what
+\forth{SNAP} does without having to recompile the loop.
+\end{enumerate}
+
+%%! ---End-Of-List---
+
+The situations in which it's preferable to use the tick-and-execute
+approach are those in which you need control over the address of the
+vector, such as when vectoring through an element in a decision table, or
+attempting to save/restore the contents of the vector.
+

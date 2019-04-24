@@ -1,0 +1,20 @@
+\section{\Chap{8}}
+\ifeightyfour\begin{enumerate}
+\item This will work:
+\begin{Code}
+20 CHOOSE  2 CHOOSE  IF NEGATE THEN
+\end{Code}
+But this is simpler:
+\begin{Code}
+40 CHOOSE  20 -
+\end{Code}
+\end{enumerate}\else
+\begin{Code}
+: DIRECTION  ( n|-n|0 -- 1|-1|0)  DUP  IF  0< 1 OR  THEN ;
+\end{Code}
+\fi
+
+%% Note: The question was random number between 0 and 19, and -20 and 0.
+%% The first solution gives between 0 and 19, or -19 and 0.
+%% The second solution doesn't give a double likelyhood for 0.
+%% It's a bit tricky to get both question and answer really correctly.

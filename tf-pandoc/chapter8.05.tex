@@ -1,0 +1,23 @@
+\section{For Further Thinking}
+
+\ifeightyfour\begin{enumerate}
+\item
+You have the word \forth{CHOOSE} which takes an argument ``$n$''
+and returns a random number between 0 and $n-1$. The result is always
+positive or zero.  You can use \forth{CHOOSE} to produce a flag; the
+phrase
+\begin{Code}
+2 CHOOSE
+\end{Code}
+produces a random flag of zero or one (false or true).
+
+%%!!! this is not the second question, there is no question above
+\item
+Write a phrase to choose a number at random between 0 and 19 (inclusive)
+\emph{or} between $-20$ and 0.
+\end{enumerate}\else
+%% replacement problem
+Define the word \forth{DIRECTION}, which returns either 1,
+$-1$, or 0, depending on whether the input argument is non-zero
+positive, negative, or zero, respectively.
+\fi

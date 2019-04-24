@@ -1,0 +1,158 @@
+\section{Saving and Restoring a State}%
+\index{V!Variables:!saving and restoring states|(}%
+\index{D!Data stacks!saving and restoring states|(}
+
+Variables have the characteristic that when you change their contents,
+you clobber the value that was there before. Let's look at some of the
+problems this can create, and some of the things we can do about them.
+
+\index{B!BASE|(}%
+\forthb{BASE} is a variable that indicates the current
+number radix for all numeric input and output. The following words are
+commonly found in \Forth{} systems:
+
+\begin{Code}
+: DECIMAL   10 BASE ! ;
+: HEX   16 BASE ! ;
+\end{Code}
+Suppose we've written a word that displays a ``dump'' of memory.
+Ordinarily, we work in decimal mode, but we want the dump in hexadecimal.
+So we write:
+
+\begin{Code}
+: DUMP  ( a # )
+   HEX   ...   ( code for the dump) ... DECIMAL ;
+\end{Code}
+This works---most of the time. But there's a presumption that we want to
+come back to decimal mode. What if it had been working in hexadecimal, and
+wants to come back to hexadecimal? Before we change the base to
+\forthb{HEX}, we have to save its current value. When we're done dumping,
+we restore it.
+
+\index{R!Return stack|(}
+This means we have to tuck away the saved value temporarily,
+while we format the dump. The return stack is one place to do this:
+
+\begin{Code}
+: DUMP  ( a # )
+   BASE @ >R  HEX   ( code for dump)  R> BASE ! ;
+\end{Code}
+If things get too messy, we may have to define a temporary variable:
+\index{R!Return stack|)}
+
+\begin{Code}
+VARIABLE OLD-BASE
+: DUMP  ( a # )
+   BASE @  OLD-BASE !  HEX ( code for dump )
+   OLD-BASE @  BASE ! ;
+\end{Code}
+How quickly things get complicated.%
+\index{B!BASE|)}
+
+In this situation, if both the current and the old version of a variable
+belong only to your application (and not part of your system), and if this
+same situation comes up more than once, apply a technique of factoring:
+
+\begin{Code}
+: BURY  ( a)  DUP 2+  2 CMOVE ;
+: EXHUME  ( a)  DUP 2+  SWAP 2 CMOVE ;
+\end{Code}
+Then instead of defining two variables, such as \forth{CONDITION} and
+\forth{OLD-CONDITION}, define one double-length variable:
+
+\begin{Code}
+2VARIABLE CONDITION
+\end{Code}
+Use \forth{BURY} and \forth{EXHUME} to save and restore the original value:
+
+\begin{Code}
+: DIDDLE    CONDITION BURY  17 CONDITION !  ( diddle )
+   CONDITION EXHUME ;
+\end{Code}
+\forth{BURY} saves the ``old'' version of condition at \forth{CONDITION 2+}.
+
+You still have to be careful. Going back to our \forthb{DUMP} example,
+suppose you decided to add the friendly feature of letting the user exit
+the dump at any time by pressing the ``escape'' key. So inside the loop
+you build the test for a key being pressed, and if so execute
+\forthb{QUIT}. But what happens?
+
+The user starts in decimal, then types \forthb{DUMP}. He exits
+\forthb{DUMP} midway through and finds himself, strangely, in hexadecimal.
+
+In the simple case at hand, the best solution is to not use
+\forthb{QUIT}, but rather a controlled exit from the loop (via
+\forthb{LEAVE}, etc.) to the end of the definition where
+\forthb{BASE} is reset.
+
+In very complex applications a controlled exit is often impractical,
+yet many variables must somehow be restored to a natural condition.
+
+\begin{interview}%
+\index{M!Moore, Charles|(}
+\person{Moore} responds to this example:
+
+\begin{tfquot}
+You really get tied up in a knot. You're creating problems for
+yourself. If I want a hex dump I say \forthb{HEX }\forthb{DUMP}. If I
+want a decimal dump I say \forthb{DECIMAL }\forthb{DUMP}. I don't give
+\forthb{DUMP} the privilege of messing around with my environment.
+
+There's a philosophical choice between restoring a situation when you
+finish and establishing the situation when you start. For a long time I felt
+you should restore the situation when you're finished. And I would try to
+do that consistently everywhere. But it's hard to define ``everywhere.'' So
+now I tend to establish the state before I start.
+
+If I have a word which cares where things are, it had better set them. If
+somebody else changes them, they don't have to worry about resetting
+them.
+
+There are more exits than there are entrances.
+\end{tfquot}\index{M!Moore, Charles|)}
+\end{interview}
+
+In cases in which I need to do the resetting before I'm done, I've found it
+useful to have a single word (which I call \forth{PRISTINE}) to perform this
+resetting. I invoke \forth{PRISTINE}:
+
+%!! '*'s should be bullets
+\begin{itemize}
+\item at the normal exit point of the application
+\item at the point where the user may deliberately exit (just before
+\forthb{QUIT})
+\item at any point where a fatal error may occur, causing an abort.
+\end{itemize}
+
+Finally, when you encounter this situation of having to save/restore a
+value, make sure it's not just a case of bad factoring. For example,
+suppose we have written:
+
+\begin{Code}
+: LONG   18 #HOLES ! ;
+: SHORT   9 #HOLES ! ;
+: GAME   #HOLES @  O DO  I HOLE PLAY  LOOP ;
+\end{Code}
+The current \forth{GAME} is either \forth{LONG} or \forth{SHORT}.
+
+Later we decide we need a word to play \emph{any} number of holes. So
+we invoke \forth{GAME} making sure not to clobber the current value of
+\forth{\#HOLES}:
+
+\begin{Code}
+: HOLES  ( n)  #HOLES @  SWAP #HOLES !  GAME  #HOLES ! ;
+\end{Code}
+Because we needed \forth{HOLES} after we'd defined \forth{GAME}, it
+seemed to be of greater complexity; we built \forth{HOLES} around
+\forth{GAME}. But in fact---perhaps you see it already---rethinking is
+in order:
+
+\begin{Code}
+: HOLES ( n)  O DO  I HOLE PLAY  LOOP ;
+: GAME   #HOLES @ HOLES ;
+\end{Code}
+We can build \forth{GAME} around \forth{HOLES} and avoid all this
+saving/restoring nonsense.%
+\index{V!Variables:!saving and restoring states|)}%
+\index{D!Data stacks!saving and restoring states|)}
+

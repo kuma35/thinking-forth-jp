@@ -1,0 +1,43 @@
+\section{Data Structures}%
+\index{D!Data structures:!operators}%
+
+Still another defining word is \forthb{CONSTANT},\index{C!CONSTANT} which
+is used like this:
+\begin{Code}
+17 CONSTANT SEVENTEEN
+\end{Code}
+The new word \forth{SEVENTEEN} can now be used in place of the actual
+number 17.
+
+{\sloppy
+The defining word \forth{VARIABLE}\index{V!VARIABLE} creates a location
+for temporary data. \forth{VARIABLE} is used like this:
+\begin{Code}
+VARIABLE BANANAS
+\end{Code}
+This reserves a location which is identified by the name \forth{BANANAS}.}
+
+Fetching the contents of this location is the job of the word \forthb{@}
+(pronounced ``fetch'').  For instance,
+\begin{Code}
+BANANAS @
+\end{Code}
+fetches the contents of the variable \forth{BANANAS}.  Its counterpart is
+\forthb{!} (pronounced ``store''), which stores a value into the location,
+as in:
+\begin{Code}
+100 BANANAS !
+\end{Code}
+\Forth{} also provides a word to increment the current value by the given
+value; for instance, the phrase
+\begin{Code}
+2 BANANAS +!
+\end{Code}
+increments the count by two, making it 102.
+
+\Forth{} provides many other
+data structure operators\index{D!Data structures:!operators}, but more
+importantly, it provides the tools necessary for the programmer to
+create any type of data structure needed for the application.%
+\index{D!Dictionary:!defined|)}%
+

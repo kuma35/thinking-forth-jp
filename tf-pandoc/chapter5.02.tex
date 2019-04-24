@@ -1,0 +1,286 @@
+\section{Screen Layout}%
+\index{S!Screens!layout|(}%
+\index{I!Implementation!screen layout|(}
+
+In this section we'll discuss the layout of each source screen.
+
+\index{C!Comment line|(}%
+\begin{tip}
+Reserve Line 0 as a ``comment line.''
+\end{tip}
+The comment line serves both as a heading for the screen, and also as
+a line in the disk \forth{INDEX}.  It should describe the purpose of
+the screen (not list the words defined therein).
+
+The comment line minimally contains the name of the screen.  In larger
+applications, you may also include both the chapter name and screen
+name.  If the screen is one of a series of screens implementing a
+lexicon, you should include a ``page number'' as well.
+
+\index{S!Stamp|(}%
+\index{D!Dates, representation of|(}
+The upper right hand corner is reserved for the ``stamp.'' The stamp
+includes the date of latest revision and, when authorship is
+important, the programmer's initials (three characters to the left of
+the date); e.g.:
+\begin{Code}
+( Chapter name        Screen Name -- pg #      JPJ 06/10/83)
+\end{Code}
+Some \Forth{} editors will enter the stamp for you at the press of a key.
+
+A common form for representing dates is
+\begin{Code}
+mm-dd-yy
+\end{Code}
+that is, February 6, 1984 would be expressed
+\begin{Code}
+02-06-84
+\end{Code}
+An increasingly popular alternative uses
+\begin{Code}
+ddMmmyy
+\end{Code}
+where ``Mmm'' is a three-letter abbreviation of the month.  For instance:
+\begin{Code}
+22Oct84
+\end{Code}
+%Page 146 in first edition.
+This form requires fewer characters than
+\begin{Code}
+10-22-84
+\end{Code}
+and eliminates possible confusion between dates and months.%
+\index{S!Stamp|)}%
+\index{D!Dates, representation of|)}
+
+If your system has \forth{\bs} (``skip-line''---see \App{C}), you can
+write the comment line like this:
+\begin{Code}
+\ Chapter name        Screen Name -- pg.#       JPJ 06/10/83
+\end{Code}
+As with all comments, use lower-case or a mixture of lower- and
+upper-case text in the comment line.
+
+One way to make the index of an application reveal more about the
+organization of the screens is to indent the comment line by three
+spaces in screens that continue a lexicon.  \Fig{fig5-5} shows a
+portion of a list produced by \forthb{INDEX} in which the comment lines
+for the continuing screens are indented.%
+\index{C!Comment line|)}
+
+\begin{figure*}[bbbb]
+\caption{The output of \forth{INDEX} showing indented comment lines.}
+\labelfig{fig5-5}
+\begin{Code}
+ 90 \ Graphics           Chapter load               JPJ 06/10/83
+ 91    \ Dot-drawing primitives                     JPJ 06/10/83
+ 92 \ Line-drawing primitives                       JPJ 06/11/83
+ 93    \ Line-drawing primitives                    JPJ 06/10/83
+ 94    \ Line-drawing primitives                    JPJ 09/02/83
+ 95 \ Scaling, rotation                             JPJ 06/10/83
+ 96    \ Scaling, rotation                          JPJ 02/19/84
+ 97    \ Scaling, rotation                          JPJ 02/19/84
+ 98    \ Scaling, rotation                          JPJ 02/19/84
+ 99 \ Boxes                                         JPJ 06/10/83
+100 \ Circles                                       JPJ 06/10/83
+101    \ Circles                                    JPJ 06/10/83
+102    \ Circles                                    JPJ 06/10/83
+\end{Code}
+\end{figure*}
+
+\begin{tip}
+Begin all definitions at the left edge of the screen, and define only
+one word per line.
+\end{tip}
+%! There should be no page breaks between the text and code
+\noindent \emph{Bad:}
+\begin{Code}
+: ARRIVING   ." HELLO" ;   : DEPARTING   ." GOODBYE" ;
+\end{Code}
+\noindent \emph{Good:}
+\begin{Code}
+: ARRIVING   ." HELLO" ;
+: DEPARTING   ." GOODBYE" ;
+\end{Code}
+This rule makes it easier to find a definition in the listing.  (When
+definitions continue for more than one line, the subsequent lines
+should always be indented.)
+%Page 147 in first edition.
+
+\forthb{VARIABLE}s and \forthb{CONSTANT}s should also be defined one per
+line.  (See ``Samples of Good Commenting Style'' in \App{E}.) This
+leaves room for an explanatory comment on the same line.  The
+exception is a large ``family'' of words (defined by a common
+defining-word) which do not need unique comments:
+\begin{Code}
+0 HUE BLACK     1 HUE BLUE      2 HUE GREEN
+3 HUE CYAN      4 HUE RED       5 HUE MAGENTA
+\end{Code}
+\begin{tip}
+Leave lots of room at the bottom of the screen for later additions.
+\end{tip}
+On your first pass, fill each screen no more than half with code.  The
+iterative approach demands that you sketch out the components of your
+application first, then iteratively flesh them out until all the
+requirements are satisfied.  Usually this means adding new commands,
+or adding special-case handling, to existing screens.  (Not
+\emph{always,} though.  A new iteration may see a simplification of
+the code. Or a new complexity may really belong in another component
+and should be factored out, into another screen.)
+
+Leaving plenty of room at the outset makes later additions more
+pleasant.  One writer recommends that on the initial pass, the screen
+should contain about 20--40 percent code and 80--60 percent
+whitespace \cite{stevenson81}.
+
+Don't skip a line between each definition.  You may, however, skip a
+line between \emph{groups} of definitions.%
+\index{D!DECIMAL|(}\index{B!BASE|(}
+\begin{tip}
+All screens must leave \forthb{BASE} set to \forthb{DECIMAL}.
+\end{tip}
+Even if you have three screens in a row in which the code is written
+in \forthb{HEX} (three screens of assembler code, for instance), each
+screen must set \forth{BASE} to \forthb{HEX} at the top, and restore
+base to \forthb{DECIMAL} at the bottom.  This rule ensures that each
+screen could be loaded separately, for purposes of testing, without
+mucking up the state of affairs.  Also, in reading the listing you
+know that values are in decimal unless the screen explicitly
+says \forthb{HEX}.
+
+Some shops take this rule even further.  Rather than brashly resetting
+base to \forthb{DECIMAL} at the end, they reset base to \emph{whatever
+it was at the beginning.} This extra bit of insurance can be
+accomplished in this fashion:
+\begin{Code}
+BASE @       HEX    \ save original BASE on stack
+0A2 CONSTANT BELLS
+0A4 CONSTANT WHISTLES
+... etc. ...
+BASE !              \ restore it
+\end{Code}
+%Page 148 in first edition.
+\noindent Sometimes an argument is passed on the stack from screen to
+screen, such as the value returned by \forthb{BEGIN} or \forthb{IF} in a
+multiscreen assembler definition, or the base address passed from one
+defining word to another---see ``Compile-Time Factoring'' in \Chap{6}.
+In these cases, it's best to save the value of \forth{BASE} on the
+return stack like this:
+\begin{Code}
+BASE @ >R     HEX
+... etc. ...
+R> BASE !
+\end{Code}
+Some folks make it a policy to use this approach on any screen that
+changes \forthb{BASE}, so they don't have to worry about it.%
+\index{B!BASE|)}
+
+\person{Moore}\index{M!Moore, Charles} prefers to define \forthb{LOAD}
+to invoke \forthb{DECIMAL} after loading.  This approach simplifies the
+screen's contents because you don't have to worry about resetting.%
+\index{D!DECIMAL|)}
+
+\subsection{Spacing and Indentation}%
+\index{S!Spacing|(}
+
+\begin{tip}
+Spacing and indentation are essential for readability.
+\end{tip}
+The examples in this book use widely accepted conventions of spacing
+and indenting style.  Whitespace, appropriately used, lends
+readability.  There's no penalty for leaving space in source screens
+except disk memory, which is cheap.
+
+For those who like their conventions in black and white, Table
+\ref{tab-5-1} is a list of guidelines.  (But remember, \Forth{}'s
+interpreter couldn't care less about spacing or indentation.)
+
+\begin{table}[bbbb]
+\caption{Indentation and spacing guidelines}
+\label{tab-5-1}
+\medskip\blackline{0pt}\medskip
+\begin{minipage}{\textwidth}
+\begin{quote}
+1 space between the colon and the name\\
+2 spaces between the name and the comment\footnote{An often-seen
+alternative calls for 1 space between the name and comment and 3
+between the comment and the definition.  A more liberal technique uses
+3 spaces before and after the comment.  Whatever you choose, be
+consistent.}\\
+2 spaces, or a carriage return, after the comment and
+before the definition\footnotemark[1]\\
+3 spaces between the name and definition if no comment is used\\
+3 spaces indentation on each subsequent line (or multiples
+of 3 for nested indentation)\\
+1 space between words/numbers within a phrase\\
+2 or 3 spaces between phrases\\
+1 space between the last word and the semicolon\\
+1 space between semicolon and \forthb{IMMEDIATE} (if invoked)
+\end{quote}
+No blank lines between definitions, except to separate distinct groups
+of definitions
+
+%% Note: AH: Again type writer style footnotes.
+\end{minipage}
+\medskip\blackline{0pt}
+\end{table}
+
+%Page 149 in first edition.
+
+The last position of each line should be blank except for:
+%%!!!te original used a) b) enumeration here.
+\ifeightyfour
+\begin{list}{\alph{enumi})}{\usecounter{enumi}}
+\else
+\begin{enumerate}
+\fi
+\item quoted strings that continue onto the next line, or
+\item the end of a comment.
+\ifeightyfour
+\end{list}
+\else
+\end{enumerate}
+\fi
+A comment that begins with \forth{\bs} may continue right to the end
+of the line.  Also, a comment that begins with \forth{(} may have its
+delimiting right parenthesis in the last column.
+
+\index{I!Indentation|(}%
+Here are some common errors of spacing and indentation:
+
+\goodbreak\bigskip\noindent
+\emph{Bad} (name not separated from the body of the definition):
+\begin{Code}
+: PUSH HEAVE HO ;
+\end{Code}
+\emph{Good:}
+\begin{Code}
+: PUSH   HEAVE HO ;
+\end{Code}
+\emph{Bad} (subsequent lines not indented three spaces):
+\begin{Code}
+: RIDDANCE  ( thing-never-to-darken-again -- )
+DARKEN  NEVER AGAIN ;
+\end{Code}
+\emph{Good:}
+\begin{Code}
+: RIDDANCE  ( thing-never-to-darken-again -- )
+   DARKEN  NEVER AGAIN ;
+\end{Code}
+\emph{Bad} (lack of phrasing):
+\begin{Code}
+: GETTYSBURG   4 SCORE 7 YEARS + AGO ;
+\end{Code}
+\goodbreak\noindent
+\emph{Good:}
+\begin{Code}
+: GETTYSBURG   4 SCORE   7 YEARS +   AGO ;
+\end{Code}
+Phrasing is a subjective art;
+I've yet to see a useful set of formal rules.\\
+Simply strive for readability.%
+\index{S!Spacing|)}%
+\index{S!Screens!layout|)}%
+\index{I!Implementation!screen layout|)}%
+\index{I!Indentation|)}
+

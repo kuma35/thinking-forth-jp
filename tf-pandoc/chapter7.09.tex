@@ -1,0 +1,85 @@
+\section{Vectored Execution}%
+\index{V!Vectored Execution|(}
+\index{F!Functions:!vectored execution|(}
+
+Vectored execution extends the ideas of currentness and indirection
+beyond data, to functions. Just as we can save values and flags in
+variables, we can also save functions, because functions can be referred to
+by address.
+
+The traditional techniques for implementing vectored execution are
+described in \emph{Starting \Forth{}}, Chapter Nine. In this section we'll
+discuss a new syntax which I invented and which I think can be used in many
+circumstances more elegantly than the traditional methods.
+
+\index{D!DOER/MAKE|(}%
+The syntax is called \forth{DOER}/\forth{MAKE}. (If your system doesn't
+include these words, refer to \App{B} for code and implementation
+details.) It works like this: You define the word whose behavior will be
+vectorable with the defining word \forthb{DOER}, as in
+
+\begin{Code}
+DOER PLATFORM
+\end{Code}
+Initially, the new word \forth{PLATFORM} does nothing. Then you can write
+words that change what \forth{PLATFORM} does by using the word \forthb{MAKE}:
+
+\begin{Code}
+: LEFTWING   MAKE PLATFORM  ." proponent " ;
+: RIGHTWING  MAKE PLATFORM  ." opponent " ;
+\end{Code}
+When you invoke \forth{LEFTWING}, the phrase \forth{MAKE PLATFORM} changes
+what \forth{PLATFORM} will do. Now if you type \forth{PLATFORM}, you'll see:
+
+\begin{Code}[commandchars=\&\{\}]
+LEFTWING ok
+PLATFORM &underline{proponent ok}
+\end{Code}
+\forth{RIGHTWING} will make \forth{PLATFORM} display ``opponent.'' You can
+use \forth{PLATFORM} within another definition:
+
+\begin{Code}
+: SLOGAN   ." Our candidate is a longstanding " PLATFORM
+   ." of heavy taxation for business. " ;
+\end{Code}
+The statement
+
+\begin{Code}
+LEFTWING SLOGAN
+\end{Code}
+will display one campaign statement, while
+
+\begin{Code}
+RIGHTWING SLOGAN
+\end{Code}
+will display another.
+
+The ``\forth{MAKE}'' code can be any \Forth{} code, as much or as long as
+you want; just remember to conclude it with semicolon. The semicolon at
+the end of \forth{LEFTWING} serves for both \forth{LEFTWING} and for the
+bit of code after \forth{MAKE}. When \forth{MAKE} redirects execution of
+the \forthb{DOER} word, it also \emph{stops} execution of the word in
+which it appears.
+
+When you invoke \forth{LEFTWING}, for example, \forth{MAKE} redirects
+\forth{PLATFORM} and exits. Invoking \forth{LEFTWING} does not cause
+``proponent'' to be printed. \Fig{fig7-7} demonstrates this point, using a
+conceptualized illustration of the dictionary.
+
+\wtexfigt{fig7-7}{\forth{DOER} and \forth{MAKE}.}
+
+If you want to \emph{continue} execution, you can use the word
+\forthb{;AND} in place of semicolon. \forthb{;AND} terminates the code
+that the \forthb{DOER} word points to, and resumes execution of the
+definition in which it appears, as you can see in \Fig{fig7-8}.
+
+\wtexfigt{fig7-8}{Multiple \forth{MAKE}s in parallel using \forth{;AND}.}
+
+Finally, you can chain the ``making'' of \forthb{DOER} words in series by
+not using \forthb{;AND}. \Fig{fig7-9} explains this better than I could
+write about it.%
+\index{V!Vectored Execution|)}%
+\index{F!Functions:!vectored execution|)}
+
+\wtexfigt{fig7-9}{Multiple \forth{MAKE}s in series.}
+

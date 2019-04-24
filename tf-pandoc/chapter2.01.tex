@@ -1,0 +1,49 @@
+\section{The Nine Phases of the Programming Cycle}%
+
+As we've seen, \Forth{} integrates aspects of design with aspects of
+implementation and maintenance. As a result, the notion of a ``typical
+development cycle'' makes as much sense as a ``typical noise.''
+
+But any approach is better than no approach, and indeed, some
+approaches have worked out better than others. Here is a development
+cycle that represents an ``average'' of the most successful approaches
+used in software projects:%
+\index{P!Programming cycle:!phases|(}
+\begin{description}
+\item[Analysis] \hfill\index{A!Analysis}
+    \begin{enumerate}
+    \item Discover the Requirements and Constraints
+    \item Build a Conceptual Model of the Solution
+    \item Estimate Cost/Schedule/Performance
+    \end{enumerate}
+\item[Engineering] \hfill
+    \begin{enumerate}
+    \setcounter{enumi}{3}
+    \item Preliminary Design
+    \item Detailed Design
+    \item Implementation
+    \end{enumerate}
+\item[Usage] \hfill
+    \begin{enumerate}
+    \setcounter{enumi}{6}
+    \item Optimization
+    \item Validation and Debugging
+    \item Maintenance
+    \end{enumerate}
+\end{description}
+In this book we'll treat the first six stages of the cycle,
+focusing on analysis, design, and implementation.
+
+In a \Forth{} project the phases occur on several levels. Looking at a
+project from the widest perspective, each of these steps could take a
+month or more.  One step follows the next, like seasons.
+
+%Page 039 in first edition
+
+But \Forth{} programmers also apply these same phases toward
+defining each word. The cycle then repeats on the order of minutes.%
+\index{P!Programming cycle:!phases|)}
+
+Developing an application with this rapid repetition of the
+programming cycle is known as using the ``Iterative Approach.''
+

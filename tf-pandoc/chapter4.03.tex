@@ -1,0 +1,35 @@
+\section{Detailed Design}%
+\index{L!Lexicons|(}
+
+We're now at the point in the development cycle at which we've decided
+we need a component (or a particular word). The component will consist
+of a number of words, some of which (those that comprise the lexicon) will
+be used by other components and some of which (the internal words) will
+be only used within this component.
+
+Create as many words as necessary to obey the following tip:
+
+\begin{tip}
+Each definition should perform a simple, well-defined task.
+\end{tip}%
+\index{D!Detailed design!steps in|(}
+Here are the steps generally involved in designing a component:
+%!! there's certainly some better way to do ordered lists in TeX
+\begin{enumerate}
+\item Based on the required functions, decide on the names and syntax for the
+   external definitions (define the interfaces).
+\item Refine the conceptual model by describing the algorithm(s) and data
+   structure(s).
+\item Recognize auxiliary definitions.
+\item Determine what auxiliary definitions and techniques are already available.
+\item Describe the algorithm with pseudocode.
+\item Implement it by working backwards from existing definitions to the inputs.
+\item Implement any missing auxiliary definitions.
+\item If the lexicon contains many names with strong elements in common,
+   design and code the commonalities as internal definitions, then implement
+   the external definitions.
+\end{enumerate}%
+\index{D!Detailed design!steps in|)}
+We'll discuss the first two steps in depth. Then we'll engage in an
+extended example of designing a lexicon.
+

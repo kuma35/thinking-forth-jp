@@ -1,0 +1,128 @@
+\section{Calculations vs. Data Structures vs. Logic}%
+\index{C!Calculations|(}%
+\index{D!Data structures:!calculation@vs. calculation vs. logic|(}%
+\index{D!Detailed design!calculations|(}%
+\index{D!Detailed design!data structures|(}%
+\index{D!Detailed design!logic|(}%
+\index{L!Logic|(}
+
+We've stated before that the best solution to a problem is the simplest
+adequate one; for any problem we should strive for the simplest
+approach.
+
+Suppose we must write code to fulfill this specification:
+
+%!! sans-serif
+\begin{Code}[fontfamily=cmss]
+if the input argument is 1, the output is 10
+if the input argument is 2, the output is 12
+if the input argument is 3, the output is 14
+\end{Code}
+There are three approaches we could take:
+
+\begin{description}
+\item[Calculation]~
+\begin{Code}
+( n)  1-  2*  10 +
+\end{Code}
+\medbreak
+\item[Data Structure]~
+\begin{Code}
+CREATE TABLE  10 C,  12 C,  14 C,
+( n)  1- TABLE + C@
+\end{Code}
+\medbreak
+\item[Logic]~
+\begin{Code}
+( n)  CASE
+         1 OF 10 ENDOF
+         2 OF 12 ENDOF
+         3 OF 14 ENDOF  ENDCASE
+\end{Code}
+\end{description}
+In this problem, calculation is simplest. Assuming it is also adequate
+(speed is not critical), calculation is best.
+
+The problem of converting angles to sines and cosines can be implemented
+more simply (at least in terms of lines of code and object size)
+by calculating the answers than by using a data structure. But for many
+applications requiring trig, it's faster to look up the answer in a table
+stored in memory. In this case, the simplest \emph{adequate} solution is
+using the data structure.
+
+In \Chap{2} we introduced the telephone rate problem. In that
+problem the rates appeared to be arbitrary, so we designed a data
+structure:
+
+\bigskip
+%!! this should be a table; see pg 119
+\begin{tabular}{lccc}
+          & \emph{Full Rate} & \emph{Lower Rate} & \emph{Lowest Rate} \\ \hline
+First Min.  &       .30        &        .22        &          .12 \\ \hline
+Add'1 Mins. &       .12        &        .10        &          .06 \\ \hline
+\end{tabular}\program{phone3}
+\bigskip
+
+\noindent Using a data structure was simpler than trying to invent a
+formula by which these values could be calculated. And the formula might
+prove wrong later. In this case, table-driven code is easier to maintain.
+
+In \Chap{3} we designed a keystroke interpreter for our Tiny
+Editor using a decision table:\program{editor3}
+
+%!! this should be a table; see pg 119
+%%typo: The original has here ``Cntrl''. Usually, it's Ctrl, and other chapters
+%%use that name, too.
+\medskip
+\begin{tabular}{lll}
+\emph{Key}         & \emph{Not-Inserting} & \emph{Inserting} \\
+\texttt{Ctrl-D}    & \texttt{DELETE}      & \texttt{INSERT-OFF} \\
+\texttt{Ctrl-I}    & \texttt{INSERT-ON}   & \texttt{INSERT-OFF} \\
+\texttt{backspace} & \texttt{BACKWARD}    & \texttt{INSERT<} \\
+etc. & &
+\end{tabular}
+\medskip
+
+\medbreak\noindent
+We could have achieved this same result with logic:
+\begin{Code}
+CASE
+   CTRL-D     OF  'INSERTING @  IF
+      INSERT-OFF   ELSE DELETE     THEN   ENDOF
+   CTRL-I     OF  'INSERTING @  IF
+      INSERT-OFF   ELSE INSERT-ON  THEN   ENDOF
+   BACKSPACE  OF  'INSERTING @  IF
+      INSERT<      ELSE BACKWARD   THEN   ENDOF
+ENDCASE
+\end{Code}
+but the logic is more confusing. And the use of logic to express such a
+multi-condition algorithm gets even more convoluted when a table was
+not used in the original design.
+
+The use of logic becomes advisable when the result is not calculable,
+or when the decision is not complicated enough to warrant a decision
+table. \Chap{8} is devoted to the issue of minimizing the use of logic
+in your programs.
+
+\begin{tip}
+In choosing which approach to apply towards solving a problem, give
+preference in the following order:
+\medskip
+%!! there's certainly some better way to do ordered lists in TeX
+\begin{enumerate}
+\item calculation (except when speed counts)
+\item data structures
+\item logic
+\end{enumerate}
+\end{tip}
+Of course, one nice feature of modular languages such as \Forth{} is that
+the actual implementation of a component---whether it uses calculation,
+data structures, or logic---doesn't have to be visible to the rest of the
+application.
+\index{C!Calculations|)}%
+\index{D!Data structures:!calculation@vs. calculation vs. logic|)}%
+\index{D!Detailed design!calculations|)}%
+\index{D!Detailed design!data structures|)}%
+\index{D!Detailed design!logic|)}%
+\index{L!Logic|)}
+

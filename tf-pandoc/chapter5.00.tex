@@ -1,0 +1,40 @@
+%% Thinking Forth
+%% Copyright (C) 2004 Leo Brodie
+%% Initial transcription by Albert van der Horst
+%%
+%% Chapter: Implementation: Elements of FORTH Style
+%%
+%% ``%%!!!te'' marks mark typesetting errors in the original
+%% We don't want to retain typesetting errors.
+
+\chapter{Implementation: Elements~of \Forth{}~Style}\Chapmark{5}%
+\index{I!Implementation|(}%
+
+\initial Badly written \Forth{} has been accused of looking like ``code that
+went through a trash compactor.'' It's true, \Forth{} affords more
+freedom in the way we write applications.  But that freedom also gives
+us a chance to write exquisitely readable and easily maintainable
+code, provided we consciously employ the elements of good \Forth{}
+style.
+
+In this chapter we'll delve into \Forth{} coding convention
+including:
+
+\begin{itemize}%%originally: no bullet points
+\item listing organization
+\item screen layout, spacing and indentation
+\item commenting
+\item choosing names
+\end{itemize}
+I wish I could recommend a list of hard-and-fast conventions for
+everyone.  Unfortunately, such a list may be inappropriate in many
+situations.  This chapter merges many widely-adopted conventions with
+personal preferences, commented with alternate ideas and the reasons
+for the preferences.  In other words:
+\begin{Code}
+: TIP  VALUE JUDGEMENT ;
+\end{Code}
+I'd especially like to thank \person{Kim Harris},\index{H!Harris, Kim} who
+proposed many of the conventions described in this chapter, for his
+continuing efforts at unifying divergent views on good \Forth{} style.
+

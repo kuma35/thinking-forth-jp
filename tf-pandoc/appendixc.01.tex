@@ -1,0 +1,11 @@
+\section{From \Chap{4}}
+
+A definition of \forthb{ASCII}\index{A!ASCII} that will work in '83
+Standard is:
+\begin{Code}
+: ASCII  ( -- c)  \  Compile:  c  ( -- )
+\ Interpret:   c   ( -- c)
+     BL WORD 1+ C@  STATE @
+     IF [COMPILE] LITERAL  THEN ; IMMEDIATE
+\end{Code}
+

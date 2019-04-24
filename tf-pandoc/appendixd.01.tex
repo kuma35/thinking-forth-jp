@@ -1,0 +1,32 @@
+\section{\Chap{3}}
+\newcounter{exercise}
+\begin{enumerate}
+\item The answer depends on whether you believe that other components will
+need to ``know the numeric code associated with each key.  Usually this
+would \emph{not} be the case.  The simpler, more compact form is therefore
+preferable.  Also in the first version, to add a new key would require a
+change in two places.
+\item The problem with the words \forth{RAM-ALLOT} and \forth{THERE} are
+that they are \emph{time-dependent}:  we must execute them in a particular
+order.  Our solution then will be to devise an interface to the RAM
+allocation pointer that is not dependent on order; the way to do this is
+to have a \emph{single} word which does both functions transparently.
+
+Our word's syntax will be
+\begin{Code}
+: RAM-ALLOT   ( #bytes-to-allot -- starting-adr) 
+    ... ;
+\end{Code}
+This syntax will remain the same whether we define it to allocate growing 
+upward:
+\begin{Code}
+: RAM-ALLOT  ( #bytes-to-allot -- starting-adr)
+    >RAM @  DUP ROT +  >RAM ! ;
+\end{Code}
+or to allocate growing downward:
+\begin{Code}
+: RAM-ALLOT  ( #bytes-to-allot -- starting-adr)
+    >RAM @  SWAP -  DUP >RAM ! ;
+\end{Code}
+\end{enumerate}
+

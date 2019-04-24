@@ -1,0 +1,15 @@
+\section{From \Chap{8}}
+
+The implementation of \forthb{LEAP}\index{L!LEAP} will depend on how your
+system implements \forthb{DO} \forthb{LOOP}s.  If \forthb{DO} keeps two
+items on the return stack (the index and the limit), \forthb{LEAP} must
+drop both of them plus one more return-stack item to exit:
+\begin{Code}
+: LEAP   R> R> 2DROP  R> DROP ;
+\end{Code}
+If \forthb{DO} keeps \emph{three} items on the return stack, it must be
+defined:
+\begin{Code}
+: LEAP   R> R> 2DROP  R> R> 2DROP ;
+\end{Code}
+
