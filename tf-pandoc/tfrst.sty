@@ -11,8 +11,23 @@
 \newcommand{\Forth}{Forth}
 
 \newcommand{\wepsfig}[2]{
-.. image::「#1」『#2』
+\begin{verbatim} 
+.. figure:: #1.png
+   :alt: #2
+
+   #2
+\end{verbatim}
 }
+\newcommand{\wepsfiga}[2]{\wepsfig{#1}{#2}}
+\newcommand{\wepsfigt}[2]{\wepsfig{#1}{#2}}
+\newcommand{\wepsfigpp}[2]{\wepsfig{#1}{#2}}
+\newcommand{\wepsfigb}[2]{\wepsfig{#1}{#2}}
+\newcommand{\wepsfigx}[1]{\wepsfig{#1}{#1}}
+\newcommand{\wepsfigxx}[1]{\wepsfig{#1}{#1}}
+\newcommand{\wepsfigp}[2]{\wepsfig{#1}{#2}}
+%\newcommand{\wtexfigt}[2]{\wepsfig{#1}{#2}}
+%\newcommand{\wtexfigb}[2]{\wepsfig{#1}{#2}}
+
 
 %% indentation
 

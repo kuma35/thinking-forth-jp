@@ -1,0 +1,204 @@
+What’s So Bad about Control Structures?
+=======================================
+
+Before we begin reeling off our list of tips, let’s pause to examine why
+conditionals should be avoided in the first place.
+
+The use of conditional structures adds complexity to your code. The more
+complex your code is, the harder it will be for you to read and to
+maintain. The more parts a machine has, the greater are its chances of
+breaking down. And the harder it is for someone to fix.
+
+tells this story:
+
+I recently went back to a company we had done some work for several
+years ago. They called me in because their program is now five years
+old, and it’s gotten very complicated. They’ve had programmers going in
+and patching things, adding state variables and conditionals. Every
+statement that I recall being a simple thing five years ago, now has
+gotten very complicated. “If this, else if this, else if this” … and
+then the simple thing.
+
+Reading that statement now, it’s impossible for me to figure out what
+it’s doing and why. I’d have to remember what each variable indicated,
+why it was relevant in this case, and then what was happening as a
+consequence of it—or not happening.
+
+It started innocently. They had a special case they needed to worry
+about. To handle that special case, they put a conditional in one place.
+Then they discovered that they also needed one here, and here. And then
+a few more. Each incremental step only added a little confusion to the
+program. Since they were the programmers, they were right on top of it.
+
+The net result was disastrous. In the end they had half a dozen flags.
+Test this one, reset it, set that one, and so on. As a result of this
+condition, you knew you had other conditions coming up you had to look
+out for. They created the logical equivalent of spaghetti code in spite
+of the opportunity for a structured program.
+
+The complexity went far beyond what they had ever intended. But they’d
+committed themselves to going down this path, and they missed the simple
+solution that would have made it all unnecessary—having two words
+instead of one. You either say or you say .
+
+In most applications there are remarkably few times when you need to
+test the condition. For instance in a video game, you don’t really say
+“If he presses Button A, then do this; if he presses Button B, then do
+something else.” You don’t go through that kind of logic.
+
+If he presses the button, you do something. What you do is associated
+with the button, not with the logic.
+
+Conditionals aren’t bad in themselves—they are an essential construct.
+But a program with a lot of conditionals is clumsy and unreadable. All
+you can do is question each one. Every conditional should cause you to
+ask, “What am I doing wrong?”
+
+What you’re trying to do with the conditional can be done in a different
+way. The long-term consequences of the different way are preferable to
+the long-term consequences of the conditional.
+
+Before we introduce some detailed techniques, let’s look at three
+approaches to the use of conditionals in a particular example. , , and
+illustrate three versions of a design for an automatic teller machine.
+
+    &underline{AUTOMATIC-TELLER}
+
+    IF card is valid DO
+       IF card owner is valid DO
+          IF request withdrawal DO
+             IF authorization code is valid DO
+                query for amount
+                IF request &(&le&) current balance DO
+                   IF withdrawal &(&le&) available cash DO
+                      vend currency
+                      debit account
+                   ELSE
+                      message
+                      terminate session
+                ELSE
+                   message
+                   terminate session
+             ELSE
+                message
+                terminate session
+          ELSE
+             IF authorization code is valid DO
+                query for amount
+                accept envelope through hatch
+                credit account
+             ELSE
+                message
+                terminate session
+       ELSE
+          eat card
+    ELSE
+       message
+    END
+
+The first example comes straight out of the School for Structured
+Programmers. The logic of the application depends on the correct nesting
+of statements.
+
+Easy to read? Tell me under what condition the user’s card gets eaten.
+To answer, you have to either count s from the bottom and match them
+with the same number of s from the top, or use a straightedge.
+
+    &underline{AUTOMATIC-TELLER}
+
+    PROCEDURE READ-CARD
+         IF  card is readable  THEN  CHECK-OWNER
+              ELSE  eject card  END
+
+    PROCEDURE CHECK-OWNER
+         IF  owner is valid  THEN  CHECK-CODE
+              ELSE  eat card  END
+
+    PROCEDURE CHECK-CODE
+         IF  code entered matches owner  THEN  TRANSACT
+              ELSE message, terminate session  END
+
+    PROCEDURE TRANSACT
+         IF requests withdrawal  THEN  WITHDRAW
+              ELSE  DEPOSIT END
+
+    PROCEDURE WITHDRAW
+         Query
+         If  request &(&le&) current balance  THEN  DISBURSE  END
+
+    PROCEDURE DISBURSE
+         IF disbursement &(&le&) available cash  THEN
+               vend currency
+               debit account
+             ELSE  message  END
+
+    PROCEDURE DEPOSIT
+         accept envelope
+         credit account
+
+The second version, , shows the improvement that using many small, named
+procedures can have on readability. The user’s card is eaten if the
+owner is not valid.
+
+But even with this improvement, the design of each word depends
+completely on the *sequence* in which the tests must be performed. The
+supposedly “highest” level procedure is burdened with eliminating the
+worst-case, most trivial kind of event. And each test becomes
+responsible for invoking the next test.
+
+    &underline{AUTOMATIC-TELLER}
+
+    : RUN
+         READ-CARD  CHECK-OWNER  CHECK-CODE  TRANSACT  ;
+
+    : READ-CARD
+         valid code sequence NOT readable  IF  eject card  QUIT
+            THEN ;
+
+    : CHECK-OWNER
+         owner is NOT valid  IF  eat card  QUIT  THEN ;
+
+    : CHECK-CODE
+         code entered MISmatches owner's code  IF  message  QUIT
+            THEN ;
+
+    : READ-BUTTON ( -- adr-of-button's-function)
+         ( device-dependent primitive) ;
+
+    : TRANSACT
+         READ-BUTTON  EXECUTE ;
+
+    1 BUTTON WITHDRAW
+
+    2 BUTTON DEPOSIT
+
+    : WITHDRAW
+         Query
+         request &(&le&) current balance  IF  DISBURSE  THEN ;
+
+    : DISBURSE
+         disbursement &(&le&) available cash  IF
+                vend currency
+                debit account
+              ELSE  message  THEN  ;
+
+    : DEPOSIT
+         accept envelope
+         credit account ;
+
+The third version comes closest to the promise of Forth. The highest
+level word expresses exactly what’s happening conceptually, showing only
+the main path. Each of the subordinate words has its own error exit, not
+cluttering the reading of the main word. One test does not have to
+invoke the next test.
+
+Also is designed around the fact that the user will make requests by
+pressing buttons on a keypad. No conditions are necessary. One button
+will initiate a withdrawal, another a deposit. This approach readily
+accommodates design changes later, such as the addition of a feature to
+transfer funds. (And this approach does not thereby become dependent on
+hardware. Details of the interface to the keypad may be hidden within
+the keypad lexicon, and .)
+
+Of course, Forth will allow you to take any of the three approaches.
+Which do you prefer?
