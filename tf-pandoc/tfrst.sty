@@ -16,6 +16,8 @@
    :alt: #2
 
    #2
+
+----- CUT HERE, kuma35 -----
 \end{verbatim}
 }
 \newcommand{\wepsfiga}[2]{\wepsfig{#1}{#2}}
@@ -25,9 +27,13 @@
 \newcommand{\wepsfigx}[1]{\wepsfig{#1}{#1}}
 \newcommand{\wepsfigxx}[1]{\wepsfig{#1}{#1}}
 \newcommand{\wepsfigp}[2]{\wepsfig{#1}{#2}}
-%\newcommand{\wtexfigt}[2]{\wepsfig{#1}{#2}}
-%\newcommand{\wtexfigb}[2]{\wepsfig{#1}{#2}}
 
+\newcommand{\wtexfigt}[2]{\wepsfig{tex-#1}{#2}}
+\newcommand{\wtexfigb}[2]{\wepsfig{tex-#1}{#2}}
+
+% for sphinx reST
+\renewcommand{\ref}{1}{[#1]_}
+\renewcommand{\label}{1}{[#1]}
 
 %% indentation
 
