@@ -345,21 +345,21 @@ The input-stream comment indicates what words and/or strings are
 presumed to be in the input stream. Table \ref{tab-5-3} lists the
 designations used for input stream arguments.
 
-\begin{table*}[hhhh]
-\caption{Input-stream comment designations.}
-\label{tab-5-3}
-\vspace{1ex}\blackline{1ex}
-\centerline{\begin{tabular}{ll}
-c     &  single character, blank-delimited \\
-name  &  sequence of characters, blank delimited \\
-text  &  sequence of characters, delimited by non-blank \\
-\end{tabular}}
+\begin{verbatim}
+.. table:: [tab-5-3] Input-stream comment designations.
+   :widths: auto
 
-\medskip
-Follow ``text'' with the actual delimiter required; e.g.:
-\forth{text"} or \forth{text)}
-\vspace{1ex}\blackline{0ex}
-\end{table*}
+   ==== ==============================================
+   c    single character, blank-delimited
+   name sequence of characters, blank delimited
+   text sequence of characters, delimited by non-blank
+   ==== ==============================================
+
+
+Follow ``text'' with the actual delimiter required; e.g.: "text" or text
+
+----- CUT HERE, kuma35 -----
+\end{verbatim}
 %% Note: AH : typewriter style footnote with *
 %% Note: AH : text" and text) are literal examples,
 %%    and should be slanted or such.
