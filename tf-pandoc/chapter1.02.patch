@@ -1,0 +1,19 @@
+diff --git a/tf-pandoc/chapter1.02.tex b/tf-pandoc/chapter1.02.tex
+index 4e84316..778de2f 100644
+--- a/tf-pandoc/chapter1.02.tex
++++ b/tf-pandoc/chapter1.02.tex
+@@ -10,12 +10,10 @@ decomposition:
+ %%!!!this is to avoid an error
+ %% \makeatletter\@newlistfalse\makeatother
+ %%!!!
+-\ifeightyfour\begin{list}{\alph{enumi}.}{\usecounter{enumi}}
+-\else\begin{enumerate}\fi
++\begin{enumerate}
+ \item possible (though currently unplanned) reuse, and
+ \item possible (though unplanned) change.
+-\ifeightyfour\end{list}
+-\else\end{enumerate}\fi
++\end{enumerate}
+ \end{tfquot}
+ This new view of a ``module'' is different than the traditional
+ view. This ``module'' is a collection of routines, usually very

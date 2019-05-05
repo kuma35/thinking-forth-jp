@@ -1,0 +1,23 @@
+diff --git a/tf-pandoc/chapter5.02.tex b/tf-pandoc/chapter5.02.tex
+index 4bf7865..19cc1b2 100644
+--- a/tf-pandoc/chapter5.02.tex
++++ b/tf-pandoc/chapter5.02.tex
+@@ -229,18 +229,10 @@ of definitions
+ 
+ The last position of each line should be blank except for:
+ %%!!!te original used a) b) enumeration here.
+-\ifeightyfour
+-\begin{list}{\alph{enumi})}{\usecounter{enumi}}
+-\else
+ \begin{enumerate}
+-\fi
+ \item quoted strings that continue onto the next line, or
+ \item the end of a comment.
+-\ifeightyfour
+-\end{list}
+-\else
+ \end{enumerate}
+-\fi
+ A comment that begins with \forth{\bs} may continue right to the end
+ of the line.  Also, a comment that begins with \forth{(} may have its
+ delimiting right parenthesis in the last column.
