@@ -81,9 +81,32 @@ SRCS = $(SRC_TIT) $(SRC_CPY) $(SRC_BIO) $(SRC_QUO) $(SRC_PRE04) $(SRC_PRE94) \
 OBJS=$(SRCS:.tex=.rst)
  $(warning $(OBJS))
 
+SPX_DIR = ../sphinx
+
+TGTS= $(SPX_DIR)/title.rst \
+	$(SPX_DIR)/copyright.rst \
+	$(SPX_DIR)/bio.rst \
+	$(SPX_DIR)/quotation.rst \
+	$(SPX_DIR)/preface2004.rst \
+	$(SPX_DIR)/preface94.rst \
+	$(SPX_DIR)/preface.rst \
+	$(SPX_DIR)/tocpages.rst \
+	$(SPX_DIR)/chapter1.rst 	$(SPX_DIR)/chapter2.rst \
+	$(SPX_DIR)/chapter3.rst 	$(SPX_DIR)/chapter4.rst \
+	$(SPX_DIR)/chapter5.rst 	$(SPX_DIR)/chapter6.rst \
+	$(SPX_DIR)/chapter7.rst 	$(SPX_DIR)/chapter8.rst \
+	$(SPX_DIR)/epilog.rst \
+	$(SPX_DIR)/appendixa.rst $(SPX_DIR)/appendixb.rst \
+	$(SPX_DIR)/appendixc.rst $(SPX_DIR)/appendixd.rst \
+	$(SPX_DIR)/appendixe.rst
+
 .PHONY : all
 
-all:  $(OBJS)
+#all:  $(OBJS)
+all:  $(TGTS)
+
+clean:
+	rm -f $(OBJS)
 
 %.rst : %.tex
 	$(SED) -f tex-header.sed $<  |  $(PANDOC)   -f latex -t rst | $(AWK) -f to_sphinx.awk  > $@
@@ -97,3 +120,70 @@ all:  $(OBJS)
 #%.rst : %.p.rst
 #	$(AWK) -f to_sphinx.awk $< > $@
 #
+
+$(SPX_DIR)/title.rst: $(SRC_TIT:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/copyright.rst: $(SRC_CPY:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/bio.rst: $(SRC_BIO:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/quotation.rst: $(SRC_QUO:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/preface2004.rst: $(SRC_PRE04:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/preface94.rst: $(SRC_PRE94:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/preface.rst: $(SRC_PRE:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/tocpages.rst: $(SRC_TOC:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/chapter1.rst: $(SRC_CH1:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/chapter2.rst: $(SRC_CH2:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/chapter3.rst: $(SRC_CH3:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/chapter4.rst: $(SRC_CH4:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/chapter5.rst: $(SRC_CH5:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/chapter6.rst: $(SRC_CH6:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/chapter7.rst: $(SRC_CH7:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/chapter8.rst: $(SRC_CH8:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/epilog.rst: $(SRC_EPI:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/appendixa.rst: $(SRC_APPA:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/appendixb.rst: $(SRC_APPB:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/appendixc.rst: $(SRC_APPC:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/appendixd.rst: $(SRC_APPD:.tex=.rst)
+	cat $+ > $@
+
+$(SPX_DIR)/appendixe.rst: $(SRC_APPE:.tex=.rst)
+	cat $+ > $@
+
