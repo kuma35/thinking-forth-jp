@@ -42,4 +42,20 @@
     next
 }
 
+/^[ ]+\.\.[ ](code-block)::/ {
+    match($0,  /^[ \t]+/)
+    lead_count = RLENGTH
+    sub(/^[ \t]+/, "")
+    print	# print ..figure:: itself.
+    getline
+    while (!match($0, "----- CUT HERE, kuma35 -----")) {
+	for (i = 0; i < lead_count; i++ ) { # max delete lead_count spaces.
+	    sub(/^[ \t]/, "")
+	}
+	print "   " $0
+	getline
+    }
+    next
+}
+
 { print  }
