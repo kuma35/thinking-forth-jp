@@ -1,5 +1,6 @@
 *~
 #*#
 sphinx/_build
+*.??.rst
 
 
