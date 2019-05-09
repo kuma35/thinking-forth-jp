@@ -1,0 +1,40 @@
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+  \pdffalse % we are not running PDFLaTeX
+\else
+  \pdfoutput=1 % we are running PDFLaTeX
+  \pdftrue
+\fi
+
+\input{tfoptions}
+
+\ifpdf
+\documentclass[10pt,\tflang,pdftex]{book}
+\else
+\documentclass[10pt,\tflang,dvips]{book}
+\fi
+\usepackage{pst-all}
+\usepackage{pst-blur}
+\usepackage{pst-grad}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{graphics}
+\usepackage{framed}
+\usepackage{babel}
+\usepackage{fancyvrb}
+%\usepackage[0.21]{listings}
+\usepackage{longtable}
+\usepackage[colorlinks=true,linkcolor=\linkcolor,citecolor=\linkcolor,urlcolor=\linkcolor]{hyperref}
+\usepackage{geometry}
+\usepackage{mdwlist}
+\usepackage{makeidx}
+\usepackage[cmbtt]{bold-extra}
+\usepackage[\tfoptions]{tf}
+\usepackage{array}
+
+%\documentclass[autodetect-engine,dvipdfmx-if-dvi,ja=standard]{bxjsarticle}
+\begin{document}
+\begin{figure*}
+\input{fig1-1}
+\end{figure*}
+\end{document}
