@@ -23,7 +23,7 @@ SRC_QUO = quotation.00.tex
 SRC_PRE04 = preface2004.00.tex
 SRC_PRE94 = preface94.00.tex
 SRC_PRE = preface.00.tex
-SRC_TOC = tocpages.00.tex tocpages.01.tex
+# SRC_TOC = tocpages.00.tex tocpages.01.tex
 # chapter1.02.tex (chapter1.02.patch)
 SRC_CH1 =  chapter1.00.tex chapter1.01.tex chapter1.02.tex chapter1.03.tex \
 	chapter1.04.tex chapter1.05.tex chapter1.06.tex chapter1.07.tex \
@@ -73,8 +73,13 @@ SRC_TFO = tfoptions.00.tex
 # 2019/04/25 19:12 pandoc error
 SRC_TF ="" # thinking-forth.00.tex thinking-forth.01.tex
 
+#SRCS = $(SRC_TIT) $(SRC_CPY) $(SRC_BIO) $(SRC_QUO) $(SRC_PRE04) $(SRC_PRE94) \
+#	$(SRC_PRE) $(SRC_TOC) $(SRC_CH1) $(SRC_CH2) $(SRC_CH3) $(SRC_CH4) \
+#	$(SRC_CH5) $(SRC_CH6) $(SRC_CH7) $(SRC_CH8) $(SRC_EPI) $(SRC_APPA) \
+#	$(SRC_APPB) $(SRC_APPC) $(SRC_APPD) $(SRC_APPE)
+# delete SRC_TOC
 SRCS = $(SRC_TIT) $(SRC_CPY) $(SRC_BIO) $(SRC_QUO) $(SRC_PRE04) $(SRC_PRE94) \
-	$(SRC_PRE) $(SRC_TOC) $(SRC_CH1) $(SRC_CH2) $(SRC_CH3) $(SRC_CH4) \
+	$(SRC_PRE) $(SRC_CH1) $(SRC_CH2) $(SRC_CH3) $(SRC_CH4) \
 	$(SRC_CH5) $(SRC_CH6) $(SRC_CH7) $(SRC_CH8) $(SRC_EPI) $(SRC_APPA) \
 	$(SRC_APPB) $(SRC_APPC) $(SRC_APPD) $(SRC_APPE)
 
@@ -83,6 +88,7 @@ OBJS=$(SRCS:.tex=.rst)
 
 SPX_DIR = ../sphinx
 
+# delete $(SPX_DIR)/tocpages.rst
 TGTS= $(SPX_DIR)/title.rst \
 	$(SPX_DIR)/copyright.rst \
 	$(SPX_DIR)/bio.rst \
@@ -90,7 +96,6 @@ TGTS= $(SPX_DIR)/title.rst \
 	$(SPX_DIR)/preface2004.rst \
 	$(SPX_DIR)/preface94.rst \
 	$(SPX_DIR)/preface.rst \
-	$(SPX_DIR)/tocpages.rst \
 	$(SPX_DIR)/chapter1.rst 	$(SPX_DIR)/chapter2.rst \
 	$(SPX_DIR)/chapter3.rst 	$(SPX_DIR)/chapter4.rst \
 	$(SPX_DIR)/chapter5.rst 	$(SPX_DIR)/chapter6.rst \
@@ -106,9 +111,9 @@ TGTS= $(SPX_DIR)/title.rst \
 all:  $(TGTS)
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(TGTS)
 
-%.rst : %.tex
+%.rst : %.tex tfrst.sty tex-header.sed to_sphinx.awk
 	$(SED) -f tex-header.sed $<  |  $(PANDOC)   -f latex -t rst | $(AWK) -f to_sphinx.awk  > $@
 
 #%.s.rst: %.tex
@@ -142,8 +147,8 @@ $(SPX_DIR)/preface94.rst: $(SRC_PRE94:.tex=.rst)
 $(SPX_DIR)/preface.rst: $(SRC_PRE:.tex=.rst)
 	cat $+ > $@
 
-$(SPX_DIR)/tocpages.rst: $(SRC_TOC:.tex=.rst)
-	cat $+ > $@
+#$(SPX_DIR)/tocpages.rst: $(SRC_TOC:.tex=.rst)
+#	cat $+ > $@
 
 $(SPX_DIR)/chapter1.rst: $(SRC_CH1:.tex=.rst)
 	cat $+ > $@
