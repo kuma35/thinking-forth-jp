@@ -7,8 +7,46 @@
 
 \ifeightyfour
 \eightyfourfalse
+\ifofour
+\ofourtrue
 
+\usepackage{pst-all}
+\usepackage{pst-blur}
+\usepackage{pst-grad}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{graphics}
+\usepackage{framed}
+\usepackage{babel}
+\usepackage{fancyvrb}
+%\usepackage[0.21]{listings}
+\usepackage{longtable}
+%\usepackage[colorlinks=true,linkcolor=\linkcolor,citecolor=\linkcolor,urlcolor=\linkcolor]{hyperref}
+%\usepackage{geometry}
+\usepackage{mdwlist}
+\usepackage{makeidx}
+\usepackage[cmbtt]{bold-extra}
+%\usepackage[\tfoptions]{tf}
+
+% Fonts
+
+%\usepackage{times}
+%\renewcommand{\poorbf}[1]{\textbf{#1}}
+
+%\lstloadlanguages{Forth}
+%\input{epsf}
+\usepackage{array}
+
+\DeclareGraphicsExtensions{.png}
+
+
+% Forth logo
 \newcommand{\Forth}{Forth}
+
+% Forth words
+\newcommand{\forth}[1]{#1}
+\newcommand{\forthb}[1]{\poorbf{#1}}
+\newcommand{\code}[1]{#1}
 
 \newcommand{\wepsfig}[2]{
 \begin{verbatim} 
@@ -31,6 +69,6 @@
 \newcommand{\wtexfigt}[2]{\wepsfig{tex-#1}{#2}}
 \newcommand{\wtexfigb}[2]{\wepsfig{tex-#1}{#2}}
 
-%% indentation
+
 
 %\makeatother
