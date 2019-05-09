@@ -1,0 +1,45 @@
+diff --git a/tf-pandoc/chapter1.01.tex b/tf-pandoc/chapter1.01.tex
+index fc7aa28..5d763ee 100644
+--- a/tf-pandoc/chapter1.01.tex
++++ b/tf-pandoc/chapter1.01.tex
+@@ -135,9 +135,7 @@ you use ``GO TO'' commands%
+ When these capabilities are used in the most brute-force way, programs
+ tend to look like the jumble you see in \Fig{fig1-1}.
+ 
+-\wtexfigt{fig1-1}{Unstructured code using
+-jumps\index{J!Jump instructions} or
+-``GOTOs.''\index{G!GO TO commands}}
++\wtexfigt{fig1-1}{Unstructured code using jumps\index{J!Jump instructions} or ``GOTOs.''\index{G!GO TO commands}}
+ 
+ This approach, still widely used in languages like
+ FORTRAN\index{F!FORTRAN} and BASIC\index{B!BASIC},
+@@ -279,8 +277,7 @@ writing code that cannot be used.%
+ \index{T!Top-down design|)}%
+ \index{S!Structured programming!top-down design|)}
+ 
+-\wepsfigp{img1-010}{Software patches are ugly and
+-conceal structural weaknesses.}
++\wepsfigp{img1-010}{Software patches are ugly and conceal structural weaknesses.}
+ 
+ \subsection{Subroutines}%
+ \index{S!Subroutines|(}%
+@@ -398,8 +395,7 @@ to the next lower level.%
+ \index{S!Structured programming!successive refinement|)}%
+ \index{S!Successive refinement|)}
+ 
+-\wepsfigp{img1-013}{Tobias, I think you've carried the successive
+-refinement of that module far enough.}
++\wepsfigp{img1-013}{Tobias, I think you've carried the successive refinement of that module far enough.}
+ 
+ \subsection{Structured Design}
+ 
+@@ -537,8 +533,7 @@ representation was invented, called the ``structure chart.''%
+ for ``hierarchical input-process-output.'') Structure charts include
+ two parts, a hierarchy chart and an input-output chart.
+ 
+-\wtexfigt{fig1-6}{The form of a structured chart, from ``Structured Design,''
+-\emph{IBM Systems Journal.}}
++\wtexfigt{fig1-6}{The form of a structured chart, from ``Structured Design,'' \emph{IBM Systems Journal.}}
+ 
+ \Fig{fig1-6} shows these two parts. The main program, called DOIT,
+ consists of three subordinate modules, which in turn invoke the other
