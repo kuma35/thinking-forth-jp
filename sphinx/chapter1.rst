@@ -169,7 +169,7 @@ Modularity
 A significant advance arose with the invention of “Structured
 Programming,” a methodology based on the observation that large problems
 are more easily solved if treated as collections of smaller problems
-:raw-latex:`\cite{dahl72}`. Each piece is called a *module*. Programs
+[dahl72]_. Each piece is called a *module*. Programs
 consist of modules within modules.
 
 Structured programming eliminates spaghetti coding by insisting that
@@ -375,7 +375,7 @@ Successive Refinement
 ---------------------
 
 An approach that relies heavily on subroutines is called “Successive
-Refinement” :raw-latex:`\cite{wirth71}`. The idea is that you begin by
+Refinement” [wirth71]_. The idea is that you begin by
 writing a skeletal version of your program using natural names for
 procedures for data structures. Then you write versions of each of the
 named procedures. You continue this process to greater levels of detail
@@ -424,7 +424,7 @@ Scholars naturally responded by placing more emphasis on design. “Next
 time let’s think things out better.”
 
 About this time a new philosophy arose, described in an article called
-“Structured Design” :raw-latex:`\cite{stevens74-1}`. One of its
+“Structured Design” [stevens74-1]_. One of its
 principles is stated in this paragraph:
 
 Simplicity is the primary measurement recommended for evaluating
@@ -561,7 +561,7 @@ won’t have so disastrous an effect.
 Information-Hiding 
 -------------------
 
-In a paper :raw-latex:`\cite{parnas72}` published back in 1972, Dr.
+In a paper [parnas72]_ published back in 1972, Dr.
 showed that the criteria for decomposing modules should not be steps in
 the process, but rather pieces of information that might possibly
 change. Modules should be used to hide such information.
@@ -645,7 +645,7 @@ This new view of a “module” is different than the traditional view. This
 hide information about some aspect of the problem.
 
 Two other writers describe the same idea in a different way, using the
-term “data abstraction” :raw-latex:`\cite{liskov75}`. Their example is a
+term “data abstraction” [liskov75]_. Their example is a
 push-down stack. The stack “module” consists of routines to initialize
 the stack, push a value onto the stack, pop a value from the stack, and
 determine whether the stack is empty. This “multiprocedure module” hides
@@ -655,7 +655,7 @@ they are interdependent. You can’t change the method for pushing a value
 without also changing the method for popping a value.
 
 The word *uses* plays an important role in this concept. writes in a
-later paper :raw-latex:`\cite{parnas79}`:
+later paper [parnas79]_:
 
 Systems that have achieved a certain “elegance”… have done so by having
 parts of the system use other parts…
@@ -942,7 +942,7 @@ Forth programmers generally prefer to keep the program under their own
 control and not to employ any techniques to physically hide data
 structures. (Nevertheless a brilliantly simple technique for adding
 Modula-type modules to Forth has been implemented, in only three lines
-of code, by :raw-latex:`\cite{shorre71}`.)
+of code, by [shorre71]_.)
 Hiding the Construction of Data Structures
 ==========================================
 
@@ -1140,7 +1140,7 @@ toolbox” of small words to write simple programs for experimentation. As
 new equipment appears, new lexicons are added.
 
 has described the problem of using an off-the-shelf special-purpose
-procedure library in the laboratory :raw-latex:`\cite{bern83}`: “The
+procedure library in the laboratory [bern83]_: “The
 computer, not the user, dominates the experiment.” But with Forth, he
 writes, “the computer actually encourages scientists to modify, repair,
 and improve the software, to experiment with and characterize their
@@ -1236,8 +1236,8 @@ Although Forth is an interpretive language, it executes compiled code.
 Therefore it runs about ten times faster than interpretive BASIC.
 
 Forth is optimized for the execution of words by means of a technique
-known as “threaded code” :raw-latex:`\cite{bell72}`,
-:raw-latex:`\cite{dewar}`, :raw-latex:`\cite{kogge82}`. The penalty for
+known as “threaded code” [bell72]_,
+[dewar]_, [kogge82]_. The penalty for
 modularizing into very small pieces of code is relatively slight.
 
 It does not run as fast as assembler code because the inner interpreter
@@ -1324,7 +1324,7 @@ how powerful, uses only two bytes.
 
 One of the most exciting new territories for Forth is the production of
 Forth chips such as the Rockwell R65F11 Forth-based microprocessor
-:raw-latex:`\cite{dumse}`. The chip includes not only hardware features
+[dumse]_. The chip includes not only hardware features
 but also the run-time portions of the Forth language and operating
 system for dedicated applications. Only Forth’s architecture and
 compactness make Forth-based micros possible.

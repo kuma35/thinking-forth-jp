@@ -31,7 +31,7 @@ Factoring Techniques
 If a module seems almost, but not quite, useful from a second place in
 the system, try to identify and isolate the useful subfunction. The
 remainder of the module might be incorporated in its original caller
-(from “*Structured Design*” :raw-latex:`\cite{stevens74-6}`).
+(from “*Structured Design*” [stevens74-6]_).
 
 The “useful subfunction” of course becomes the newly factored
 definition.What about the part that “isn’t quite useful”? That depends
@@ -385,7 +385,7 @@ about 50–50 between one-line and two-line definitions.)
 
 Psychological tests have shown that the human mind can only focus its
 conscious attention on seven things, plus or minus two, at a time
-:raw-latex:`\cite{miller56}`. Yet all the while, day and night, the vast
+[miller56]_. Yet all the while, day and night, the vast
 resources of the mind are subconsciously storing immense amounts of
 data, making connections and associations and solving problems.
 
@@ -577,7 +577,7 @@ structure of a dictionary definition. If you were to use instead of the
 word , you would lose transportability if you ever converted to a Forth
 system in which the heads were separated from the bodies. (This is one
 of a set of words suggested by , and included as an Experimental
-Proposal in the Forth-83 Standard :raw-latex:`\cite{harris83}`.)
+Proposal in the Forth-83 Standard [harris83]_.)
 
 Here’s a group of definitions that might be used in writing an editor:
 

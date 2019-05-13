@@ -582,7 +582,7 @@ behaves safely as a function.
 Programmers unaccustomed to a language in which data can be passed
 implicitly don’t always utilize the stack as fully as they should.
 suggests the reason may be that beginning Forth users don’t trust the
-stack :raw-latex:`\cite{ham83}`. He admits to initially feeling safer
+stack [ham83]_. He admits to initially feeling safer
 about storing values into variables than leaving them on the stack. “No
 telling *what* might happen with all that thrashing about on the stack,”
 he felt.
@@ -951,7 +951,7 @@ A single variable can express a single condition, either a flag, a
 value, or the address of a function.
 
 A collection of conditions together represent the *state* of the
-application or of a particular component :raw-latex:`\cite{slater83}`.
+application or of a particular component [slater83]_.
 Some applications require the ability to save a current state, then
 later restore it, or perhaps to have a number of alternating states.
 

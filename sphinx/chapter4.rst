@@ -34,7 +34,7 @@ techniques.
 
 has written several books on problem solving, especially of the
 mathematical problem. The most accessible of these is *How to Solve It*
-:raw-latex:`\cite{polya}`. Although solving a mathematical problem isn’t
+[polya]_. Although solving a mathematical problem isn’t
 quite the same as solving a software problem, you’ll find some valuable
 suggestions there.
 
@@ -265,7 +265,7 @@ symbols) and subconscious thought (which correlates perceptions to
 previously stored information, recombining and relinking knowledge in
 new and useful ways).
 
-:raw-latex:`\cite{hart75}` explains the difficulty of solving a large
+[hart75]_ explains the difficulty of solving a large
 problem by means of logic:
 
 A huge load is placed on that one small function of the brain that can
@@ -695,7 +695,7 @@ was set, as we’ll see later on.
 
 There will be times when looking ahead in the input stream is desirable,
 even necessary. (The proposed TO solution is often implemented this way
-:raw-latex:`\cite{rosen82}`.)
+[rosen82]_.)
 
 But generally, avoid expectations. You’re setting yourself up for
 disappointment.
@@ -794,7 +794,7 @@ specific to individual applications. For instance:
    like a form of notation that lets you describe the behavior of the
    output pins in logical terms, based on the states of the input pins.
    A PAL programmer was written with wonderful simplicity in Forth by
-   :raw-latex:`\cite{stolowitz82}`.
+   [stolowitz82]_.
 
 #. If you must create a series of user menus to drive your application,
    you might want to first develop a menu-compiling language. The words

@@ -511,7 +511,7 @@ We can solve this problem more elegantly by using a “case statement.”
 
 Here’s the same definition, rewritten using the “ case statement”
 format, named after Dr. , the gentleman who proposed it
-:raw-latex:`\cite{eaker}`.
+[eaker]_.
 
 .. code-block:: none
    

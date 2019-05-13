@@ -54,7 +54,7 @@ The Iterative Approach
 ======================
 
 The iterative approach was explained eloquently by
-:raw-latex:`\cite{harris81}`. He begins by describing the scientific
+[harris81]_. He begins by describing the scientific
 method:
 
 … a never-ending cycle of discovery and refinement. It first studies a
@@ -593,7 +593,7 @@ implementation of the application.
 Develop the conceptual model by imagining the data traveling through and
 being acted upon by the parts of the model.
 
-A discipline called *structured analysis* :raw-latex:`\cite{weinberg80}`
+A discipline called *structured analysis* [weinberg80]_
 offers some techniques for describing interfaces in ways that your
 clients will easily understand. One of these techniques is called the
 “data-flow diagram” (DFD), which mentioned.
@@ -1173,7 +1173,7 @@ expression?” They get annoyed. They want you to do what they told you to
 do.
 
 took this attitude when he redesigned Forth
-:raw-latex:`\cite{stuart80}`. He didn’t like the input buffer, so he
+[stuart80]_. He didn’t like the input buffer, so he
 implemented Forth without it, and discovered he didn’t really need an
 input buffer.
 
@@ -1288,7 +1288,7 @@ project being as easy as you think it will be.
 
 How can you improve your chances of judging time requirements correctly?
 Many fine books have been written on this topic, notably *The Mythical
-Man-Month* by , Jr. :raw-latex:`\cite{brooks75}`. I have little to add
+Man-Month* by , Jr. [brooks75]_. I have little to add
 to this body of knowledge except for some personal observations.
 
 #. Don’t guess on a total. Break the problem up into the smallest

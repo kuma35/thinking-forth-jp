@@ -114,7 +114,7 @@ clean:
 	rm -f $(OBJS) $(TGTS)
 
 %.rst : %.tex tfrst.sty tex-header.sed to_sphinx.awk
-	$(SED) -f tex-header.sed $<  |  $(PANDOC)   -f latex -t rst | $(AWK) -f to_sphinx.awk  > $@
+	$(SED) -f tex-header.sed $<  |  $(PANDOC)   -f latex -t rst |  $(SED) -rf sphinx_filter.sed | $(AWK) -f to_sphinx.awk  > $@
 
 #%.s.rst: %.tex
 #	$(SED) -f tex-header.sed $<  > $@

@@ -607,7 +607,7 @@ out, into another screen.)
 Leaving plenty of room at the outset makes later additions more
 pleasant. One writer recommends that on the initial pass, the screen
 should contain about 20–40 percent code and 80–60 percent whitespace
-:raw-latex:`\cite{stevenson81}`.
+[stevenson81]_.
 
 Don’t skip a line between each definition. You may, however, skip a line
 between *groups* of definitions.
@@ -1504,7 +1504,7 @@ Choosing Names: The Art
 
 Besides a mathematical inclination, an exceptionally good mastery of
 one’s native tongue is the most vital asset of a competent programmer
-*(Prof. :raw-latex:`\cite{dijkstra82}`).*
+*(Prof. [dijkstra82]_).*
 
 We’ve talked about the significance of using names to symbolize ideas
 and objects in the application. The choosing of names turns out to be an
@@ -1549,7 +1549,7 @@ Suit the action to the word, the word to the action *(, Hamlet,
 Act III).*
 
 , a Forth consultant and author, suggests that the most important Forth
-development tool is a good thesaurus :raw-latex:`\cite{laxen}`.
+development tool is a good thesaurus [laxen]_.
 
 Sometimes you’ll think of an adequate word for a definition, but it
 doesn’t feel quite right. It may be months later before you realize that
