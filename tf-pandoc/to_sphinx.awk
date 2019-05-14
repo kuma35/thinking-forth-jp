@@ -39,6 +39,9 @@
 	print
 	getline
     }
+    print ""
+    print ".."
+    print ""
     next
 }
 
@@ -55,6 +58,9 @@
 	print "   " $0
 	getline
     }
+    print ""
+    print ".."
+    print ""
     next
 }
 
