@@ -6,7 +6,7 @@
 # *.rst is for Sphinx reST.
 #  YOU DIFF *.rst and sphinx/*.rst then update sphinx *.rst and po files.
 #
-AWK = awk
+AWK = gawk
 SED = sed
 PANDOC = pandoc
 
@@ -28,9 +28,11 @@ SRC_PRE = preface.00.tex
 SRC_CH1 =  chapter1.00.tex chapter1.01.tex chapter1.02.tex chapter1.03.tex \
 	chapter1.04.tex chapter1.05.tex chapter1.06.tex chapter1.07.tex \
 	chapter1.08.tex chapter1.09.tex chapter1.10.tex
+# chapter1.11.tex is only blank line :-)
 SRC_CH2 = chapter2.00.tex chapter2.01.tex chapter2.02.tex chapter2.03.tex \
 	chapter2.04.tex chapter2.05.tex chapter2.06.tex chapter2.07.tex \
 	chapter2.08.tex chapter2.09.tex chapter2.10.tex chapter2.11.tex
+# chapter2.12.tex is comment: % end of chapter two
 SRC_CH3 = chapter3.00.tex chapter3.01.tex chapter3.02.tex chapter3.03.tex \
 	chapter3.04.tex chapter3.05.tex chapter3.06.tex chapter3.07.tex \
 	chapter3.08.tex chapter3.09.tex
@@ -42,11 +44,14 @@ SRC_CH4 = chapter4.00.tex chapter4.01.tex chapter4.02.tex chapter4.03.tex \
 SRC_CH5 = chapter5.00.tex chapter5.01.tex chapter5.02.tex  chapter5.03.tex \
 	chapter5.04.tex chapter5.05.tex chapter5.06.tex chapter5.07.tex \
 	chapter5.08.tex
+# chapter5.09.tex is only comment: %Page 172 in first edition.
 SRC_CH6 = chapter6.00.tex chapter6.01.tex chapter6.02.tex chapter6.03.tex \
 	chapter6.04.tex
+# chapter6.05.tex only blank line.
 SRC_CH7 = chapter7.00.tex chapter7.01.tex chapter7.02.tex chapter7.03.tex \
 	chapter7.04.tex chapter7.05.tex chapter7.06.tex chapter7.07.tex \
 	chapter7.08.tex chapter7.09.tex chapter7.10.tex chapter7.11.tex
+#chapter7.12.tex only blank line
 SRC_CH8 = chapter8.00.tex chapter8.01.tex chapter8.02.tex chapter8.03.tex \
 	chapter8.04.tex chapter8.05.tex
 SRC_EPI = epilog.00.tex
@@ -73,6 +78,15 @@ SRC_TFO = tfoptions.00.tex
 # 2019/04/25 19:12 pandoc error
 SRC_TF ="" # thinking-forth.00.tex thinking-forth.01.tex
 
+REF_CH1 = chapter1.re.tex
+REF_CH2 = chapter2.re.tex
+# nothing REF_CH3
+REF_CH4 = chapter4.re.tex
+REF_CH5 = chapter5.re.tex
+REF_CH6 = chapter6.re.tex
+REF_CH7 = chapter7.re.tex
+REF_CH8 = chapter8.re.tex
+
 #SRCS = $(SRC_TIT) $(SRC_CPY) $(SRC_BIO) $(SRC_QUO) $(SRC_PRE04) $(SRC_PRE94) \
 #	$(SRC_PRE) $(SRC_TOC) $(SRC_CH1) $(SRC_CH2) $(SRC_CH3) $(SRC_CH4) \
 #	$(SRC_CH5) $(SRC_CH6) $(SRC_CH7) $(SRC_CH8) $(SRC_EPI) $(SRC_APPA) \
@@ -83,8 +97,14 @@ SRCS = $(SRC_TIT) $(SRC_CPY) $(SRC_BIO) $(SRC_QUO) $(SRC_PRE04) $(SRC_PRE94) \
 	$(SRC_CH5) $(SRC_CH6) $(SRC_CH7) $(SRC_CH8) $(SRC_EPI) $(SRC_APPA) \
 	$(SRC_APPB) $(SRC_APPC) $(SRC_APPD) $(SRC_APPE)
 
-OBJS=$(SRCS:.tex=.rst)
+SRC_REF = $(REF_CH1) $(REF_CH2) $(REF_CH4) $(REF_CH5) $(REF_CH6) $(REF_CH7) \
+	$(REF_CH8)
+# nothing REF_CH3
+
+OBJS=$(SRCS:.tex=.rst) $(SRC_REF:.tex=.rst)
  $(warning $(OBJS))
+
+RST_REF = $(SRC_REF:.tex=.rst)
 
 SPX_DIR = ../sphinx
 
@@ -112,6 +132,30 @@ all:  $(TGTS)
 
 clean:
 	rm -f $(OBJS) $(TGTS)
+
+$(REF_CH1:.tex=.rst) : $(REF_CH1)
+	$(AWK) -f ref-sphinx.awk $< > $@
+
+$(REF_CH1:.tex=.rst) : $(REF_CH1)
+	$(AWK) -f ref-sphinx.awk $< > $@
+
+$(REF_CH2:.tex=.rst) : $(REF_CH2)
+	$(AWK) -f ref-sphinx.awk $< > $@
+
+$(REF_CH4:.tex=.rst) : $(REF_CH4)
+	$(AWK) -f ref-sphinx.awk $< > $@
+
+$(REF_CH5:.tex=.rst) : $(REF_CH5)
+	$(AWK) -f ref-sphinx.awk $< > $@
+
+$(REF_CH6:.tex=.rst) : $(REF_CH6)
+	$(AWK) -f ref-sphinx.awk $< > $@
+
+$(REF_CH7:.tex=.rst) : $(REF_CH7)
+	$(AWK) -f ref-sphinx.awk $< > $@
+
+$(REF_CH8:.tex=.rst) : $(REF_CH8)
+	$(AWK) -f ref-sphinx.awk $< > $@
 
 %.rst : %.tex tfrst.sty tex-header.sed sphinx_filter.sed to_sphinx.awk
 	$(SED) -f tex-header.sed $<  |  $(PANDOC)   -f latex -t rst |  $(SED) -rf sphinx_filter.sed | $(AWK) -f to_sphinx.awk  > $@
@@ -150,28 +194,29 @@ $(SPX_DIR)/preface.rst: $(SRC_PRE:.tex=.rst)
 #$(SPX_DIR)/tocpages.rst: $(SRC_TOC:.tex=.rst)
 #	cat $+ > $@
 
-$(SPX_DIR)/chapter1.rst: $(SRC_CH1:.tex=.rst)
+$(SPX_DIR)/chapter1.rst: $(SRC_CH1:.tex=.rst) $(REF_CH1:.tex=.rst)
 	cat $+ > $@
 
-$(SPX_DIR)/chapter2.rst: $(SRC_CH2:.tex=.rst)
+$(SPX_DIR)/chapter2.rst: $(SRC_CH2:.tex=.rst) $(REF_CH2:.tex=.rst)
 	cat $+ > $@
 
+# noting REF_CH3
 $(SPX_DIR)/chapter3.rst: $(SRC_CH3:.tex=.rst)
 	cat $+ > $@
 
-$(SPX_DIR)/chapter4.rst: $(SRC_CH4:.tex=.rst)
+$(SPX_DIR)/chapter4.rst: $(SRC_CH4:.tex=.rst) $(REF_CH4:.tex=.rst)
 	cat $+ > $@
 
-$(SPX_DIR)/chapter5.rst: $(SRC_CH5:.tex=.rst)
+$(SPX_DIR)/chapter5.rst: $(SRC_CH5:.tex=.rst) $(REF_CH5:.tex=.rst)
 	cat $+ > $@
 
-$(SPX_DIR)/chapter6.rst: $(SRC_CH6:.tex=.rst)
+$(SPX_DIR)/chapter6.rst: $(SRC_CH6:.tex=.rst) $(REF_CH6:.tex=.rst)
 	cat $+ > $@
 
-$(SPX_DIR)/chapter7.rst: $(SRC_CH7:.tex=.rst)
+$(SPX_DIR)/chapter7.rst: $(SRC_CH7:.tex=.rst) $(REF_CH7:.tex=.rst)
 	cat $+ > $@
 
-$(SPX_DIR)/chapter8.rst: $(SRC_CH8:.tex=.rst)
+$(SPX_DIR)/chapter8.rst: $(SRC_CH8:.tex=.rst) $(REF_CH8:.tex=.rst)
 	cat $+ > $@
 
 $(SPX_DIR)/epilog.rst: $(SRC_EPI:.tex=.rst)
