@@ -17,6 +17,9 @@ tools and output.
 - GNU Awk 4.1.4, API: 1.1 (GNU MPFR 4.0.1, GNU MP 6.1.2)
 
 # Setup
+1. cd tf-pandoc
+2. run tf-split.sh
+3. [generate fig*.tex to PNG](/figtex/convert-figtex.md)
 
 # Usage
 ## generate sphinx rst
