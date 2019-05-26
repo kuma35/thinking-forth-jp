@@ -1,6 +1,10 @@
 
-Detailed Design/0Problem Solving
-================================
+
+
+***********************************
+4. Detailed Design/0Problem Solving
+***********************************
+
 
 | *Trivial:* I can see how to do this. I just don’t know how long it
   will take.

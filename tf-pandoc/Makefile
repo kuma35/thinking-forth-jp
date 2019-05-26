@@ -136,11 +136,11 @@ clean:
 $(REF_CH1:.tex=.rst) : $(REF_CH1)
 	$(AWK) -f ref-sphinx.awk $< > $@
 
-$(REF_CH1:.tex=.rst) : $(REF_CH1)
-	$(AWK) -f ref-sphinx.awk $< > $@
-
 $(REF_CH2:.tex=.rst) : $(REF_CH2)
 	$(AWK) -f ref-sphinx.awk $< > $@
+
+# nothing $(REF_CH3:.tex=.rst) : $(REF_CH3)
+#	$(AWK) -f ref-sphinx.awk $< > $@
 
 $(REF_CH4:.tex=.rst) : $(REF_CH4)
 	$(AWK) -f ref-sphinx.awk $< > $@
@@ -183,57 +183,57 @@ $(SPX_DIR)/quotation.rst: $(SRC_QUO:.tex=.rst)
 	cat $+ > $@
 
 $(SPX_DIR)/preface2004.rst: $(SRC_PRE04:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk > $@
 
 $(SPX_DIR)/preface94.rst: $(SRC_PRE94:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk > $@
 
 $(SPX_DIR)/preface.rst: $(SRC_PRE:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk > $@
 
 #$(SPX_DIR)/tocpages.rst: $(SRC_TOC:.tex=.rst)
 #	cat $+ > $@
 
 $(SPX_DIR)/chapter1.rst: $(SRC_CH1:.tex=.rst) $(REF_CH1:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="1. " > $@
 
 $(SPX_DIR)/chapter2.rst: $(SRC_CH2:.tex=.rst) $(REF_CH2:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="2. " > $@
 
 # noting REF_CH3
 $(SPX_DIR)/chapter3.rst: $(SRC_CH3:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="3. " > $@
 
 $(SPX_DIR)/chapter4.rst: $(SRC_CH4:.tex=.rst) $(REF_CH4:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="4. " > $@
 
 $(SPX_DIR)/chapter5.rst: $(SRC_CH5:.tex=.rst) $(REF_CH5:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="5. " > $@
 
 $(SPX_DIR)/chapter6.rst: $(SRC_CH6:.tex=.rst) $(REF_CH6:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="6. " > $@
 
 $(SPX_DIR)/chapter7.rst: $(SRC_CH7:.tex=.rst) $(REF_CH7:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="7. " > $@
 
 $(SPX_DIR)/chapter8.rst: $(SRC_CH8:.tex=.rst) $(REF_CH8:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="8. " > $@
 
 $(SPX_DIR)/epilog.rst: $(SRC_EPI:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="EPILOGUE " > $@
 
 $(SPX_DIR)/appendixa.rst: $(SRC_APPA:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix A " > $@
 
 $(SPX_DIR)/appendixb.rst: $(SRC_APPB:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix B " > $@
 
 $(SPX_DIR)/appendixc.rst: $(SRC_APPC:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix C " > $@
 
 $(SPX_DIR)/appendixd.rst: $(SRC_APPD:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix D " > $@
 
 $(SPX_DIR)/appendixe.rst: $(SRC_APPE:.tex=.rst)
-	cat $+ > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix E " > $@
 

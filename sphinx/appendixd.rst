@@ -1,6 +1,10 @@
 
-Answers to Further Thinking” Problems
-=====================================
+
+
+************************************************
+Appendix D Answers to Further Thinking” Problems
+************************************************
+
 
 #. The answer depends on whether you believe that other components will
    need to “know the numeric code associated with each key. Usually this

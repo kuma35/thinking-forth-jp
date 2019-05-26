@@ -1,6 +1,10 @@
 
-Preliminary Design/Decomposition
-================================
+
+
+***********************************
+3. Preliminary Design/Decomposition
+***********************************
+
 
 Assuming you have some idea of what your program should accomplish, it’s
 time to begin the design. The first stage, preliminary design, focuses

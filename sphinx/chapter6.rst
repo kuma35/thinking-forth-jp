@@ -1,6 +1,10 @@
 
-Factoring
-=========
+
+
+************
+6. Factoring
+************
+
 
 In this chapter we’ll continue our study of the implementations phase,
 this time focusing on factoring.

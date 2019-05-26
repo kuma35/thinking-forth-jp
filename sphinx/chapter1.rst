@@ -1,6 +1,10 @@
 
-The Philosophy of Forth
-=======================
+
+
+**************************
+1. The Philosophy of Forth
+**************************
+
 
 Forth is a language and an operating system. But that’s not all: It’s
 also the embodiment of a philosophy. The philosophy is not generally

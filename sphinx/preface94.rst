@@ -1,6 +1,10 @@
 
+
+
+***************************
 Preface to the 1994 Edition
-===========================
+***************************
+
 
 I’m honored that the Forth Interest Group is reprinting *Thinking
 Forth.* It’s gratifying to know that the book may have value to

@@ -1,6 +1,10 @@
 
+
+
+*******
 Preface
-=======
+*******
+
 
 Programming computers can be crazy-making. Other professions give you
 the luxury of seeing tangible proof of your efforts. A watchmaker can

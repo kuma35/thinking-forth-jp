@@ -26,7 +26,6 @@ Welcome to Thinking Forth's documentation!
    chapter6
    chapter7
    chapter8
-   chapter8
    epilog
    appendixa
    appendixb

@@ -1,6 +1,10 @@
 
+
+
+***************************
 Preface to the 2004 Edition
-===========================
+***************************
+
 
 It is an honor to find myself writing a preface again, twenty years
 after the original publication of *Thinking Forth.* It is gratifying to

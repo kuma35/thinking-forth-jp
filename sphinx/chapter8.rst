@@ -1,6 +1,10 @@
 
-Minimizing Control Structures
-=============================
+
+
+********************************
+8. Minimizing Control Structures
+********************************
+
 
 Control structures aren’t as important in Forth as they are in other
 languages. Forth programmers tend to write very complex applications in

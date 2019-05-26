@@ -1,6 +1,10 @@
 
-Implementation: Elements of Forth Style
-=======================================
+
+
+******************************************
+5. Implementation: Elements of Forth Style
+******************************************
+
 
 Badly written Forth has been accused of looking like “code that went
 through a trash compactor.” It’s true, Forth affords more freedom in the
