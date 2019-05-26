@@ -109,8 +109,8 @@ RST_REF = $(SRC_REF:.tex=.rst)
 SPX_DIR = ../sphinx
 
 # delete $(SPX_DIR)/tocpages.rst
-TGTS= $(SPX_DIR)/title.rst \
-	$(SPX_DIR)/copyright.rst \
+# delete $(SPX_DIR)/title.rst
+TGTS= $(SPX_DIR)/copyright.rst \
 	$(SPX_DIR)/bio.rst \
 	$(SPX_DIR)/quotation.rst \
 	$(SPX_DIR)/preface2004.rst \
@@ -170,8 +170,8 @@ $(REF_CH8:.tex=.rst) : $(REF_CH8)
 #	$(AWK) -f to_sphinx.awk $< > $@
 #
 
-$(SPX_DIR)/title.rst: $(SRC_TIT:.tex=.rst)
-	cat $+ > $@
+#$(SPX_DIR)/title.rst: $(SRC_TIT:.tex=.rst)
+#	cat $+ > $@
 
 $(SPX_DIR)/copyright.rst: $(SRC_CPY:.tex=.rst)
 	cat $+ > $@
@@ -220,20 +220,20 @@ $(SPX_DIR)/chapter8.rst: $(SRC_CH8:.tex=.rst) $(REF_CH8:.tex=.rst)
 	cat $+ | $(AWK) -f top-chapter.awk Toc="8. " > $@
 
 $(SPX_DIR)/epilog.rst: $(SRC_EPI:.tex=.rst)
-	cat $+ | $(AWK) -f top-chapter.awk Toc="EPILOGUE " > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="EPILOGUE: " > $@
 
 $(SPX_DIR)/appendixa.rst: $(SRC_APPA:.tex=.rst)
-	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix A " > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix A: " > $@
 
 $(SPX_DIR)/appendixb.rst: $(SRC_APPB:.tex=.rst)
-	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix B " > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix B: " > $@
 
 $(SPX_DIR)/appendixc.rst: $(SRC_APPC:.tex=.rst)
-	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix C " > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix C: " > $@
 
 $(SPX_DIR)/appendixd.rst: $(SRC_APPD:.tex=.rst)
-	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix D " > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix D: " > $@
 
 $(SPX_DIR)/appendixe.rst: $(SRC_APPE:.tex=.rst)
-	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix E " > $@
+	cat $+ | $(AWK) -f top-chapter.awk Toc="Appendix E: " > $@
 

@@ -3,10 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Thinking Forth's documentation!
-==========================================
+#################################################################
+Thinking Forth --A Language and Philosophy for Solving Problems--
+#################################################################
 
-.. include:: title.rst
+author: Leo Brodie
+
+Includes interviews with Forth's inventor, Charles H. Moore,
+and other Forth thinkers
+
+With illustrations by the author
+
 .. include:: copyright.rst
 .. include:: bio.rst
 .. include:: quotation.rst
