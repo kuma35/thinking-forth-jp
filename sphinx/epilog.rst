@@ -1,9 +1,9 @@
 
 
 
-***********************************
-EPILOGUE Forth’s Effect on Thinking
-***********************************
+************************************
+EPILOGUE: Forth’s Effect on Thinking
+************************************
 
 
 Forth is like the Tao: it is a Way, and is realized when followed. Its

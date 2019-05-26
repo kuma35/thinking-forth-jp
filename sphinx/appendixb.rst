@@ -1,9 +1,9 @@
 
 
 
-*****************************
-Appendix B Defining DOER/MAKE
-*****************************
+******************************
+Appendix B: Defining DOER/MAKE
+******************************
 
 
 If your system doesn’t have DOER and MAKE already defined, this appendix
