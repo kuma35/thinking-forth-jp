@@ -17,7 +17,7 @@ The simplest way for Forth words to pass arguments to each other is via
 the stack. The process is “simple” because all the work of pushing and
 popping values to and from the stack is implicit.
 
-:
+Moore:
 
 The data stack uses this idea of “hidden information.” The arguments
 being passed between subroutines are not explicit in the calling
@@ -626,7 +626,7 @@ Unless it involves cluttering up the stack to the point of
 unreadability, try to pass arguments via the stack rather than pulling
 them out of variables.
 
-:
+Kogge:
 
 Most of the modularity of Forth comes from designing and treating Forth
 words as “functions” in the mathematical sense. In my experience a Forth
@@ -667,11 +667,11 @@ behaves safely as a function.
 
 Programmers unaccustomed to a language in which data can be passed
 implicitly don’t always utilize the stack as fully as they should.
-suggests the reason may be that beginning Forth users don’t trust the
-stack [ham83]_. He admits to initially feeling safer
-about storing values into variables than leaving them on the stack. “No
-telling *what* might happen with all that thrashing about on the stack,”
-he felt.
+Michael Ham suggests the reason may be that beginning Forth users don’t
+trust the stack [ham83]_. He admits to initially
+feeling safer about storing values into variables than leaving them on
+the stack. “No telling *what* might happen with all that thrashing about
+on the stack,” he felt.
 
 It took some time for him to appreciate that “if words keep properly to
 themselves, using the stack only for their expected input and output and
@@ -693,7 +693,7 @@ lexicons is called an “interface lexicon.”
 Forth makes no distinction between local and global variables. But Forth
 programmers do.
 
-:
+Moore:
 
 We should be writing for the reader. If something is referred to only
 locally, a temporary variable just for accumulating a sum in, we should
@@ -834,7 +834,7 @@ definition where is reset.
 In very complex applications a controlled exit is often impractical, yet
 many variables must somehow be restored to a natural condition.
 
-responds to this example:
+Moore responds to this example:
 
 You really get tied up in a knot. You’re creating problems for yourself.
 If I want a hex dump I say . If I want a decimal dump I say . I don’t

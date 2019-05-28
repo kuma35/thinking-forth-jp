@@ -38,7 +38,7 @@ thinking about the *ways* in which we solve problems, apart from the
 problems themselves, we enrich our subconscious storehouse of
 techniques.
 
-has written several books on problem solving, especially of the
+G. Polya has written several books on problem solving, especially of the
 mathematical problem. The most accessible of these is *How to Solve It*
 [polya]_. Although solving a mathematical problem isn’t
 quite the same as solving a software problem, you’ll find some valuable
@@ -289,8 +289,8 @@ symbols) and subconscious thought (which correlates perceptions to
 previously stored information, recombining and relinking knowledge in
 new and useful ways).
 
-[hart75]_ explains the difficulty of solving a large
-problem by means of logic:
+Leslie Hart [hart75]_ explains the difficulty of
+solving a large problem by means of logic:
 
 A huge load is placed on that one small function of the brain that can
 be brought into the attention zone for a period. The feat is possible,
@@ -330,7 +330,8 @@ yourself for a second opinion.
 Interview with a Software Inventor
 ==================================
 
-, owner and president of Scientek Instrumentation, Inc.:
+Donald A. Burgess, owner and president of Scientek Instrumentation,
+Inc.:
 
 I have a few techniques I’ve found useful over the years in designing
 anything, to keep myself flexible. My first rule is, “Nothing is
@@ -899,7 +900,7 @@ specific to individual applications. For instance:
    like a form of notation that lets you describe the behavior of the
    output pins in logical terms, based on the states of the input pins.
    A PAL programmer was written with wonderful simplicity in Forth by
-   [stolowitz82]_.
+   Michael Stolowitz [stolowitz82]_.
 
 #. If you must create a series of user menus to drive your application,
    you might want to first develop a menu-compiling language. The words
@@ -911,7 +912,7 @@ All of these examples can be coded in Forth as lexicons, using the
 normal Forth interpreter, without having to write a special-purpose
 interpreter or compiler.
 
-:
+Moore:
 
 A simple solution is one that does not obscure the problem with
 irrelevancies. It’s conceivable that something about the problem
@@ -938,7 +939,7 @@ for each component into clearly defined algorithms and data structures.
 An algorithm is a procedure, described as a finite number of rules, for
 accomplishing a certain task. The rules must be unambiguous and
 guaranteed to terminate after a finite number of applications. (The word
-is named for the ninth century Persian mathematician .)
+is named for the ninth century Persian mathematician al-Khowarizmi.)
 
 An algorithm lies halfway between the imprecise directives of human
 speech, such as “Please sort these letters chronologically,” and the
@@ -1752,7 +1753,7 @@ We might redefine ROMAN as follows:
 ..
 
 
-:
+Moore:
 
 There’s a definite sense of rightness when you’ve done it right. It may
 be that feeling that distinguishes Forth from other languages, where you

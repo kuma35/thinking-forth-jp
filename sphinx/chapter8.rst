@@ -37,7 +37,7 @@ complex your code is, the harder it will be for you to read and to
 maintain. The more parts a machine has, the greater are its chances of
 breaking down. And the harder it is for someone to fix.
 
-tells this story:
+Moore tells this story:
 
 I recently went back to a company we had done some work for several
 years ago. They called me in because their program is now five years
@@ -251,7 +251,7 @@ conditionals; we’re merely factoring them out from our application code.
 The Forth dictionary is a giant string case statement. The match and
 execute functions are hidden within the Forth system.
 
-:
+Moore:
 
 In my accounting package, if you receive a check from somebody, you type
 the amount, the check number, the word FROM, and the person’s name:
@@ -567,8 +567,8 @@ this word using nested s, like this:
 
 We can solve this problem more elegantly by using a “case statement.”
 
-Here’s the same definition, rewritten using the “ case statement”
-format, named after Dr. , the gentleman who proposed it
+Here’s the same definition, rewritten using the “Eaker case statement”
+format, named after Dr. Charles E. Eaker, the gentleman who proposed it
 [eaker]_.
 
 .. code-block:: none
@@ -597,10 +597,10 @@ well, though perhaps not as readably. If there are many cases, a
 decision table is more flexible.
 
 Second, many case-like problems are not quite appropriate for the case
-structure. The case statement assumes that you’re testing for equality
-against a number on the stack. In the instance of .SUIT, we have
-contiguous integers from zero to three. It’s more efficient to use the
-integer to calculate an offset and directly jump to the right code.
+structure. The Eaker case statement assumes that you’re testing for
+equality against a number on the stack. In the instance of .SUIT, we
+have contiguous integers from zero to three. It’s more efficient to use
+the integer to calculate an offset and directly jump to the right code.
 
 In the case of our Tiny Editor, later in this chapter, we have not one,
 but two, dimensions of possibilities. The case statement doesn’t match
@@ -618,7 +618,7 @@ Looping Structures
 
 The right looping structure can eliminate extra conditionals.
 
-:
+Moore:
 
 Many times conditionals are used to get out of loops. That particular
 use can be avoided by having loops with multiple exit points.
@@ -627,12 +627,12 @@ This is a live topic, because of the multiple construct which is in
 polyForth but hasn’t percolated up to Forth ’83. It’s a simple way of
 defining multiple s in the same .
 
-Also [of Forth, Inc.] has invented a new construct that introduces two
-exit points to a . Given that construction you’ll have fewer tests. Very
-often I leave a truth value on the stack, and if I’m leaving a loop
-early, I change the truth value to remind myself that I left the loop
-early. Then later I’ll have an to see whether I left the loop early, and
-it’s just clumsy.
+Also Dean Sanderson [of Forth, Inc.] has invented a new construct that
+introduces two exit points to a . Given that construction you’ll have
+fewer tests. Very often I leave a truth value on the stack, and if I’m
+leaving a loop early, I change the truth value to remind myself that I
+left the loop early. Then later I’ll have an to see whether I left the
+loop early, and it’s just clumsy.
 
 Once you’ve made a decision, you shouldn’t have to make it again. With
 the proper looping constructs you won’t need to remember where you came
@@ -650,7 +650,7 @@ adding your own conditional constructs. It’s not that hard in Forth.
 
 I’m not even sure whether this use of multiple exits doesn’t violate the
 doctrine of structured programming. In a loop with multiple s, all the
-exits bring you to a common “continue” point: the . But with ’s
+exits bring you to a common “continue” point: the . But with Sanderson’s
 construct, you can exit the loop by jumping *past* the end of the loop,
 continuing at an . There are two possible “continue” points.
 
@@ -853,7 +853,7 @@ simply compute:
 ..
 
 
-:
+Moore:
 
 The “45 AND” is faster than the IF, and certainly more graceful. It’s
 simpler. If you form a habit of looking for instances where you’re
@@ -1309,7 +1309,7 @@ answer.
 
 In general, addition is much faster than multiplication.
 
-provides another example:
+Moore provides another example:
 
 If you want to compute trig functions, say for a graphics display, you
 don’t need much resolution. A seven-bit trig function is probably
@@ -1326,10 +1326,10 @@ Redesigning
 
 One change at the bottom can save ten decisions at the top.
 
-In our interview with at the beginning of the chapter, he mentioned that
-much conditional testing could have been eliminated from an application
-if it had been redesigned so that there were two words instead of one:
-“You either say GO or you say PRETEND.”
+In our interview with Moore at the beginning of the chapter, he
+mentioned that much conditional testing could have been eliminated from
+an application if it had been redesigned so that there were two words
+instead of one: “You either say GO or you say PRETEND.”
 
 It’s easier to perform a simple, consistent algorithm while changing the
 context of your environment than to choose from several algorithms while
@@ -1363,7 +1363,7 @@ responsibility for not exceeding the limits of the called component.
 
 Reexamine the algorithm.
 
-:
+Moore:
 
 A lot of conditionals arise from fuzzy thinking about the problem. In
 servo-control theory, a lot of people think that the algorithm for the
@@ -1388,7 +1388,7 @@ One example we mentioned earlier in the book: if you keep the user out
 of trouble you won’t have to continually test whether the user has
 gotten into trouble.
 
-:
+Moore:
 
 Another good example is writing assemblers. Very often, even though an
 opcode may not have a register associated with it, pretending that it
@@ -1460,7 +1460,7 @@ correspondence between the ASCII values and the pattern of pixels. The
 only way to produce the ASCII value is by matching patterns in a lookup
 table.
 
-:
+Moore:
 
 The 68000 assembler is another example you can break your heart over,
 looking for a good way to express those op-codes with the minimal number
@@ -1497,7 +1497,7 @@ nasty side effects. But the disciplined use of the structured exit can
 actually simplify code, and thereby improve readability and
 maintainability.
 
-:
+Moore:
 
 More and more I’ve come to favor R> DROP to alter the flow of control.
 It’s similar to the effect of an , which has an built in it. But that’s
@@ -1550,7 +1550,7 @@ condition is false, we skip to and FREEZE-IT.)
 The use of here is more efficient, saving two bytes and extra code to
 perform, but it is not as readable.
 
-comments on the value, and danger, of this technique:
+Moore comments on the value, and danger, of this technique:
 
 Especially if your conditionals are getting elaborate, it’s handy to
 jump out in the middle without having to match all your s at the end. In
@@ -1929,9 +1929,9 @@ code is so simple it’s impossible not to understand.
 
 When I first wrote these commands, I took the English-like approach.
 “BLUE LIGHT” sounded backwards, not at all acceptable. That was before
-my conversations with .
+my conversations with Chuck Moore.
 
-’s philosophy is persuasive:
+Moore’s philosophy is persuasive:
 
 I would distinguish between reading nicely in English and reading
 nicely. In other languages such as Spanish, adjectives follow nouns. We
@@ -1943,8 +1943,8 @@ slavishly.
 
 If I were selling my “colors” words in a package for graphic artists, I
 would take the trouble to create the flag. But writing these words for
-my own use, if I had to do it over again, I’d favor the -ish influence,
-and use “BLUE LIGHT.”
+my own use, if I had to do it over again, I’d favor the Moore-ish
+influence, and use “BLUE LIGHT.”
 
 Summary
 =======

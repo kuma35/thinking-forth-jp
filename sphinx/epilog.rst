@@ -7,9 +7,9 @@ EPILOGUE: Forth’s Effect on Thinking
 
 
 Forth is like the Tao: it is a Way, and is realized when followed. Its
-fragility is its strength; its simplicity is its direction *(, winning
-entry in Mountain View Press’s contest to describe Forth in twenty-five
-words or less).*
+fragility is its strength; its simplicity is its direction *(Michael
+Ham, winning entry in Mountain View Press’s contest to describe Forth in
+twenty-five words or less).*
 
 To help extract something of the Forth philosophy, I conducted a poll
 among several Forth users in which I asked, “How has Forth affected your
@@ -18,9 +18,9 @@ other areas?”
 
 Here are some of the replies:
 
-is president of Eastgate Systems Inc. in Cambridge, Massachusetts, and
-holds a doctorate from the department of chemistry at Harvard
-University.
+Mark Bernstein is president of Eastgate Systems Inc. in Cambridge,
+Massachusetts, and holds a doctorate from the department of chemistry at
+Harvard University.
 
 I first met Forth while working in laser chemistry. I was trying to
 build a rather complicated controller for a new laser spectrometer. The
@@ -68,8 +68,8 @@ as an extension of himself, Forth is human-scaled, and helps convince
 you that the computer’s achievements, and its failures, are also your
 own.
 
-is Professor of Chemistry at Virginia Polytechnic Institute and State
-University, Blacksburg, Virginia.
+Raymond E. Dessy is Professor of Chemistry at Virginia Polytechnic
+Institute and State University, Blacksburg, Virginia.
 
 As I attempted to understand the nature and structure of the language C,
 I found myself drawing upon the knowledge I had of the organization and
@@ -80,8 +80,8 @@ I have found the Forth approach is an ideal platform upon which to build
 an understanding and an educational framework for other languages and
 operating system concepts.
 
-is owner of Nautilus Systems in Santa Cruz, California, which markets
-the Nautilus Cross-compiler.
+Jerry Boutelle is owner of Nautilus Systems in Santa Cruz, California,
+which markets the Nautilus Cross-compiler.
 
 Forth has changed my thinking in many ways. Since learning Forth I’ve
 coded in other languages, including assembler, BASIC and FORTRAN. I’ve
@@ -95,5 +95,6 @@ people go out and attack problems with complicated tools. But simpler
 tools are available and more useful.
 
 I try to simplify all the aspects of my life. There’s a quote I like
-from *Tao Te Ching* by the Chinese philosopher : “To attain knowledge,
-add things every day; to obtain wisdom, remove things every day.”
+from *Tao Te Ching* by the Chinese philosopher Lao Tzu: “To attain
+knowledge, add things every day; to obtain wisdom, remove things every
+day.”

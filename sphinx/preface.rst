@@ -63,19 +63,21 @@ the widest possible conformity to available Forth systems, all coded
 examples in this book are consistent with the Forth-83 Standard.
 
 One individual who greatly influenced this book is the man who invented
-Forth, . In addition to spending several days interviewing him for this
-book, I’ve been privileged to watch him at work. He is a master
-craftsman, moving with speed and deftness, as though he were physically
-altering the conceptual models inside the machine—building, tinkering,
-playing. He accomplishes this with a minimum of tools (the result of an
-ongoing battle against insidious complexity) and few restrictions other
-than those imposed by his own techniques. I hope this book captures some
-of his wisdom. Enjoy!
+Forth, Charles Moore. In addition to spending several days interviewing
+him for this book, I’ve been privileged to watch him at work. He is a
+master craftsman, moving with speed and deftness, as though he were
+physically altering the conceptual models inside the machine—building,
+tinkering, playing. He accomplishes this with a minimum of tools (the
+result of an ongoing battle against insidious complexity) and few
+restrictions other than those imposed by his own techniques. I hope this
+book captures some of his wisdom. Enjoy!
 
 Acknowledgments
 ~~~~~~~~~~~~~~~
 
 Many thanks to all the good people who gave their time and ideas to this
-book, including: , Dr. , , , Dr. , Dr. , , , , Dr. , , and . Another of
-the interviewees, , passed away while this book was in production. He is
-deeply missed by those of us who loved him.
+book, including: Charles Moore, Dr. , Dave Johnson, John Teleska, Dr.
+Michael Starling, Dr. Peter Kogge, , Donald Burgess, Cary Campbell, Dr.
+Raymond Dessy, Michael Ham, and . Another of the interviewees, Michael
+LaManna, passed away while this book was in production. He is deeply
+missed by those of us who loved him.

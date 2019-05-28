@@ -12,7 +12,7 @@ know that the concepts covered here still have validity after so many
 waves of technology have crested in popularity. These are simply
 concepts of good programming, discovered and rediscovered by countless
 working developers over the years, and given a fresh twist by a genius
-named .
+named Chuck Moore.
 
 I’ve never claimed to be an expert on comparative language studies. My
 recent career has centered more on requirements and functional design
@@ -80,6 +80,8 @@ Ah well.
 
 *May wisdom, fun, and the greater good shine forth in all your work.*
 
+Leo Brodie
+
 Acknowledgments for 2004 Edition
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -91,13 +93,13 @@ prompting or significant assistance from me.
 For that reason, I have asked them to describe their contributions in
 their own words:
 
-:
+John R. Hogerhuis:
 
-I contacted to discuss the conditions under which he would be willing to
-allow republishing *Thinking Forth*, in electronic format under an open
-content license. I acquired a copy of 1984 edition, chopped off the
-binding, and scanned it in. Then I did a proof-of-concept and typeset
-the first chapter of the book in LyX.
+I contacted Leo Brodie to discuss the conditions under which he would be
+willing to allow republishing *Thinking Forth*, in electronic format
+under an open content license. I acquired a copy of 1984 edition,
+chopped off the binding, and scanned it in. Then I did a
+proof-of-concept and typeset the first chapter of the book in LyX.
 
 It turned out to be a lot more work than I had time to do by myself (I
 have more ambition than sense sometimes, as my wife will attest), so I
@@ -112,13 +114,13 @@ I also OCRed all the pages at some point using Transym OCR tool (others
 used the same tool in their transcription effort), and did the
 cleanup/vectorization pass on the images for .
 
-:
+Bernd Paysan:
 
 I set up the infrastructure. I got the project approved by Sourceforge,
 set up CVS, mailing lists and added developers. The approval despite the
 non-commercial license is due to , who knew this book (“despite
 limitations on use, I recommend approval; this is a unique and excellent
-resource on Forth”). The actual approval was processed by .
+resource on Forth”). The actual approval was processed by David Burley.
 
 As the LaTeX guru, I created most of the style file, and cleaned up most
 of the submissions so that they work with the style file.
@@ -126,7 +128,7 @@ of the submissions so that they work with the style file.
 I cleaned up pictures, restoring halftone and removing raster as
 necessary. I translated non-hand-drawn figures to LaTeX. [1]_
 
-:
+Andrew Nicholson:
 
 -  extracted, rotated and converting the scanned images from , , , into
    PNGs and adding the images into the correct places.
@@ -139,45 +141,45 @@ necessary. I translated non-hand-drawn figures to LaTeX. [1]_
 
 -  cleaned up , ,
 
-:
+Nils Holm:
 
 Transcription/initial typesetting of , , and
 
-:
+Anton Ertl:
 
 I LaTeXified (typeset) and did some cleanup of .
 
-:
+Joseph Knapka:
 
 Transcription of
 
-:
+Josef Gabriel:
 
 I transcribed . I see my contribution as helping to pass on Forth to
 other folks. I hope folks will read *“Thinking Forth”* and have their
 code changed.
 
-:
+Ed Beroset:
 
 Typeset the epilog and appendices, and did some of the LaTeX coding.
 
-:
+Albert van der Horst:
 
 Transcribed/did initial typesetting for
 
-:
+Steve Fisher:
 
 Ran the OCR for and
 
 To all of the above, I am deeply indebted and honored.
 
-| 
+| Leo Brodie
 | Seattle, WA
 | November 2004
 
 .. [1]
-   Note from : I’ll add that really took the ball and ran with it,
-   employing the “Free Software” development model to impressive effect.
-   Of course, an important part of most Free Software projects is one
-   dedicated super developer who blazes the trail and gets a large
-   percentage of the work done. is that guy.
+   Note from John: I’ll add that Bernd really took the ball and ran with
+   it, employing the “Free Software” development model to impressive
+   effect. Of course, an important part of most Free Software projects
+   is one dedicated super developer who blazes the trail and gets a
+   large percentage of the work done. Bernd is that guy.

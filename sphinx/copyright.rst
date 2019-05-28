@@ -1,5 +1,5 @@
 
-©1984, 1994, and 2004 by , preprint version
+©1984, 1994, and 2004 by Leo Brodie, preprint version
 
 |image|
 

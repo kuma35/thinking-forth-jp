@@ -35,9 +35,9 @@ the preferences. In other words:
 ..
 
 
-I’d especially like to thank , who proposed many of the conventions
-described in this chapter, for his continuing efforts at unifying
-divergent views on good Forth style.
+I’d especially like to thank Kim Harris, who proposed many of the
+conventions described in this chapter, for his continuing efforts at
+unifying divergent views on good Forth style.
 
 Listing Organization
 ====================
@@ -323,8 +323,8 @@ Specification Section - 3.2.7.5.4.1.2.10
 
 HISTORY -
 
-(no relation to Moore Products Co.) places less importance on the
-well-organized hierarchical listing than I do. :
+Charles Moore (no relation to Moore Products Co.) places less importance
+on the well-organized hierarchical listing than I do. Moore:
 
 I structure *applications* hierarchically, but not necessarily
 *listings.* My listings are organized in a fairly sloppy way, not at all
@@ -734,8 +734,9 @@ value of BASE on the return stack like this:
 Some folks make it a policy to use this approach on any screen that
 changes , so they don’t have to worry about it.
 
-prefers to define to invoke after loading. This approach simplifies the
-screen’s contents because you don’t have to worry about resetting.
+Moore prefers to define to invoke after loading. This approach
+simplifies the screen’s contents because you don’t have to worry about
+resetting.
 
 Spacing and Indentation
 -----------------------
@@ -1643,9 +1644,10 @@ The vertical format is preferred when a large team of programmers are
 coding and maintaining the application. Typically, such a team will
 include several junior-level programmers responsible for minor
 corrections. In such an environment, diligent commenting can save a lot
-of time and upset. As of Moore Products Co. says: “When maintaining code
-you are usually interested in just one small section, and the more
-information written there the better your chances for a speedy fix.”
+of time and upset. As Johnson of Moore Products Co. says: “When
+maintaining code you are usually interested in just one small section,
+and the more information written there the better your chances for a
+speedy fix.”
 
 Here are several pertinent rules required of the Forth programmers at
 Moore Products Co. (I’m paraphrasing):
@@ -1748,7 +1750,7 @@ Choosing Names: The Art
 
 Besides a mathematical inclination, an exceptionally good mastery of
 one’s native tongue is the most vital asset of a competent programmer
-*(Prof. [dijkstra82]_).*
+*(Prof. Edsger W. Dijkstra [dijkstra82]_).*
 
 We’ve talked about the significance of using names to symbolize ideas
 and objects in the application. The choosing of names turns out to be an
@@ -1784,16 +1786,17 @@ Find the most expressive word.
 
 A powerful agent is the right word. Whenever we come upon one of those
 intensely right words in a book or a newspaper the resulting effect is
-physical as well as spiritual, and electrically prompt *().*
+physical as well as spiritual, and electrically prompt *(Mark Twain).*
 
 The difference between the right word and the almost-right word is like
-the difference between lightning and the lightning bug *().*
+the difference between lightning and the lightning bug *(Mark Twain).*
 
-Suit the action to the word, the word to the action *(, Hamlet,
-Act III).*
+Suit the action to the word, the word to the action *(Shakespeare,
+Hamlet, Act III).*
 
-, a Forth consultant and author, suggests that the most important Forth
-development tool is a good thesaurus [laxen]_.
+Henry Laxen, a Forth consultant and author, suggests that the most
+important Forth development tool is a good thesaurus
+[laxen]_.
 
 Sometimes you’ll think of an adequate word for a definition, but it
 doesn’t feel quite right. It may be months later before you realize that
@@ -1824,8 +1827,8 @@ or
 ..
 
 
-On the other hand, points out that inappropriate names can become a
-simple technique for encryption. If you need to provide security when
+On the other hand, Moore points out that inappropriate names can become
+a simple technique for encryption. If you need to provide security when
 you’re forced to distribute source, you can make your code very
 unreadable by deliberately choosing misleading names. Of course,
 maintenance becomes impossible.
@@ -1877,8 +1880,8 @@ SAY HELLO
 
     SAY is the perfect choice for vectoring HELLO into an execution
     variable. (When I first wrote this example for Starting Forth, I
-    called it VERSION. reviewed the manuscript and suggested SAY, which
-    is clearly much better.)
+    called it VERSION. Moore reviewed the manuscript and suggested SAY,
+    which is clearly much better.)
 
 I’M HARRY
      
@@ -1886,7 +1889,7 @@ I’M HARRY
     The word I’M seems more natural than LOGON HARRY, LOGIN HARRY or
     SESSION HARRY, as often seen.
 
-The choice of I’M is another invention of , who says:
+The choice of I’M is another invention of Moore, who says:
 
 I detest the word LOGON. There is no such word in English. I was looking
 for a word that said, “I’m …” It was a natural. I just stumbled across
@@ -1900,8 +1903,8 @@ word.
 If you have a wide recall vocabulary, you’re in a better position to
 come up with the right word.
 
-Another of ’s favorite words is TH, which he uses as an array indexing
-word. For instance, the phrase
+Another of Moore’s favorite words is TH, which he uses as an array
+indexing word. For instance, the phrase
 
 .. code-block:: none
    
@@ -1987,7 +1990,7 @@ Most important, they make your code crisp and clean.
 
 Hyphenated names may be a sign of bad factoring.
 
-:
+Moore:
 
 There are diverging programming styles in the Forth community. One uses
 hyphenated words that express in English what the word is doing. You
@@ -2240,9 +2243,9 @@ range. returns true if “n” is *greater-than or equal-to* “lo” and
 *less-than* “hi.” This use of the non-inclusive upper limit parallels
 the syntax of s.
 
-recommends the word . It’s useful for adding a value to the number just
-under the top stack item, instead of to the top stack item. It could be
-implemented in high level as:
+Moore recommends the word . It’s useful for adding a value to the number
+just under the top stack item, instead of to the top stack item. It
+could be implemented in high level as:
 
 .. code-block:: none
    

@@ -434,7 +434,7 @@ several of the criteria for factoring Forth definitions. They include:
 
 Keep definitions short.
 
-We asked , “How long should a Forth definition be?”
+We asked Moore, “How long should a Forth definition be?”
 
 A word should be a line long. That’s the target.
 
@@ -445,10 +445,10 @@ and that those words have expressed it.
 
 Short words give you a good feeling.
 
-An informal examination of one of ’s applications shows that he averages
-seven references, including both words and numbers, per definition.
-These are remarkably short definitions. (Actually, his code was divided
-about 50–50 between one-line and two-line definitions.)
+An informal examination of one of Moore’s applications shows that he
+averages seven references, including both words and numbers, per
+definition. These are remarkably short definitions. (Actually, his code
+was divided about 50–50 between one-line and two-line definitions.)
 
 Psychological tests have shown that the human mind can only focus its
 conscious attention on seven things, plus or minus two, at a time
@@ -490,7 +490,7 @@ complexity approaches the conscious limit).
 Don’t let your ego take over with an “I can lick this!” attitude. Forth
 code should never feel uncomfortably complex. Factor!
 
-:
+Moore:
 
 Feeling like you might have introduced a bug is one reason for
 factoring. Any time you see a doubly-nested , that’s a sign that
@@ -542,7 +542,7 @@ Limit repetition of code.
 The second reason for factoring, to eliminate repeated fragments of
 code, is even more important than reducing the size of definitions.
 
-:
+Moore:
 
 When a word is just a piece of something, it’s useful for clarity or
 debugging, but not nearly as good as a word that is used multiple times.
@@ -634,7 +634,7 @@ the similar cases.
 
 Be sure you can name what you factor.
 
-:
+Moore:
 
 If you have a concept that you can’t assign a single name to, not a
 hyphenated name, but a name, it’s not a well-formed concept. The ability
@@ -667,8 +667,9 @@ an apf (address of parameter field) without depending on the actual
 structure of a dictionary definition. If you were to use instead of the
 word , you would lose transportability if you ever converted to a Forth
 system in which the heads were separated from the bodies. (This is one
-of a set of words suggested by , and included as an Experimental
-Proposal in the Forth-83 Standard [harris83]_.)
+of a set of words suggested by Kim Harris, and included as an
+Experimental Proposal in the Forth-83 Standard
+[harris83]_.)
 
 Here’s a group of definitions that might be used in writing an editor:
 
@@ -1122,7 +1123,7 @@ last-number-plus-one and first-number order required by .)
 It’s a little tempting to seize upon these phrases and turn them into
 words, such as (for the first phrase) RANGE.
 
-:
+Moore:
 
 That particular phrase [] is one that’s right on the margin of being a
 useful word. Often, though, if you define something as a word, it turns
@@ -1460,7 +1461,7 @@ Don’t try to anticipate ways to factor too early.
 Some people wonder why most Forth systems don’t include the definition
 word ARRAY. This rule is the reason.
 
-:
+Moore:
 
 I often have a class of things called arrays. The simplest array merely
 adds a subscript to an address and gives you back an address. You can
@@ -1525,10 +1526,10 @@ predict.
 
 Today, make it work. Tomorrow, optimize it.
 
-Again . On the day of this interview, had been completing work on the
-design of a board-level Forth computer, using commercially available
-ICs. As part of his toolkit for designing the board, he created a
-simulator in Forth, to test the board’s logic:
+Again Moore. On the day of this interview, Moore had been completing
+work on the design of a board-level Forth computer, using commercially
+available ICs. As part of his toolkit for designing the board, he
+created a simulator in Forth, to test the board’s logic:
 
 This morning I realized I’ve been mixing the descriptions of the chips
 with the placement of the chips on the board. This perfectly convenient

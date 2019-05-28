@@ -158,7 +158,7 @@ $(REF_CH8:.tex=.rst) : $(REF_CH8)
 	$(AWK) -f ref-sphinx.awk $< > $@
 
 %.rst : %.tex tfrst.sty tex-header.sed sphinx_filter.sed to_sphinx.awk
-	$(SED) -f tex-header.sed $<  |  $(PANDOC)   -f latex -t rst |  $(SED) -rf sphinx_filter.sed | $(AWK) -f to_sphinx.awk  > $@
+	$(SED) -f tex-header.sed $<  |  $(AWK) -f cnv-person.awk | $(PANDOC)   -f latex -t rst |  $(SED) -rf sphinx_filter.sed | $(AWK) -f to_sphinx.awk  > $@
 
 #%.s.rst: %.tex
 #	$(SED) -f tex-header.sed $<  > $@

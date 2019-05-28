@@ -60,7 +60,7 @@ cycle is known as using the “Iterative Approach.”
 The Iterative Approach
 ======================
 
-The iterative approach was explained eloquently by
+The iterative approach was explained eloquently by Kim Harris
 [harris81]_. He begins by describing the scientific
 method:
 
@@ -75,11 +75,11 @@ again studied, and the model is revised.
 .. figure:: fig2-1.png
    :alt: The iterative approach to the
 software development cycle, from ``The {Forth}{} Philosophy,''
-by \person{Kim Harris}, \emph{Dr.\@ Dobb's Journal.}
+by Kim Harris, \emph{Dr.\@ Dobb's Journal.}
 
    The iterative approach to the
 software development cycle, from ``The {Forth}{} Philosophy,''
-by \person{Kim Harris}, \emph{Dr.\@ Dobb's Journal.}
+by Kim Harris, \emph{Dr.\@ Dobb's Journal.}
 
 
 ..
@@ -88,8 +88,8 @@ by \person{Kim Harris}, \emph{Dr.\@ Dobb's Journal.}
 The *goal* of the method is to produce a model which accurately predicts
 all observable behavior of the natural system.
 
-then applies the scientific method to the software development cycle,
-illustrated in :
+Harris then applies the scientific method to the software development
+cycle, illustrated in :
 
 #. A problem is analyzed to determine what functions are required in the
    solution.
@@ -102,7 +102,7 @@ illustrated in :
 #. The program is tested to determine if the functions were implemented
    correctly.
 
-Mr. adds:
+Mr. Harris adds:
 
 Software development in Forth seeks first to find the simplest solution
 to a given problem. This is done by implementing selected parts of the
@@ -129,11 +129,11 @@ Clearly you can’t undertake a significant software project—regardless of
 the language—without some degree of planning. Exactly what degree is
 appropriate?
 
-More than one Forth programmer has expressed high regard for ’s
-meticulous approach to planning. is supervisor at Moore Products Co. in
-Springhouse, Pennsylvania. The firm specializes in industrial
-instrumentation and process control applications. Dave has been using
-Forth since 1978.
+More than one Forth programmer has expressed high regard for Dave
+Johnson’s meticulous approach to planning. Johnson is supervisor at
+Moore Products Co. in Springhouse, Pennsylvania. The firm specializes in
+industrial instrumentation and process control applications. Dave has
+been using Forth since 1978.
 
 He describes his approach:
 
@@ -195,14 +195,14 @@ I should mention that during the design phase there is some amount of
 coding done to test out certain ideas. But this code may not be part of
 the finished product. The idea is to map out your design.
 
-advises us to complete the design specification before starting to code,
-with the exception of needed preliminary tests. The next interview backs
-up this point, and adds some additional reasons.
+Johnson advises us to complete the design specification before starting
+to code, with the exception of needed preliminary tests. The next
+interview backs up this point, and adds some additional reasons.
 
-has been an independent software consultant since 1976, specializing in
-custom applications for academic research environments. He enjoys
-providing research tools “right at the edge of what technology is able
-to do.” works in Rochester, New York:
+John Teleska has been an independent software consultant since 1976,
+specializing in custom applications for academic research environments.
+He enjoys providing research tools “right at the edge of what technology
+is able to do.” Teleska works in Rochester, New York:
 
 I see the software development process as having two phases. The first
 is making sure I understand what the problem is. The second is
@@ -241,7 +241,7 @@ I think there are consultants who bow to client pressure and limit the
 time they spend on specs, for fear of losing the job. But in these
 situations nobody ends up happy.
 
-We’ll return to the interview momentarily.
+We’ll return to the Teleska interview momentarily.
 
 The Limitations of Planning
 ===========================
@@ -250,9 +250,9 @@ Experience has taught us to map out where we’re going before we begin
 coding. But planning has certain limitations. The following interviews
 give different perspectives to the value of planning.
 
-Despite ’s preference for a well-planned project, he suggests that the
-choice between a top-down and bottom-up approach may depend on the
-situation:
+Despite Teleska’s preference for a well-planned project, he suggests
+that the choice between a top-down and bottom-up approach may depend on
+the situation:
 
 On two recent projects involving a lot of technical interface work, I
 did the whole thing bottom-up. I milled around in a bunch of data-sheets
@@ -275,12 +275,12 @@ probably use a more traditional by-the-book approach.
 
 And here’s another view:
 
-At the time I interviewed him, of Union Carbide was putting the final
-touches on two applications involving user-configurable laboratory
-automation and process control automation systems. For the pilot plant
-system, designed both the hardware and software to known requirements;
-on the laboratory automation system he also defined the requirements
-himself.
+At the time I interviewed him, Michael Starling of Union Carbide was
+putting the final touches on two applications involving
+user-configurable laboratory automation and process control automation
+systems. For the pilot plant system, Starling designed both the hardware
+and software to known requirements; on the laboratory automation system
+he also defined the requirements himself.
 
 His efforts were extremely successful. On one project, the new system
 typically costs only 20% as much as the equivalent system and requires
@@ -353,13 +353,13 @@ Cheap
 
 Pick any two!
 
-As observes, you don’t know completely what you’re doing till you’ve
-done it once. In my own experience, the best way to write an application
-is to write it twice. Throw away the first version and chalk it up to
-experience.
+As Starling observes, you don’t know completely what you’re doing till
+you’ve done it once. In my own experience, the best way to write an
+application is to write it twice. Throw away the first version and chalk
+it up to experience.
 
-is Senior Technical Staff in the IBM Federal Systems Division, Oswego,
-New York:
+Peter Kogge is Senior Technical Staff in the IBM Federal Systems
+Division, Oswego, New York:
 
 One of the key advantages I find in Forth is that it allows me to very
 quickly prototype an application without all the bells and whistles, and
@@ -542,7 +542,7 @@ Defining the Interfaces
 First, and most importantly, the conceptual model should describe the
 system’s interfaces.
 
-:
+Teleska:
 
 The “spec” basically deals with WHAT. In its most glorious form, it
 describes what the system would look like to the user—you might call it
@@ -616,7 +616,7 @@ being acted upon by the parts of the model.
 A discipline called *structured analysis* [weinberg80]_
 offers some techniques for describing interfaces in ways that your
 clients will easily understand. One of these techniques is called the
-“data-flow diagram” (DFD), which mentioned.
+“data-flow diagram” (DFD), which Teleska mentioned.
 
 .. figure:: fig2-3.png
    :alt: A data-flow diagram.
@@ -688,7 +688,7 @@ NEED converts the quantity into a numeric value on the stack, translates
 the string AXLES into a part number, also on the stack, then calls
 REQUEST. Such a command should be defined only at the outer-most level.)
 
-of Moore Products Co. has a few words on Forth pseudocode:
+Johnson of Moore Products Co. has a few words on Forth pseudocode:
 
 IBM uses a rigorously documented PDL (program design language). We use a
 PDL here as well, although we call it FDL, for Forth design language.
@@ -698,9 +698,9 @@ have to leave out the so-called “noise” words: C@, DUP, OVER, etc., and
 show only the basic flow. Most Forth people probably do that informally.
 We do it purposefully.
 
-During one of our interviews I asked if he used diagrams of any sort to
-plan out the conceptual model, or did he code straight into Forth? His
-reply:
+During one of our interviews I asked Moore if he used diagrams of any
+sort to plan out the conceptual model, or did he code straight into
+Forth? His reply:
 
 The conceptual model *is* Forth. Over the years I’ve learned to think
 that way.
@@ -1139,7 +1139,7 @@ often more difficult to discover, but once found, it is:
 
 -  more fun
 
-One of the most compelling advocates of simplicity is :
+One of the most compelling advocates of simplicity is Moore:
 
 You need a feeling for the size of the problem. How much code should it
 take to implement the thing? One block? Three? I think this is a very
@@ -1161,7 +1161,7 @@ match the problem.
 Generality usually involves complexity. Don’t generalize your solution
 any more than will be required; instead, keep it changeable.
 
-continues:
+Moore continues:
 
 Given a problem, you can code a solution to it. Having done that, and
 found certain unpleasantnesses to it, you can go back and change the
@@ -1214,7 +1214,7 @@ Exploit the “don’t cares.”
 ..
 
 
-continues:
+Moore continues:
 
 Sometimes the possibilities for simplification aren’t immediately
 obvious.
@@ -1239,14 +1239,14 @@ more responsive, and simpler.
 
 To simplify, quantize.
 
-concludes:
+Moore concludes:
 
 It takes arrogance to go back and say “You didn’t really mean this,” or
 “Would you mind if I took off this page and replaced it with this
 expression?” They get annoyed. They want you to do what they told you to
 do.
 
-took this attitude when he redesigned Forth
+LaFarr Stuart took this attitude when he redesigned Forth
 [stuart80]_. He didn’t like the input buffer, so he
 implemented Forth without it, and discovered he didn’t really need an
 input buffer.
@@ -1284,7 +1284,7 @@ characters to appear.
 
 To simplify, take advantage of what’s available.
 
-, a Forth programmer in Long Island, New York, comments:
+Michael LaManna, a Forth programmer in Long Island, New York, comments:
 
 I always try to design the application on the most powerful processor I
 can get my hands on. If I have a choice between doing development on a
@@ -1366,8 +1366,9 @@ project being as easy as you think it will be.
 
 How can you improve your chances of judging time requirements correctly?
 Many fine books have been written on this topic, notably *The Mythical
-Man-Month* by , Jr. [brooks75]_. I have little to add
-to this body of knowledge except for some personal observations.
+Man-Month* by Frederick P. Brooks, Jr. [brooks75]_. I
+have little to add to this body of knowledge except for some personal
+observations.
 
 #. Don’t guess on a total. Break the problem up into the smallest
    possible pieces, then estimate the time for each piece. The sum of

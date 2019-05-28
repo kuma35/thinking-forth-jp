@@ -7,4 +7,4 @@
     is needed; to portray a phenomenon, a concept is needed. All three
     mirror one and the same reality.*
 
-    —, 1789
+    —Antoine Lavoisier, 1789

@@ -263,8 +263,8 @@ Writeability
 Yet another breakthrough encouraged the use of structured programs:
 structured programming languages. These languages include control
 structures in their command sets, so you can write programs that have a
-more modular appearance. Pascal is such a language, invented by to teach
-the principles of structured programming to his students.
+more modular appearance. Pascal is such a language, invented by Niklaus
+Wirth to teach the principles of structured programming to his students.
 
 .. figure:: tex-fig1-4.png
    :alt: Using a structured language.
@@ -610,9 +610,9 @@ Information-Hiding
 -------------------
 
 In a paper [parnas72]_ published back in 1972, Dr.
-showed that the criteria for decomposing modules should not be steps in
-the process, but rather pieces of information that might possibly
-change. Modules should be used to hide such information.
+David L. Parnas showed that the criteria for decomposing modules should
+not be steps in the process, but rather pieces of information that might
+possibly change. Modules should be used to hide such information.
 
 Let’s look at this important idea of “information-hiding”: Suppose you
 are writing a Procedures Manual for your company. Here’s a portion:
@@ -675,15 +675,15 @@ little as possible about the insides of other modules. Contemporary
 programming languages such as C, Modula 2, and Edison apply this concept
 to the architecture of their procedures.
 
-But takes the idea much further. He suggests that the concept should be
-extended to algorithms and data structures. In fact, hiding
+But Parnas takes the idea much further. He suggests that the concept
+should be extended to algorithms and data structures. In fact, hiding
 information—not decision-structure or calling-hierarchy—should be the
 primary basis for design!
 
 The Superficiality of Structure
 ===============================
 
-proposes two criteria for decomposition:
+Parnas proposes two criteria for decomposition:
 
 #. possible (though currently unplanned) reuse, and
 
@@ -703,8 +703,8 @@ application. The procedures are considered to be a single module because
 they are interdependent. You can’t change the method for pushing a value
 without also changing the method for popping a value.
 
-The word *uses* plays an important role in this concept. writes in a
-later paper [parnas79]_:
+The word *uses* plays an important role in this concept. Parnas writes
+in a later paper [parnas79]_:
 
 Systems that have achieved a certain “elegance”… have done so by having
 parts of the system use other parts…
@@ -809,9 +809,9 @@ Forth eliminates from our programs the details of *how* words are
 invoked and *how* data are passed. What’s left? Only the words that
 describe our problem.
 
-Having words, we can fully exploit the recommendations of —to decompose
-problems according to things that may change, and have each “module”
-consist of many small functions, as many as are needed to hide
+Having words, we can fully exploit the recommendations of Parnas—to
+decompose problems according to things that may change, and have each
+“module” consist of many small functions, as many as are needed to hide
 information about that module. In Forth we can write as many words as we
 need to do that, no matter how simple each of them may be.
 
@@ -1018,7 +1018,7 @@ Forth programmers generally prefer to keep the program under their own
 control and not to employ any techniques to physically hide data
 structures. (Nevertheless a brilliantly simple technique for adding
 Modula-type modules to Forth has been implemented, in only three lines
-of code, by [shorre71]_.)
+of code, by Dewey Val Shorre [shorre71]_.)
 
 Hiding the Construction of Data Structures
 ==========================================
@@ -1203,7 +1203,7 @@ Before we answer, let’s explore the advantages of the Forth approach.
 ..
 
 
-Here’s what , the inventor of Forth, has to say:
+Here’s what Charles Moore, the inventor of Forth, has to say:
 
 You define each word so that the computer knows what it means. The way
 it knows is that it executes some code as a consequence of being
@@ -1250,13 +1250,13 @@ experienced programmer, the researchers are free to use their “software
 toolbox” of small words to write simple programs for experimentation. As
 new equipment appears, new lexicons are added.
 
-has described the problem of using an off-the-shelf special-purpose
-procedure library in the laboratory [bern83]_: “The
-computer, not the user, dominates the experiment.” But with Forth, he
-writes, “the computer actually encourages scientists to modify, repair,
-and improve the software, to experiment with and characterize their
-equipment. Initiative becomes once more the prerogative of the
-researcher.”
+Mark Bernstein has described the problem of using an off-the-shelf
+special-purpose procedure library in the laboratory
+[bern83]_: “The computer, not the user, dominates the
+experiment.” But with Forth, he writes, “the computer actually
+encourages scientists to modify, repair, and improve the software, to
+experiment with and characterize their equipment. Initiative becomes
+once more the prerogative of the researcher.”
 
 .. figure:: img1-030.png
    :alt: Two solutions to the problem of security.

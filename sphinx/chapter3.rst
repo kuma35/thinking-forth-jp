@@ -859,12 +859,12 @@ Let’s examine each of these misconceptions one by one.
 Where to Begin?
 ---------------
 
-I asked how he would go about developing a particular application, a
-game for children. As the child presses the digits on the numeric
+I asked Moore how he would go about developing a particular application,
+a game for children. As the child presses the digits on the numeric
 keypad, from zero to nine, that same number of large boxes would appear
 on the screen.
 
-:
+Moore:
 
 I don’t start at the top and work down. Given that exact problem, I
 would write a word that draws a box. I’d start at the bottom, and I’d
@@ -1065,7 +1065,7 @@ enjoy a syntax and dictionary identical and continuous with the
    to the “egg master object” is no problem. Smalltalk works by adding
    methods to known classes, you don’t even need to subclass them. You
    can look inside an object and its source code whenever you want. And
-   table driven method dispatching can be quite efficient.
+   table driven method dispatching can be quite efficient. Paysan
 
 Summary
 =======

@@ -29,5 +29,6 @@ as valid today as they were back then. Certainly ’s comments remain a
 telling insight on the philosophy that triggered the development of
 Forth.
 
-I wish to thank for his excellent job, patiently struggling against
-incompatible file formats and OCR errors, to bring this reprint to life.
+I wish to thank Marlin Ouverson for his excellent job, patiently
+struggling against incompatible file formats and OCR errors, to bring
+this reprint to life.
