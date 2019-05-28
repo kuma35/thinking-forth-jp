@@ -122,8 +122,8 @@ The Value of Planning
 =====================
 
 In the nine phases at the start of this chapter we listed five steps
-*before* “implementation.” Yet in we saw that an overindulgence in
-planning is both difficult and pointless.
+*before* “implementation.” Yet in Chapter One we saw that an
+overindulgence in planning is both difficult and pointless.
 
 Clearly you can’t undertake a significant software project—regardless of
 the language—without some degree of planning. Exactly what degree is
@@ -387,7 +387,7 @@ analysis phase to a minimum.
 For Forth addicts (without a “traditional” background): Hold off on
 coding as long as you can possibly stand it.
 
-Or, as we observed in :
+Or, as we observed in Chapter One:
 
 Plan for change (by designing components that can be changed).
 
@@ -1070,9 +1070,9 @@ a running Forth application. But it is only pseudocode. We’ve avoided
 stack manipulations by assuming that values will somehow be on the stack
 where the comments indicate. Also, we’ve used hyphenated names because
 they might be more readable for the customer. Short names are preferred
-in real code—see .)
+in real code—see Chapter Five.)
 
-We’ll unveil the finished code for this example in .
+We’ll unveil the finished code for this example in Chapter Eight.
 
 Defining the Data Structures
 ============================

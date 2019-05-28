@@ -228,7 +228,7 @@ The messiest situation occurs when the difference between two
 definitions is a function within a structure that makes it impossible to
 factor out the half-fragments. In this case, use stack arguments,
 variables, or even vectoring. We’ll see how vectoring can be used in a
-section of called “Using DOER/MAKE.”
+section of Chapter Seven called “Using DOER/MAKE.”
 
 Here’s a reminder about factoring code from out of a :
 
@@ -277,11 +277,11 @@ structure, you may even want to factor out both. Watch this:
 The word may—depending on the condition—alter the control flow so that
 the remaining words in each definition will be skipped. This approach
 has certain disadvantages as well. We’ll discuss this technique—pros and
-cons—in .
+cons—in Chapter Eight.
 
 More benign examples of factoring-out control structures include case
 statements, which eliminate nested s, and multiple exit loops (the
-construct). We’ll also discuss these topics in .
+construct). We’ll also discuss these topics in Chapter Eight.
 
 Factoring Out Names
 -------------------
@@ -642,10 +642,10 @@ to assign a name is a necessary part of decomposition. Certainly you get
 more confidence in the idea.
 
 Compare this view with the criteria for decomposing a module espoused by
-structured design in . According to that method, a module should exhibit
-“functional binding,” which can be verified by describing its function
-in a single, non-compound, *sentence*. Forth’s “atom,” a *name*, is an
-order of magnitude more refined.
+structured design in Chapter One. According to that method, a module
+should exhibit “functional binding,” which can be verified by describing
+its function in a single, non-compound, *sentence*. Forth’s “atom,” a
+*name*, is an order of magnitude more refined.
 
 Factor definitions to hide details that may change.
 
@@ -780,9 +780,10 @@ Here’s a better factoring found in some Forth systems:
 
 
 We find another example of failing to factor the output function from
-the calculation function in our own Roman numeral example in . Given our
-solution, we can’t store a Roman numeral in a buffer or even center it
-in a field. (A better approach would have been to use instead of .)
+the calculation function in our own Roman numeral example in Chapter
+Four. Given our solution, we can’t store a Roman numeral in a buffer or
+even center it in a field. (A better approach would have been to use
+instead of .)
 
 Information hiding can also be a reason *not* to factor. For instance,
 if you factor the phrase
@@ -825,8 +826,9 @@ Implementation.”
 Simplify the command interface by reducing the number of commands.
 
 It may seem paradoxical, but good factoring can often yield *fewer*
-names. In we saw how six simple names (LEFT, RIGHT, MOTOR, SOLENOID, ON,
-and OFF) could do the work of eight badly-factored, hyphenated names.
+names. In Chapter Five we saw how six simple names (LEFT, RIGHT, MOTOR,
+SOLENOID, ON, and OFF) could do the work of eight badly-factored,
+hyphenated names.
 
 As another example, I found two definitions circulating in one
 department in which Forth had recently introduced. Their purpose was

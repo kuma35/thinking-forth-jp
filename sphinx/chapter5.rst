@@ -83,7 +83,7 @@ lattermost screens (i.e., not load them) and still have a
 self-sufficient, running application, working properly except for the
 lack of the more advanced features.
 
-We discussed the art of decomposition extensively in .
+We discussed the art of decomposition extensively in Chapter Three.
 
 Composition
 -----------
@@ -719,8 +719,8 @@ fashion:
 Sometimes an argument is passed on the stack from screen to screen, such
 as the value returned by or in a multiscreen assembler definition, or
 the base address passed from one defining word to another—see
-“Compile-Time Factoring” in . In these cases, it’s best to save the
-value of BASE on the return stack like this:
+“Compile-Time Factoring” in Chapter Six. In these cases, it’s best to
+save the value of BASE on the return stack like this:
 
 .. code-block:: none
    
@@ -1711,7 +1711,7 @@ about it. This means that:
 -  definitions are not too long
 
 -  not too many arguments are passed to a single definition via the
-   stack (see “The Stylish Stack” in ).
+   stack (see “The Stylish Stack” in Chapter Seven).
 
 Forth is simply not like other languages, in which line-by-line
 commenting is one of the few things you can do to make programs more
@@ -1800,10 +1800,10 @@ important Forth development tool is a good thesaurus
 
 Sometimes you’ll think of an adequate word for a definition, but it
 doesn’t feel quite right. It may be months later before you realize that
-you fell short of the mark. In the Roman numeral example in , there’s a
-word that handles the exception case: numbers that are one-less-than the
-next symbol’s value. My first choice was 4-0R-9. That’s awkward, but it
-was much later that I thought of ALMOST.
+you fell short of the mark. In the Roman numeral example in Chapter
+Four, there’s a word that handles the exception case: numbers that are
+one-less-than the next symbol’s value. My first choice was 4-0R-9.
+That’s awkward, but it was much later that I thought of ALMOST.
 
 Most fig-Forth systems include the word VLIST, which lists the names of
 all the words in the current vocabulary. After many years someone

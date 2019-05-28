@@ -112,7 +112,7 @@ and avoided being a bottleneck the faster the work came together.
 
 I also OCRed all the pages at some point using Transym OCR tool (others
 used the same tool in their transcription effort), and did the
-cleanup/vectorization pass on the images for .
+cleanup/vectorization pass on the images for Chapter Three.
 
 Bernd Paysan:
 
@@ -130,34 +130,36 @@ necessary. I translated non-hand-drawn figures to LaTeX. [1]_
 
 Andrew Nicholson:
 
--  extracted, rotated and converting the scanned images from , , , into
-   PNGs and adding the images into the correct places.
+-  extracted, rotated and converting the scanned images from Chapter
+   One, Chapter Two, Chapter Seven, Chapter Eight into PNGs and adding
+   the images into the correct places.
 
--  transcribed from OCR to LaTeX
+-  transcribed Chapter Two from OCR to LaTeX
 
 -  rebuilt the index from 1984
 
--  revised and cleaned up and
+-  revised and cleaned up Chapter One and Chapter Five
 
--  cleaned up , ,
+-  cleaned up Chapter Six, Chapter Seven, Chapter Eight
 
 Nils Holm:
 
-Transcription/initial typesetting of , , and
+Transcription/initial typesetting of Chapter Four, Chapter Seven, and
+Chapter Eight
 
 Anton Ertl:
 
-I LaTeXified (typeset) and did some cleanup of .
+I LaTeXified (typeset) and did some cleanup of Chapter Three.
 
 Joseph Knapka:
 
-Transcription of
+Transcription of Chapter Three
 
 Josef Gabriel:
 
-I transcribed . I see my contribution as helping to pass on Forth to
-other folks. I hope folks will read *“Thinking Forth”* and have their
-code changed.
+I transcribed Chapter Six. I see my contribution as helping to pass on
+Forth to other folks. I hope folks will read *“Thinking Forth”* and have
+their code changed.
 
 Ed Beroset:
 
@@ -165,11 +167,11 @@ Typeset the epilog and appendices, and did some of the LaTeX coding.
 
 Albert van der Horst:
 
-Transcribed/did initial typesetting for
+Transcribed/did initial typesetting for Chapter Five
 
 Steve Fisher:
 
-Ran the OCR for and
+Ran the OCR for Chapter Seven and Chapter Eight
 
 To all of the above, I am deeply indebted and honored.
 

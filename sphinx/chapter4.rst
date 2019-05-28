@@ -49,8 +49,8 @@ the science of problem solving:
 
 Determine your goal.
 
-Know what you’re trying to accomplish. As we saw in , this step can be
-detailed further:
+Know what you’re trying to accomplish. As we saw in Chapter Two, this
+step can be detailed further:
 
 Determine the data interfaces: Know what data will be required to
 accomplish the goal, and make sure those data are available (input).
@@ -565,7 +565,7 @@ chapter.
 
 Or, the recommended approach, SHOW might set an “execution variable”
 that INVENTORY will then execute. (We’ll discuss vectored execution in
-.)
+Chapter Seven.)
 
 Let text follow names.
 
@@ -932,9 +932,10 @@ binary, and start solving problems.
 Algorithms and Data Structures
 ==============================
 
-In we learned how to describe a problem’s requirements in terms of
-interfaces and rules. In this section we’ll refine the conceptual model
-for each component into clearly defined algorithms and data structures.
+In Chapter Two we learned how to describe a problem’s requirements in
+terms of interfaces and rules. In this section we’ll refine the
+conceptual model for each component into clearly defined algorithms and
+data structures.
 
 An algorithm is a procedure, described as a finite number of rules, for
 accomplishing a certain task. The rules must be unambiguous and
@@ -1054,8 +1055,8 @@ applications requiring trig, it’s faster to look up the answer in a
 table stored in memory. In this case, the simplest *adequate* solution
 is using the data structure.
 
-In we introduced the telephone rate problem. In that problem the rates
-appeared to be arbitrary, so we designed a data structure:
+In Chapter Two we introduced the telephone rate problem. In that problem
+the rates appeared to be arbitrary, so we designed a data structure:
 
 +---------------+---------------+----------------+-----------------+
 |               | *Full Rate*   | *Lower Rate*   | *Lowest Rate*   |
@@ -1069,8 +1070,8 @@ Using a data structure was simpler than trying to invent a formula by
 which these values could be calculated. And the formula might prove
 wrong later. In this case, table-driven code is easier to maintain.
 
-In we designed a keystroke interpreter for our Tiny Editor using a
-decision table:
+In Chapter Three we designed a keystroke interpreter for our Tiny Editor
+using a decision table:
 
 +-----------------+-------------------+------------------+
 | *Key*           | *Not-Inserting*   | *Inserting*      |
@@ -1106,7 +1107,8 @@ used in the original design.
 
 The use of logic becomes advisable when the result is not calculable, or
 when the decision is not complicated enough to warrant a decision table.
-is devoted to the issue of minimizing the use of logic in your programs.
+Chapter Eight is devoted to the issue of minimizing the use of logic in
+your programs.
 
 In choosing which approach to apply towards solving a problem, give
 preference in the following order:

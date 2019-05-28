@@ -10,8 +10,8 @@ This appendix is here to help you define some of the words referred to
 in this book that may not exist in your system. Definitions are given in
 Forth-83 Standard.
 
-From 
-=====
+From Chapter Four
+=================
 
 A definition of that will work in ’83 Standard is:
 
@@ -25,8 +25,8 @@ A definition of that will work in ’83 Standard is:
 ..
 
 
-From 
-=====
+From Chapter Five
+=================
 
 The word can be defined as:
 
@@ -132,8 +132,8 @@ or
 ..
 
 
-From 
-=====
+From Chapter Eight
+==================
 
 The implementation of will depend on how your system implements s. If
 keeps two items on the return stack (the index and the limit), must drop

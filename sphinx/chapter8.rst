@@ -970,13 +970,13 @@ Using Decision Tables
 
 Use decision tables.
 
-We introduced these in . A decision table is a structure that contains
-either data (a “data table”) or addresses of functions (a “function
-table”) arranged according to any number of dimensions. Each dimension
-represents all the possible, mutually exclusive states of a particular
-aspect of the problem. At the intersection of the “true” states of each
-dimension lies the desired element: the piece of data or the function to
-be performed.
+We introduced these in Chapter Two. A decision table is a structure that
+contains either data (a “data table”) or addresses of functions (a
+“function table”) arranged according to any number of dimensions. Each
+dimension represents all the possible, mutually exclusive states of a
+particular aspect of the problem. At the intersection of the “true”
+states of each dimension lies the desired element: the piece of data or
+the function to be performed.
 
 A decision table is clearly a better choice than a conditional structure
 when the problem has multiple dimensions.
@@ -1075,8 +1075,8 @@ Another example of the one-dimensional data table is the “superstring”
 Two-Dimensional Data Table
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In we presented a phone-rate problem. gives one solution to the problem,
-using a two-dimensional data structure.
+In Chapter Two we presented a phone-rate problem. gives one solution to
+the problem, using a two-dimensional data structure.
 
  Telephone rates 03/30/84 CREATE FULL 30 , 20 , 12 , CREATE LOWER 22 ,
 15 , 10 , CREATE LOWEST 12 , 9 , 6 , VARIABLE RATE  points to FULL,
@@ -1131,8 +1131,8 @@ can be prohibitively slow in certain cases.
 Two-Dimensional Decision Table
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We’ll hark back to our Tiny Editor example in to illustrate a
-two-dimensional decision table.
+We’ll hark back to our Tiny Editor example in Chapter Three to
+illustrate a two-dimensional decision table.
 
 In we’re constructing a table of functions to be performed when various
 keys are pressed. The effect is similar to that of a case statement, but
@@ -1335,21 +1335,21 @@ It’s easier to perform a simple, consistent algorithm while changing the
 context of your environment than to choose from several algorithms while
 keeping a fixed environment.
 
-Recall from our example of the word APPLES. This was originally defined
-as a variable; it was referred to many times throughout the application
-by words that incremented the number of apples (when shipments arrive),
-decremented the number (when apples are sold), and checked the current
-number (for inventory control).
+Recall from Chapter One our example of the word APPLES. This was
+originally defined as a variable; it was referred to many times
+throughout the application by words that incremented the number of
+apples (when shipments arrive), decremented the number (when apples are
+sold), and checked the current number (for inventory control).
 
 When it became necessary to handle a second type of apples, the *wrong*
 approach would have been to add that complexity to all the
 shipment/sales/inventory words. The *right* approach was the one we
 took: to add the complexity “at the bottom”; that is, to APPLES itself.
 
-This principle can be realized in many ways. In (under “The State
-Table”) we used state tables to implement the words WORKING and
-PRETENDING, which changed the meaning of a group of variables. Later in
-that chapter, we used vectored execution to define VISIBLE and
+This principle can be realized in many ways. In Chapter Seven (under
+“The State Table”) we used state tables to implement the words WORKING
+and PRETENDING, which changed the meaning of a group of variables. Later
+in that chapter, we used vectored execution to define VISIBLE and
 INVISIBLE, to change the meanings of TYPE’, EMIT’, SPACES’ and CR’ and
 thereby easily change all the formatting code that uses them.
 
@@ -1688,8 +1688,8 @@ If the only purpose to setting a flag is so that later some code can
 decide between one number and another, you’re better off saving the
 number itself.
 
-The “colors” example in ’s section called “Factoring Criteria”
-illustrates this point.
+The “colors” example in Chapter Six’s section called “Factoring
+Criteria” illustrates this point.
 
 The purpose of the word LIGHT is to set a flag which indicates whether
 we want the intensity bit to be set or not. While we could have written

@@ -88,8 +88,8 @@ Redesign
 
 Let’s witness a case where a wrong-headed approach leads to a messy
 stack problem. Suppose we’re trying to write the definition of +THRU
-(see , “Listing Organization” section, “Relative Loading” subsection).
-We’ve decided that our loop body will be
+(see Chapter Five, “Listing Organization” section, “Relative Loading”
+subsection). We’ve decided that our loop body will be
 
 .. code-block:: none
    
@@ -558,10 +558,11 @@ for anyone who cares to look—like graffiti.
 Thus variables can be used to reflect the current state of affairs.
 
 Using currentness can simplify problems. In the Roman numeral example of
-, we used the variable COLUMN# to represent the current decimal-place;
-the words ONER, FIVER, and TENER depended on this information to
-determine which type of symbol to display. We didn’t have to specify
-both descriptions every time, as in TENS ONER, TENS FIVER, etc.
+Chapter Four, we used the variable COLUMN# to represent the current
+decimal-place; the words ONER, FIVER, and TENER depended on this
+information to determine which type of symbol to display. We didn’t have
+to specify both descriptions every time, as in TENS ONER, TENS FIVER,
+etc.
 
 On the other hand, currentness adds a new level of complexity. To make
 something current we must first define a variable or some type of data

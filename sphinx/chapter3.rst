@@ -59,8 +59,8 @@ These truisms apply to software design, particularly to the preliminary
 design phase. This phase is traditionally the one in which the designer
 dissects a large application into smaller, programmer-sized modules.
 
-In we discovered that applications can be conveniently decomposed into
-components.
+In Chapter One we discovered that applications can be conveniently
+decomposed into components.
 
 The goal of preliminary design is to determine what components are
 necessary to accomplish the requirements.
@@ -150,9 +150,9 @@ Example: A Tiny Editor
 ======================
 
 Let’s apply decomposition by component to a real problem. It would be
-nice to design a large application right here in , but alas, we don’t
-have the room and besides, we’d get sidetracked in trying to understand
-the application.
+nice to design a large application right here in Chapter Three, but
+alas, we don’t have the room and besides, we’d get sidetracked in trying
+to understand the application.
 
 Instead, we’ll take a component from a large application that has
 already been decomposed. We’ll design this component by decomposing it
@@ -357,7 +357,7 @@ Mode, we add a new procedure:
 slide everything to the right leftward, covering the mistake).
 
 This table seems to be the most logical expression of the problem at the
-current level. We’ll save the implementation for later ().
+current level. We’ll save the implementation for later (Chapter Eight).
 
 Now we’ll demonstrate the tremendous value of this approach in terms of
 maintainability. We’ll throw ourselves a curve—a major change of plans!
@@ -832,7 +832,7 @@ any of various routines that have been defined after the root function
 itself. In our example, only the *name* of the routine ?HOLDOVER need be
 created early; its definition can be given later.
 
-treats the subject of vectoring in Forth.
+Chapter Seven treats the subject of vectoring in Forth.
 
 The Limits of Level Thinking
 ============================

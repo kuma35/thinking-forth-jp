@@ -6,6 +6,9 @@ Appendix D: Answers to Further Thinking” Problems
 *************************************************
 
 
+Chapter Three
+=============
+
 #. The answer depends on whether you believe that other components will
    need to “know the numeric code associated with each key. Usually this
    would *not* be the case. The simpler, more compact form is therefore
@@ -55,6 +58,9 @@ Appendix D: Answers to Further Thinking” Problems
 ..
 
 
+Chapter Four
+============
+
 #. Our solution is as follows:
 
    ::
@@ -75,6 +81,9 @@ Appendix D: Answers to Further Thinking” Problems
 
 ..
 
+
+Chapter Eight
+=============
 
 #. This will work:
 
