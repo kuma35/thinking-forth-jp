@@ -166,5 +166,5 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-
-
+# sphinx v1.3 and over
+numfig = True
