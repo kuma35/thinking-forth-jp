@@ -18,7 +18,7 @@ words (and numbers) and is separated by spaces:
 Such commands may be typed directly from the keyboard, or edited onto
 mass storage then “``LOAD``”ed.
 
- All words, whether
+All words, whether
 included with the system or user-defined, exist in the "dictionary," a
 linked list. A “defining word” is used to add new names to the
 dictionary. One defining word is ``:`` (pronounced
@@ -50,7 +50,7 @@ time-critical portions of an applications, if at all.
 Data Structures
 ===============
 
- Still another defining
+Still another defining
 word is ``CONSTANT``,
 which is used like this:
 
@@ -113,7 +113,7 @@ application.
 The Stack
 =========
 
- In Forth, variables and
+In Forth, variables and
 arrays are used for saving values that may be required by many other
 routines and/or at unpredictable times. They are *not* used for the
 local passing of data between the definitions. For this, Forth employs a
