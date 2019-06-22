@@ -1,14 +1,12 @@
 
-
-
 ***********************************
 3. Preliminary Design/Decomposition
 ***********************************
 
-
-Assuming you have some idea of what your program should accomplish, it’s
-time to begin the design. The first stage, preliminary design, focuses
-on shrinking your mountainous problem into manageable molehills.
+Assuming you have some idea of what your program
+should accomplish, it’s time to begin the design. The first stage,
+preliminary design, focuses on shrinking your mountainous problem into
+manageable molehills.
 
 In this chapter we’ll discuss two ways to decompose your Forth
 application.
@@ -32,13 +30,12 @@ Apparently the human mind actually makes links between memories. New
 ideas are somehow added onto existing paths of related thoughts.
 
 .. figure:: fig3-1.png
+   :name: fig3-1
    :alt: Pools of thought not yet linked
 
    Pools of thought not yet linked
 
-
 ..
-
 
 In the mishap just described, no connection was ever made between the
 two separately-linked pools of thought until Thursday. The conflict
@@ -52,8 +49,11 @@ calendar. If you had recorded both plans in the same calendar, you would
 have seen the other event scheduled, something your brain failed to do
 for all its intricate magnificence.
 
-To see the relationship between two things, put them close together. To
-remind yourself of the relationship, *keep* them together.
+.. tip::
+
+   To see the relationship between two things, put them close
+   together. To remind yourself of the relationship, **keep** them
+   together.
 
 These truisms apply to software design, particularly to the preliminary
 design phase. This phase is traditionally the one in which the designer
@@ -62,8 +62,10 @@ dissects a large application into smaller, programmer-sized modules.
 In Chapter One we discovered that applications can be conveniently
 decomposed into components.
 
-The goal of preliminary design is to determine what components are
-necessary to accomplish the requirements.
+.. tip::
+
+   The goal of preliminary design is to determine what components are
+   necessary to accomplish the requirements.
 
 For instance, you might have an application in which events must occur
 according to some predetermined schedule. To manage the scheduling, you
@@ -107,8 +109,10 @@ command would be added to the I/O chip lexicon, not to the code needed
 to set the baud rate. There’s no penalty for making this change except
 the few minutes (at most) it takes to edit and recompile.
 
-Within each component, implement only the commands needed for the
-current iteration. (But don’t preclude future additions.)
+.. tip::
+
+   Within each component, implement only the commands needed for the
+   current iteration. (But don't preclude future additions.)
 
 What goes on inside a component is pretty much its own business. It’s
 not necessarily bad style for definitions within the component to share
@@ -130,7 +134,6 @@ number 14 in both definitions:
 
 ..
 
-
 On the other hand, if the value will be needed outside of the component,
 or if it’s used several times within the component and there’s a good
 chance that it will change, you’re better off hiding it behind a name:
@@ -142,7 +145,6 @@ chance that it will change, you’re better off hiding it behind a name:
    : -RECORD /RECORD NEGATE RECORD# +! ;
 
 ..
-
 
 (The name /RECORD, by convention, means “bytes per record.”)
 
@@ -161,6 +163,9 @@ further, into subcomponents.
 Imagine that we must create a tiny editor that will allow users to
 change the contents of input fields on their terminal screen. For
 instance, the screen might look like this:
+
+.. image:: chapter3-img1.png
+   :scale: 50%
 
 The editor will provide three modes for users to change the contents of
 the input field:
@@ -203,13 +208,12 @@ Below these commands should lie a third component, the set of words that
 implement the data structure to be edited.
 
 .. figure:: fig3-2.png
+   :name: fig3-2
    :alt: Generalized decomposition of the Tiny Editor problem.
 
    Generalized decomposition of the Tiny Editor problem.
 
-
 ..
-
 
 Finally, we’ll need a component to display the field on the video
 screen. For the sake of simplicity, let’s plan on creating one word
@@ -222,7 +226,6 @@ pressed.
 
 ..
 
-
 This approach separates revising the buffer from updating the display.
 For now, we’ll only concentrate on revising the buffer.
 
@@ -234,48 +237,45 @@ the back of an old pizza menu (we won’t pay much attention to
 exception-handling in the present discussion):
 
 To Overwrite:
-    |  
+    1. Store new character into byte pointer to by pointer.
+    2. Advance pointer (unless at end of field).
 
-    @p2.1in>p2.1in Store new character into byte pointer to by pointer.
-
-    | Advance pointer (unless at end of field). &
+    .. image:: chapter3-img2.png
 
 To Delete:
-    |  
+    1. Copy leftwards, by one place, the string
+       beginning one place to the right of the pointer.
+    2. Store a "blank" into the last position on the line.
 
-    @p2.1in>p2.1in Copy leftwards, by one place, the string beginning
-    one place to the right of the pointer.
-
-    | Store a “blank” into the last position on the line. &
+    .. image:: chapter3-img3.png
 
 To Insert:
-    |  
+    1. Copy rightwards, by one place, the string beginning at the pointer.
+    2. Store new character into byte pointed to by pointer.
+    3. Advance pointer (unless at end of field).
 
-    @p2.1in>p2.1in Copy rightwards, by one place, the string beginning
-    at the pointer. Store new character into byte pointed to by pointer.
-
-    | Advance pointer (unless at end of field). &
+    .. image:: chapter3-img4.png
 
 We’ve just developed the algorithms for the problem at hand.
 
 Our next step is to examine these three essential procedures, looking
 for useful “names”—that is procedures or elements which can either:
 
-#. possibly be reused, or
+1. possibly be reused, or
 
-#. possibly change
+2. possibly change
 
 We discover that all three procedures use something called a “pointer.”
 We need two procedures:
 
-#. to get the pointer (if the pointer itself is relative, this function
+3. to get the pointer (if the pointer itself is relative, this function
    will perform some computation).
 
-#. to advance the pointer
+4. to advance the pointer
 
-   Wait, three procedures:
+Wait, three procedures:
 
-#. to move the pointer backwards
+5. to move the pointer backwards
 
 because we will want “cursor keys” to move the cursor forward and back
 without editing changes.
@@ -297,7 +297,6 @@ Let’s attempt to rewrite these algorithms in code:
    : DELETE   SLIDE<  BLANK-END ;
 
 ..
-
 
 To copy the text leftwards and rightwards, we had to invent two new
 names as we went along, SLIDE< and SLIDE> (pronounced “slide-backwards”
@@ -330,18 +329,20 @@ named procedures.
 We can write our keystroke interpreter as a decision table (worrying
 about the implementation later):
 
-| >l>l>l ** &\ **\ & **
-| Ctrl-D & DELETE & INSERT-OFF
-| Ctrl-I & INSERT-ON & INSERT-OFF
-| backspace & BACKWARD & INSERT<
-| left-arrow & BACKWARD & INSERT-OFF
-| right-arrow & FORWARD & INSERT-OFF
-| return & ESCAPE & INSERT-OFF
-| any printable & OVERWRITE & INSERT
+.. csv-table:: decision table
+   :header: "Key", "Not-inserting", "Inserting"
+   
+   "Ctrl-D", "DELETE", "INSERT-OFF"
+   "Ctrl-I", "INSERT-ON", "INSERT-OFF"
+   "backspace", "BACKWARD", "INSERT<"
+   "left-arrow", "BACKWARD", "INSERT-OFF"
+   "right-arrow", "FORWARD", "INSERT-OFF"
+   "return", "ESCAPE", "INSERT-OFF"
+   "any printable", "OVERWRITE", "INSERT"
 
-We’ve placed the possible types of keys in the left column, what they do
-normally in the middle column, and what they do in “insert mode” in the
-right column.
+We’ve placed the possible types of keys in the
+left column, what they do normally in the middle column, and what they
+do in “insert mode” in the right column.
 
 To implement what happens when “backspace” is pressed while in Insert
 Mode, we add a new procedure:
@@ -351,7 +352,6 @@ Mode, we add a new procedure:
    : INSERT<   BACKWARD  SLIDE< ;
 
 ..
-
 
 (move the cursor backwards on top of the last character typed, then
 slide everything to the right leftward, covering the mistake).
@@ -398,7 +398,6 @@ needed to implement the key interpreter are:
 
 ..
 
-
 None of their descriptions make any reference to the video refresh
 process, because that was originally assumed to happen later.
 
@@ -413,14 +412,13 @@ boldface:
 
 .. code-block:: none
    
-   : OVERWRITE  KEY# POSITION C!  &poorbf{KEY# EMIT}  FORWARD ;
-   : &poorbf{RETYPE  ( type from current position to}
-      &poorbf{end of field and reset cursor) ;}
-   : INSERT   SLIDE>  &poorbf{RETYPE}  OVERWRITE ;
-   : DELETE   SLIDE<  BLANK-END  &poorbf{RETYPE} ;
+   : OVERWRITE  KEY# POSITION C!  KEY# EMIT  FORWARD ;
+   : RETYPE  ( type from current position to
+      end of field and reset cursor) ;
+   : INSERT   SLIDE>  RETYPE  OVERWRITE ;
+   : DELETE   SLIDE<  BLANK-END RETYPE ;
 
 ..
-
 
 Since these are the only three functions that change memory, they are
 the only three functions that need to refresh the screen. This idea is
@@ -429,14 +427,14 @@ correctness. The assertion is intrinsic to the nature of the problem.
 
 Note that the additional problem of video refresh adds an additional
 “pointer”: the current cursor position on the screen. But decomposition
-by component has encouraged us to view the OVERWRITE process as changing
-both the data field and the video vision of it; similarly with SLIDE<
-and SLIDE>. For this reason it seems natural now to maintain only one
+by component has encouraged us to view the ``OVERWRITE`` process as changing
+both the data field and the video vision of it; similarly with ``SLIDE<``
+and ``SLIDE>`` . For this reason it seems natural now to maintain only one
 real pointer—a relative one—from which we can compute either the data
 address in memory, or the column number on the screen.
 
 Since the nature of the pointer is wholly hidden within the three
-processes POSITION, FORWARD, and BACKWARD, we can readily accommodate
+processes ``POSITION`` , ``FORWARD`` , and ``BACKWARD`` , we can readily accommodate
 this approach, even if it wasn’t our first approach.
 
 This change may have seemed simple enough here—even obvious. If so, it’s
@@ -457,19 +455,18 @@ assumption, that we can refresh the display by retyping the entire field
 after each keystroke.
 
 According to the dictum of top-down design, let’s take the widest-angle
-view possible and examine the problem. depicts the program in its
-simplest terms. Here we’ve realized that the editor is actually a loop
-which keeps getting keystrokes and performing some editing function,
-until the user presses the return key.
+view possible and examine the problem.  :numref:`fig3-3`  depicts
+the program in its simplest terms. Here we’ve realized that the editor
+is actually a loop which keeps getting keystrokes and performing some
+editing function, until the user presses the return key.
 
 .. figure:: fig3-3.png
+   :name: fig3-3
    :alt: The traditional approach: view from the top.
 
    The traditional approach: view from the top.
 
-
 ..
-
 
 Inside the loop we have three modules: getting a character from the
 keyboard, editing the data, and finally refreshing the display to match
@@ -477,20 +474,19 @@ the data.
 
 Clearly most of the work will go on inside “Process a Keystroke.”
 
-Applying the notion of successive refinement, shows the editor problem
-redrawn with “Process a Keystroke” expanded. We find it takes several
-attempts before we arrive at this configuration. Designing this level
-forces us to consider many things at once that we had deferred till
-later in the previous try.
+Applying the notion of successive refinement,  :numref:`fig3-4` 
+shows the editor problem redrawn with “Process a Keystroke” expanded. We
+find it takes several attempts before we arrive at this configuration.
+Designing this level forces us to consider many things at once that we
+had deferred till later in the previous try.
 
 .. figure:: fig3-4.png
-   :alt: A structure for ``Process a Keystroke.''
+   :name: fig3-4
+   :alt: A structure for "Process a Keystroke."
 
-   A structure for ``Process a Keystroke.''
-
+   A structure for "Process a Keystroke."
 
 ..
-
 
 For instance, we must determine all the keys that might be pressed. More
 significantly, we must consider the problem of “insert mode.” This
@@ -504,7 +500,8 @@ insert mode.
 
 Having finished the diagram, we’re bothered by the multiple tests for
 Insert Mode. Could we test for Insert Mode once, at the beginning?
-Following this notion, we draw yet another chart ().
+Following this notion, we draw yet another chart
+( :numref:`fig3-5` ).
 
 As you can see, this turns out even more awkward than the first figure.
 Now we’re testing for each key twice. It’s interesting though, how the
@@ -513,28 +510,29 @@ enough to make one wonder whether the control structure is terribly
 relevant to the problem.
 
 .. figure:: fig3-5.png
-   :alt: Another structure for ``Process a Keystroke.''
+   :name: fig3-5
+   :alt: Another structure for "Process a Keystroke."
 
-   Another structure for ``Process a Keystroke.''
-
+   Another structure for "Process a Keystroke."
 
 ..
-
 
 Having decided on the first structure, we’ve finally arrived at the most
 important modules—the ones that do the work of overwriting, inserting,
 and deleting. Take another look at our expansion of “Process a
-Character” in . Let’s consider just one of the seven possible execution
-paths, the one that happens if a printable character is pressed.
+Character” in  :numref:`fig3-4` . Let’s consider just one of the
+seven possible execution paths, the one that happens if a printable
+character is pressed.
 
-In (a) we see the original structural path for a printable character.
+In  :numref:`fig3-6` (a) we see the original structural path for
+a printable character.
 
 Once we figure out the algorithms for overwriting and inserting
-characters, we might refine it as shown in (b). But look at that
-embarrassing redundancy of code (circled portions). Most competent
-structured programmers would recognize that this redundancy is
-unnecessary, and change the structure as shown in (c). Not too bad so
-far, right?
+characters, we might refine it as shown in  :numref:`fig3-6` (b).
+But look at that embarrassing redundancy of code (circled portions).
+Most competent structured programmers would recognize that this
+redundancy is unnecessary, and change the structure as shown in
+:numref:`fig3-6` (c). Not too bad so far, right?
 
 Change in Plan
 --------------
@@ -544,13 +542,12 @@ application won’t run on a memory-mapped display. What does this change
 do to our design structure?
 
 .. figure:: fig3-6.png
-   :alt: The same section, ``refined'' and ``optimized.''
+   :name: fig3-6
+   :alt: The same section, "refined" and "optimized."
 
-   The same section, ``refined'' and ``optimized.''
-
+   The same section, "refined" and "optimized."
 
 ..
-
 
 Well, for one thing it destroys “Refresh Display” as a separate module.
 The function of “Refresh Display” is now scattered among the various
@@ -562,10 +559,10 @@ wrong tree.
 What happens when we try to change the program? Let’s look again at the
 path for any printable character.
 
-(a) shows what happens to our first-pass design when we add refresh.
-Part (b) shows our “optimized” design with the refresh modules expanded.
-Notice that we’re now testing the Insert flag twice within this single
-leg of the outer loop.
+:numref:`fig3-7`  (a) shows what happens to our first-pass
+design when we add refresh. Part (b) shows our “optimized” design with
+the refresh modules expanded. Notice that we’re now testing the Insert
+flag twice within this single leg of the outer loop.
 
 But worse, there’s a bug in this design. Can you find it?
 
@@ -580,20 +577,20 @@ miss it? By getting preoccupied with control flow structure, a
 superficial element of program design.
 
 .. figure:: fig3-7.png
+   :name: fig3-7
    :alt: Adding refresh.
 
    Adding refresh.
 
-
 ..
-
 
 In contrast, in our design by components the correct solution fell out
 naturally because we “used” the refresh component inside the editing
 component. Also we used OVERWRITE inside INSERT.
 
 By decomposing our application into components which use one another, we
-achieved not only *elegance* but a more direct path to *correctness*.
+achieved not only *elegance* but a more direct path to
+*correctness*.
 
 The Interface Component
 =======================
@@ -610,7 +607,7 @@ term “interface” we’re referring to data.
 When it comes to data interfaces between modules, traditional wisdom
 says only that “interfaces should be carefully designed, with a minimum
 of complexity.” The reason for the care, of course, is that each module
-must implement its own end of the interface ().
+must implement its own end of the interface ( :numref:`fig3-8` ).
 
 This means the presence of redundant code. As we’ve seen, redundant code
 brings at least two problems: bulky code and poor maintainability. A
@@ -618,30 +615,31 @@ change to the interface of one module will affect the interface of the
 opposite module.
 
 .. figure:: fig3-8.png
+   :name: fig3-8
    :alt: Traditional view of the interface as a junction.
 
    Traditional view of the interface as a junction.
 
-
 ..
-
 
 There’s more to good interface design than that. Allow me to introduce a
 design element which I call the “interface component.” The purpose an
-interface component is to implement, and *hide information about*, the
-data interface between two or more other components ().
+interface component is to implement, and *hide information
+about*, the data interface
+between two or more other components ( :numref:`fig3-9` ).
 
 .. figure:: fig3-9.png
+   :name: fig3-9
    :alt: Use of the interface component.
 
    Use of the interface component.
 
-
 ..
 
+.. tip::
 
-Both data structures and the commands involved in the communication of
-data between modules should be localized in an interface component.
+   Both data structures and the commands involved in the communication of
+   data between modules should be localized in an interface component.
 
 Let me give an example from my own recent experience. One of my hobbies
 is writing text formatter/editors. (I’ve written two of them, including
@@ -676,8 +674,9 @@ number of valid characters, and finally a “knowledge” of what all those
 attribute patterns mean.
 
 In Forth I’ve defined these elements together in a single screen. The
-buffers are defined with , the count is an ordinary , and the attribute
-patterns are defined as s, such as:
+buffers are defined with ``CREATE``, the count is an
+ordinary ``VARIABLE``, and the attribute patterns are
+defined as ``CONSTANT`` s, such as:
 
 .. code-block:: none
    
@@ -686,10 +685,9 @@ patterns are defined as s, such as:
 
 ..
 
-
-The formatting component uses phrases like UNDERNESS SET-FLAG to set
+The formatting component uses phrases like ``UNDERNESS SET-FLAG`` to set
 bits in the attribute buffer. The output component uses phrases like
-UNDERNESS AND to read the attribute buffer.
+``UNDERNESS AND`` to read the attribute buffer.
 
 A Design Mistake
 ----------------
@@ -742,7 +740,9 @@ those that may be shared by more than one component.
 
 A related point:
 
-Express in objective units any data to be shared by components.
+.. tip::
+
+   Express in objective units any data to be shared by components.
 
 For example:
 
@@ -755,7 +755,8 @@ For example:
 The information of global interest is the temperature of the oven,
 expressed objectively in degrees. While Module A might receive a value
 representing the voltage from a heat sensor, it should convert this
-value to degrees before presenting it to the rest of the application.
+value to degrees before presenting it to the rest of the
+application.
 
 Decomposition by Sequential Complexity
 ======================================
@@ -768,41 +769,40 @@ invoked or referred to. Usually the sequence in which words are defined
 parallels the order of increasing capabilities which the words must
 possess. This sequence leads to a natural organization of the source
 listing. The powerful commands are simply added on top of the elementary
-application (a).
+application ( :numref:`fig3-10` a).
 
 Like a textbook, the elementary stuff comes first. A newcomer to the
 project would be able to read the elementary parts of the code before
 moving on the advanced stuff.
 
 .. figure:: fig3-10.png
+   :name: fig3-10
    :alt: Two ways to add advanced capabilities.
 
    Two ways to add advanced capabilities.
 
-
 ..
-
 
 But in many large applications, the extra capabilities are best
 implemented as an enhancement to some private, root function in the
-elementary part of the application (b). By being able to change the
-root’s capability, the user can change the capability of all the
-commands that use the root.
+elementary part of the application ( :numref:`fig3-10` b). By
+being able to change the root’s capability, the user can change the
+capability of all the commands that use the root.
 
 Returning to the word processor for an example, a fairly primitive
 routine is the one that starts a new page. It’s used by the word that
 starts a new line; when we run out of lines we must start a new page.
 The word that starts a new line, in turn, is used by the routine that
 formats words on the line; when the next word won’t fit on the current
-line, we invoke NEWLINE. This “uses” hierarchy demands that we define
-NEWPAGE early in the application.
+line, we invoke ``NEWLINE`` . This “uses” hierarchy demands that we define
+``NEWPAGE`` early in the application.
 
 The problem? One of the advanced components includes a routine that must
-be invoked by NEWPAGE. Specifically, if a figure or table appears in the
+be invoked by ``NEWPAGE`` . Specifically, if a figure or table appears in the
 middle of text, but at format time won’t fit on what’s left of the page,
 the formatter defers the figure to the next page while continuing with
-the text. This feature requires somehow “getting inside of” NEWPAGE, so
-that when NEWPAGE is next executed, it will format the deferred figure
+the text. This feature requires somehow “getting inside of” ``NEWPAGE`` , so
+that when ``NEWPAGE`` is next executed, it will format the deferred figure
 at the top of the new page:
 
 .. code-block:: none
@@ -812,8 +812,7 @@ at the top of the new page:
 
 ..
 
-
-How can NEWPAGE invoke ?HOLDOVER, if ?HOLDOVER is not defined until much
+How can ``NEWPAGE`` invoke ``?HOLDOVER`` , if ``?HOLDOVER`` is not defined until much
 later?
 
 While it’s theoretically possible to organize the listing so that the
@@ -826,13 +825,16 @@ elementary capabilities. If you move the advanced routines to the front
 of the application, you’ll also have to move any routines they use, or
 duplicate the code. Very messy.
 
-You can organize the listing by degree of complexity using a technique
-called “vectoring.” You can allow the root function to invoke (point to)
-any of various routines that have been defined after the root function
-itself. In our example, only the *name* of the routine ?HOLDOVER need be
-created early; its definition can be given later.
+You can organize the listing
+by degree of complexity using a technique called “vectoring.” You can
+allow the root function to invoke (point to) any of various routines
+that have been defined after the root function itself. In our example,
+only the *name* of the routine ``?HOLDOVER`` need be created early; its
+definition can be given
+later.
 
-Chapter Seven treats the subject of vectoring in Forth.
+Chapter Seven treats the subject of vectoring in
+Forth.
 
 The Limits of Level Thinking
 ============================
@@ -859,41 +861,43 @@ Let’s examine each of these misconceptions one by one.
 Where to Begin?
 ---------------
 
-I asked Moore how he would go about developing a particular application,
-a game for children. As the child presses the digits on the numeric
-keypad, from zero to nine, that same number of large boxes would appear
-on the screen.
+I asked Moore how he would go about
+developing a particular application, a game for children. As the child
+presses the digits on the numeric keypad, from zero to nine, that same
+number of large boxes would appear on the screen.
 
-Moore:
-
-I don’t start at the top and work down. Given that exact problem, I
-would write a word that draws a box. I’d start at the bottom, and I’d
-end up with a word called GO, which monitored the keyboard.
+**Moore**:
+    I don't start at the top and work down. Given that exact
+    problem, I would write a word that draws a box. I'd start at
+    the bottom, and I'd end up with a word called ``GO`` ,
+    which monitored the keyboard.
 
 How much of that is intuitive?
 
-Perhaps some degree of it. I know where I’m going so I don’t have to
-start there. But also it’s more fun to draw boxes than to program a
-keyboard. I’ll do the thing that’s most fun in order to get into the
-problem. If I have to clean up all those details later, that’s the price
-I pay.
+    Perhaps some degree of it. I know where I'm going so I don't
+    have to start there. But also it's more fun to draw boxes than
+    to program a keyboard. I'll do the thing that's most fun in
+    order to get into the problem. If I have to clean up all those
+    details later, that's the price I pay.
 
-Are you advocating a “fun-down” approach?
+Are you advocating a "fun-down" approach?
 
-Given that you’re doing it in a free-spirit fashion, yes. If we were
-giving a demonstration to a customer in two days, I’d do it differently.
-I would start with the most visible thing, not the most fun thing. But
-still not in that hierarchical sequence, top down. I base my approach on
-more immediate considerations such as impressing the customer, getting
-something to work, or showing other people how it’s going to work to get
-them interested.
-
-If you define a level as “nesting,” then yes, it’s a good way to
-decompose a problem. But I’ve never found the notion of “level” useful.
-Another aspect of levels is languages, metalanguages,
-meta-metalanguages. To try and split hairs as to which level you are
-on—assembler level, first integration level, last integration level—it’s
-just tedious and not helpful. My levels get all mixed up hopelessly.
+    Given that you're doing it in a free-spirit fashion, yes. If
+    we were giving a demonstration to a customer in two days, I'd
+    do it differently. I would start with the most visible thing,
+    not the most fun thing. But still not in that hierarchical
+    sequence, top down. I base my approach on more immediate
+    considerations such as impressing the customer, getting
+    something to work, or showing other people how it's going to
+    work to get them interested.
+    
+    If you define a level as "nesting," then yes, it's a good
+    way to decompose a problem. But I've never found the notion of
+    "level" useful. Another aspect of levels is languages,
+    metalanguages, meta-metalanguages. To try and split hairs as
+    to which level you are on---assembler level, first integration
+    level, last integration level---it's just tedious and not
+    helpful. My levels get all mixed up hopelessly.
 
 Designing by components makes where you start less important. You could
 start with the key interpreter, for instance. Its goal is to receive
@@ -910,27 +914,28 @@ canvases. You work on all the canvases at once, first sketching in the
 key design elements, then adding splashes of color here and there… until
 the entire wall is complete.
 
-In deciding where to start designing, look for:
+.. tip::
 
--  areas where the most creativity is required (the areas where change
-   is most likely)
-
--  areas that give the most satisfying feedback (get the juices flowing)
-
--  areas in which the approach decided upon will greatly affect other
-   areas, or which will determine whether the stated problem can be
-   solved at all
-
--  things you should show the customer, for mutual understanding
-
--  things you can show the investors, if necessary for the rent.
+   In deciding where to start designing, look for:
+   
+   * areas where the most creativity is required
+     (the areas where change is most likely)
+   * areas that give the most satisfying feedback
+     (get the juices flowing)
+   * areas in which the approach decided upon will greatly affect other
+     areas, or which will determine whether the stated problem can be
+     solved at all
+   * things you should show the customer, for mutual understanding
+   * things you can show the investors, if necessary for the rent.
 
 No Segregation Without Representation
 -------------------------------------
 
-The second way in which levels can interfere with optimal solutions is
-by encouraging segregation of the levels. A popular design construct
-called the “object” typifies this dangerous philosophy. [1]_
+The second way in which levels can
+interfere with optimal solutions is by encouraging segregation of the
+levels. A popular design construct called the “object” typifies this
+dangerous
+philosophy. [#f1]_
 
 An object is a portion of code that can be invoked by a single name, but
 that can perform more than one function. To select a particular function
@@ -956,13 +961,12 @@ interpret their parameters. Each may even use its own syntax. A
 shameless waste of time and energy!
 
 .. figure:: no-scrambled.png
-   :alt: ``No scrambled?''
+   :name: no-scrambled
+   :alt: "No scrambled?"
 
-   ``No scrambled?''
-
+   "No scrambled?"
 
 ..
-
 
 Finally, because the object is constructed to recognize a finite set of
 possibilities, it’s difficult to make additions to the row of buttons
@@ -983,10 +987,10 @@ course), there are these software levels:
 
 -  and finally, any application using the language.
 
-The ROM utilities provide the hardware-dependent routines: those that
-handle the video screen, disk drives, and keyboard. You invoke them by
-placing a control code in a certain register and generating the
-appropriate software interrupt.
+The ROM utilities provide the hardware-dependent
+routines: those that handle the video screen, disk drives, and keyboard.
+You invoke them by placing a control code in a certain register and
+generating the appropriate software interrupt.
 
 For instance, software interrupt 10H causes entry to the video routines.
 There are 16 of these routines. You load register AH with the number of
@@ -1026,7 +1030,9 @@ suit all needs. An application programmer could either rewrite the
 driver or write an extension to the driver using available tools from
 the video lexicon.
 
-Don’t bury your tools.
+.. tip::
+
+   Don't bury your tools.
 
 The Tower of Babble
 -------------------
@@ -1053,19 +1059,8 @@ look no more intimidating than the code to format a report.
 
 Even machine code should be readable. A true Forth-based engine would
 enjoy a syntax and dictionary identical and continuous with the
-“high-level” dictionary we know today.
-
-.. [1]
-   Editor’s note: But see the recant in the 1994 Preface on page , and
-   the clairification in the 2004 Preface on page . Think of something
-   like Windows COM “objects” or CORBA.
-
-   Real object oriented programming, as it originates in Smalltalk, does
-   not hide information from the programmer. Adding a “scrambled” method
-   to the “egg master object” is no problem. Smalltalk works by adding
-   methods to known classes, you don’t even need to subclass them. You
-   can look inside an object and its source code whenever you want. And
-   table driven method dispatching can be quite efficient. Paysan
+“high-level” dictionary we know
+today.`Level'' thinking, limits of|)}`
 
 Summary
 =======
@@ -1078,60 +1073,55 @@ interfaces between other components.
 
 Now, if you’ve done preliminary design correctly, your problem is lying
 at your feet in a heap of manageable pieces. Each piece represents a
-problem to solve. Grab your favorite piece and turn to the next chapter.
+problem to solve. Grab your favorite piece and turn to the next
+chapter.
 
 For Further Thinking
 ====================
 
-*(Answers appear in .)*
+*(Answers appear in Appendix D.)*
 
 #. Below are two approaches to defining an editor’s keyboard
    interpreter. Which would you prefer? Why?
 
-   #. ::
-
-.. code-block:: none
+   (a).
    
-   ( Define editor keys )
-   HEX
-   72 CONSTANT UPCURSOR
-   80 CONSTANT DOWNCURSOR
-   77 CONSTANT RIGHTCURSOR
-   75 CONSTANT LEFTCURSOR
-   82 CONSTANT INSERTKEY
-   83 CONSTANT DELETEKEY
-   DECIMAL
-   ( Keystroke interpreter)
-   : EDITOR
-      BEGIN  MORE WHILE  KEY   CASE
-         UPCURSOR     OF  CURSOR-UP     ENDOF
-         DOWNCURSOR   OF  CURSOR-DOWN   ENDOF
-         RIGHTCURSOR  OF  CURSOR>       ENDOF
-         LEFTCURSOR   OF  CURSOR<       ENDOF
-         INSERTKEY    OF  INSERTING     ENDOF
-         DELETEKEY    OF  DELETE        ENDOF
-      ENDCASE  REPEAT ;
+   .. code-block:: none
+      
+      ( Define editor keys )
+      HEX
+      72 CONSTANT UPCURSOR
+      80 CONSTANT DOWNCURSOR
+      77 CONSTANT RIGHTCURSOR
+      75 CONSTANT LEFTCURSOR
+      82 CONSTANT INSERTKEY
+      83 CONSTANT DELETEKEY
+      DECIMAL
+      ( Keystroke interpreter)
+      : EDITOR
+         BEGIN  MORE WHILE  KEY   CASE
+            UPCURSOR     OF  CURSOR-UP     ENDOF
+            DOWNCURSOR   OF  CURSOR-DOWN   ENDOF
+            RIGHTCURSOR  OF  CURSOR>       ENDOF
+            LEFTCURSOR   OF  CURSOR<       ENDOF
+            INSERTKEY    OF  INSERTING     ENDOF
+            DELETEKEY    OF  DELETE        ENDOF
+         ENDCASE  REPEAT ;
 
-..
-
-
-   #. ::
-
-.. code-block:: none
+   (b).
    
-   ( Keystroke interpreter)
-   : EDITOR
-      BEGIN  MORE WHILE  KEY   CASE
-         72 OF  CURSOR-UP     ENDOF
-         80 OF  CURSOR-DOWN   ENDOF
-         77 OF  CURSOR>       ENDOF
-         75 OF  CURSOR<       ENDOF
-         82 OF  INSERTING     ENDOF
-         83 OF  DELETE        ENDOF
-      ENDCASE  REPEAT ;
-
-..
-
+   .. code-block:: none
+   
+      ( Keystroke interpreter)
+      : EDITOR
+         BEGIN  MORE WHILE  KEY   CASE
+            72 OF  CURSOR-UP     ENDOF
+            80 OF  CURSOR-DOWN   ENDOF
+            77 OF  CURSOR>       ENDOF
+            75 OF  CURSOR<       ENDOF
+            82 OF  INSERTING     ENDOF
+            83 OF  DELETE        ENDOF
+         ENDCASE  REPEAT ;
 
 #. This problem is an exercise in information hiding. Let’s suppose we
    have a region of memory outside of the Forth dictionary which we want
@@ -1141,17 +1131,12 @@ For Further Thinking
 
    We might do something like this:
 
-   ::
-
-.. code-block:: none
+   .. code-block:: none
    
-   HEX
-   C000 CONSTANT FIRST-ARRAY  ( 8 bytes)
-   C008 CONSTANT SECOND-ARRAY  ( 6 bytes)
-   C00C CONSTANT THIRD ARRAY  ( 100 bytes)
-
-..
-
+      HEX
+      C000 CONSTANT FIRST-ARRAY  ( 8 bytes)
+      C008 CONSTANT SECOND-ARRAY  ( 6 bytes)
+      C00C CONSTANT THIRD ARRAY  ( 100 bytes)
 
    Each array-name defined above will return the starting address of the
    appropriate array. But notice we had to compute the correct starting
@@ -1160,28 +1145,18 @@ For Further Thinking
    pointer,” called >RAM, showing where the next free byte is. We first
    set the pointer to the beginning of the RAM space:
 
-   ::
-
-.. code-block:: none
+   .. code-block:: none
    
-   VARIABLE >RAM
-   C000 >RAM !
-
-..
-
+      VARIABLE >RAM
+      C000 >RAM !
 
    Now we can define each array like this: x
 
-   ::
-
-.. code-block:: none
+   .. code-block:: none
    
-   >RAM @ CONSTANT FIRST-ARRAY    8 >RAM +!
-   >RAM @ CONSTANT SECOND-ARRAY   6 >RAM +!
-   >RAM @ CONSTANT THIRD-ARRAY  100 >RAM +!
-
-..
-
+      >RAM @ CONSTANT FIRST-ARRAY    8 >RAM +!
+      >RAM @ CONSTANT SECOND-ARRAY   6 >RAM +!
+      >RAM @ CONSTANT THIRD-ARRAY  100 >RAM +!
 
    Notice that after defining each array, we increment the pointer by
    the size of the new array to show that we’ve allocated that much
@@ -1189,29 +1164,19 @@ For Further Thinking
 
    To make the above more readable, we might add these two definitions:
 
-   ::
-
-.. code-block:: none
+   .. code-block:: none
    
-   : THERE ( -- address of next free byte in RAM)
-        >RAM @ ;
-   : RAM-ALLOT ( #bytes to allocate -- )  >RAM +! ;
-
-..
-
+      : THERE ( -- address of next free byte in RAM)
+           >RAM @ ;
+      : RAM-ALLOT ( #bytes to allocate -- )  >RAM +! ;
 
    We can now rewrite the above equivalently as:
 
-   ::
-
-.. code-block:: none
+   .. code-block:: none
    
-   THERE CONSTANT FIRST-ARRAY    8 RAM-ALLOT
-   THERE CONSTANT SECOND-ARRAY   6 RAM-ALLOT
-   THERE CONSTANT THIRD-ARRAY  100 RAM-ALLOT
-
-..
-
+      THERE CONSTANT FIRST-ARRAY    8 RAM-ALLOT
+      THERE CONSTANT SECOND-ARRAY   6 RAM-ALLOT
+      THERE CONSTANT THIRD-ARRAY  100 RAM-ALLOT
 
    (An advanced Forth programmer would probably combine these operations
    into a single defining word, but that whole topic is not germane to
@@ -1228,30 +1193,39 @@ For Further Thinking
 
    To do this, we must now write:
 
-   ::
-
-.. code-block:: none
+   .. code-block:: none
    
-   F000 >RAM ! ( EFFF, last byte, plus one)
-   : THERE ( -- address of next free byte in RAM)
-        >RAM @ ;
-   : RAM-ALLOT  ( #bytes to allocate)  NEGATE >RAM +! ;
-     8 RAM-ALLOT  THERE CONSTANT FIRST-ARRAY
-     6 RAM-ALLOT  THERE CONSTANT SECOND-ARRAY
-   100 RAM-ALLOT  THERE CONSTANT THIRD-ARRAY
+      F000 >RAM ! ( EFFF, last byte, plus one)
+      : THERE ( -- address of next free byte in RAM)
+           >RAM @ ;
+      : RAM-ALLOT  ( #bytes to allocate)  NEGATE >RAM +! ;
+        8 RAM-ALLOT  THERE CONSTANT FIRST-ARRAY
+	6 RAM-ALLOT  THERE CONSTANT SECOND-ARRAY
+      100 RAM-ALLOT  THERE CONSTANT THIRD-ARRAY
 
-..
-
-
-   This time RAM-ALLOT *decrements* the pointer. That’s okay, it’s easy
-   to add NEGATE to the definition of RAM-ALLOT. Our present concern is
-   that each time we define an array we must RAM-ALLOT *before* defining
+   This time ``RAM-ALLOT`` *decrements* the pointer. That’s okay, it’s easy
+   to add ``NEGATE`` to the definition of ``RAM-ALLOT``. Our present concern is
+   that each time we define an array we must ``RAM-ALLOT`` *before* defining
    it, not after. Twenty places in our code need finding and correcting.
 
-   The words THERE and RAM-ALLOT are nice and friendly, but they didn’t
+   The words ``THERE`` and ``RAM-ALLOT`` are nice and friendly, but they didn’t
    succeed at hiding *how* the region is allocated. If they had, it
    wouldn’t matter which order we invoked them in.
 
-   At long last, our question: What could we have done to THERE and
-   RAM-ALLOT to minimize the impact of this design change? (Again, the
+   At long last, our question: What could we have done to ``THERE`` and
+   ``RAM-ALLOT`` to minimize the impact of this design change? (Again, the
    answer I’m looking for has nothing to do with defining words.)
+
+.. rubric:: Footnotes
+
+.. [#f1] Editor\'s note: But see the recant in the 1994 Preface on page
+	 :doc:`preface94` , and the clairification in the 2004 Preface on page
+	 :doc:`preface2004` . Think of something like Windows COM "objects" or
+	 CORBA.
+	 Real object oriented programming, as it originates in Smalltalk, does
+	 not hide information from the programmer. Adding a "scrambled"
+	 method to the "egg master object" is no problem. Smalltalk works by
+	 adding methods to known classes, you don't even need to subclass them.
+	 You can look inside an object and its source code whenever you want.
+	 And table driven method dispatching can be quite efficient.
+	 \-\-\- **Bernd Paysan**
