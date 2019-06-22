@@ -1,19 +1,17 @@
 
-
-
 **************************************************
 Appendix C: Other Utilities Described in This Book
 **************************************************
 
-
-This appendix is here to help you define some of the words referred to
-in this book that may not exist in your system. Definitions are given in
-Forth-83 Standard.
+This appendix is here to help you define some of
+the words referred to in this book that may not exist in your system.
+Definitions are given in Forth-83 Standard.
 
 From Chapter Four
 =================
 
-A definition of that will work in ’83 Standard is:
+A definition of ``ASCII``
+that will work in ’83 Standard is:
 
 .. code-block:: none
    
@@ -24,11 +22,11 @@ A definition of that will work in ’83 Standard is:
 
 ..
 
-
 From Chapter Five
 =================
 
-The word can be defined as:
+The word ``\bs``
+can be defined as:
 
 .. code-block:: none
    
@@ -37,8 +35,8 @@ The word can be defined as:
 
 ..
 
-
-If you decide not to use to terminate a screen, you can define as:
+If you decide not to use ``EXIT`` to terminate a
+screen, you can define ``\bs S`` as:
 
 .. code-block:: none
    
@@ -46,8 +44,8 @@ If you decide not to use to terminate a screen, you can define as:
 
 ..
 
-
-The word can be defined simply as:
+The word ``FH`` can be
+defined simply as:
 
 .. code-block:: none
    
@@ -56,15 +54,13 @@ The word can be defined simply as:
 
 ..
 
-
-This factoring allows you to use FH in many ways, e.g.:
+This factoring allows you to use ``FH`` in many ways, e.g.:
 
 .. code-block:: none
    
    : TEST   [ 1 FH ] LITERAL LOAD ;
 
 ..
-
 
 or
 
@@ -74,10 +70,9 @@ or
 
 ..
 
-
-A slightly more complicated version of FH also lets you edit or load a
+A slightly more complicated version of ``FH`` also lets you edit or load a
 screen with a phrase such as “14 FH LIST,” relative to the screen that
-you just listed (SCR):
+you just listed ``(SCR)``:
 
 .. code-block:: none
    
@@ -86,8 +81,8 @@ you just listed (SCR):
 
 ..
 
-
-is a simple constant:
+``BL`` is a
+simple constant:
 
 .. code-block:: none
    
@@ -95,8 +90,9 @@ is a simple constant:
 
 ..
 
-
-and can be defined as:
+``TRUE`` and
+``FALSE`` can be defined
+as:
 
 .. code-block:: none
    
@@ -105,14 +101,13 @@ and can be defined as:
 
 ..
 
-
-(Forth’s control words such as IF and UNTIL interpret zero as “false”
+(Forth’s control words such as ``IF`` and ``UNTIL`` interpret zero as “false”
 and any non-zero value as “true.” Before Forth ’83, the convention was
-to indicate “true” with the value :math:`1`. Starting with Forth ’83,
-however, “true” is indicated with hex FFFF, which is the signed number
-:math:`-1` (all bits set).
+to indicate “true” with the value 1. Starting with Forth ’83,
+however, “true” is indicated with hex FFFF, which is the signed number -1 (all bits set).
 
-can be defined in high level like this:
+``WITHIN`` can be defined
+in high level like this:
 
 .. code-block:: none
    
@@ -120,7 +115,6 @@ can be defined in high level like this:
         >R  1- OVER <  SWAP R>  < AND ;
 
 ..
-
 
 or
 
@@ -131,13 +125,15 @@ or
 
 ..
 
-
 From Chapter Eight
 ==================
 
-The implementation of will depend on how your system implements s. If
-keeps two items on the return stack (the index and the limit), must drop
-both of them plus one more return-stack item to exit:
+The implementation of
+``LEAP`` will depend on how
+your system implements ``DO`` ``LOOP`` s. If ``DO`` keeps two items
+on the return stack (the index and the limit),
+``LEAP`` must drop both of them plus one more
+return-stack item to exit:
 
 .. code-block:: none
    
@@ -145,12 +141,11 @@ both of them plus one more return-stack item to exit:
 
 ..
 
-
-If keeps *three* items on the return stack, it must be defined:
+If ``DO`` keeps *three* items on the return stack, it
+must be defined:
 
 .. code-block:: none
    
    : LEAP   R> R> 2DROP  R> R> 2DROP ;
 
 ..
-
