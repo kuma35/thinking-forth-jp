@@ -1,7 +1,13 @@
 
-©1984, 1994, and 2004 by Leo Brodie, preprint version
 
-|image|
+©1984, 1994, and 2004 by Leo Brodie, preprint
+version 1.0
+
+.. image:: img-cc.png
+   :name: img-cc
+   :height: 100px
+
+..
 
 **Attribution-NonCommercial-ShareAlike 2.0**
 
@@ -13,16 +19,25 @@
 
 **Under the following conditions:**
 
-    toAttribution.
-        You must give the original author credit.
+|Attribution| Attribution.
+    You must give the original author credit.
 
-    toNoncommercial.
-        You may not use this work for commercial purposes.
+|Noncommercial| Noncommercial.
+    You may not use this work for commercial purposes.
 
-    toShare Alike.
-        If you alter, transform, or build upon this work, you may
-        distribute the resulting work only under a license identical to
-        this one.
+|ShareAlike| Share Alike.
+    If you alter, transform, or build upon this work, you may
+    distribute the resulting work only under a license identical to
+    this one.
+
+.. |Attribution| image:: img-by.png
+   :height: 50px
+
+.. |Noncommercial| image:: img-nc.png
+   :height: 50px
+
+.. |ShareAlike| image:: img-sa.png
+   :height: 50px
 
 -  For any reuse or distribution, you must make clear to others the
    license terms of this work.
@@ -32,13 +47,10 @@
 
 **Your fair use and other rights are in no way affected by the above.**
 
-This is a human-readable summary of the Legal Code #1
+This is a human-readable summary of the Legal Code
+
 http://creativecommons.org/licenses/by-nc-sa/2.0/legalcode
 
-You can download the electronic version from
-http://thinking-forth.sourceforge.net/
-
-ISBN
-
-.. |image| image:: img-cc
+You can download the electronic
+version from http://thinking-forth.sourceforge.net/
 
