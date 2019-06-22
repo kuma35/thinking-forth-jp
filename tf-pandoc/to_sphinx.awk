@@ -26,7 +26,7 @@
     next
 }
 
-/^[ ]+\.\.[ ](figure|table)::/ {
+/^[ ]+\.\.[ ](figure|table|image)::/ {
     match($0,  /^[ \t]+/)
     lead_count = RLENGTH
     sub(/^[ \t]+/, "")

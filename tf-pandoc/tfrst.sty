@@ -48,9 +48,19 @@
 \newcommand{\forthb}[1]{\poorbf{#1}}
 \newcommand{\code}[1]{#1}
 
+\newcommand{\includegraphics}[1]{
+\begin{verbatim} 
+.. image:: #1.png
+   :name: #1
+
+----- CUT HERE, kuma35 -----
+\end{verbatim}
+}
+
 \newcommand{\wepsfig}[2]{
 \begin{verbatim} 
 .. figure:: #1.png
+   :name: #1
    :alt: #2
 
    #2

@@ -10,5 +10,6 @@
     gsub(/\\Chap\{6\}/, "Chapter Six")
     gsub(/\\Chap\{7\}/, "Chapter Seven")
     gsub(/\\Chap\{8\}/, "Chapter Eight")
+    $0 = gensub(/\[\\vbox to\\ht\\strutbox\{\\vss\\hbox to 0pt\{\\hss\\includegraphics\{[^}]+\} \}\\vss\}([^]]+)\]/, "[\\1]", "g")
     print gensub(/\\person{([^}]+)}/, "\\1", "g")
 }
