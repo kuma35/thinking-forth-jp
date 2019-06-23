@@ -174,7 +174,6 @@ Why not? First, you are asking your running application to make a
 pointless decision—one you knew the answer to while programming—thereby
 reducing efficiency. Second, the terminology doesn’t match the
 conceptual model. What are ``TRUE BLETCHES`` as opposed to ``FALSE BLETCHES``?
- 
 
 Factoring Out Code from Within Control Structures
 -------------------------------------------------
